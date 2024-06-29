@@ -1,0 +1,45 @@
+# Tools to look up
+
+AutoRecon 
+
+ [nmapAutomator.sh](http://nmapautomator.sh/) 
+
+[incursore.sh](http://incursore.sh/) bash script, is very nice
+
+ ldapsearch, kerbrute, etc 
+
+Quick hacktrick fo Windows & OSCP runbooks
+
+Hi everyone
+
+I've recently been sharing my runbooks for initial enumeration and Linux enumeration that I used to take my OSCP last year. It seems that people have enjoyed the write-ups, so I'll be making the Windows one soon. In the meantime, I thought I would try something a little different. I came up with a little trick for getting a more stable experience for post-exploit activities on Windows boxes. So I made a super small write-up describing it here:
+
+https://medium.com/@Fanicia/oscp-quick-hacktricks-windows-add-admin-user-and-enable-rdp-e48518620b0f
+
+Note, that I have put a "soft paywall" on it. If you are not a paying Medium member, you can still click the link at the beginning of the article and read the write-up. I would really love to not paywall stories at all, but this seems to be the only way to add monetization without blocking out anyone who aren't paying. Any constructive criticism on this is appreciated. My goal with this content isn't to make money. I'm hoping to help other people in their OSCP and hacking journeys. However, I'm finding myself spending a significant amount of time on some of this, so making just a couple of dollars would be a good incentive to keep myself going as well :)
+
+If you would like to catch my previous write-ups on my runbooks, you can catch them here. I have not paywalled them in any way.
+
+Initial enumeration: https://medium.com/@Fanicia/oscp-prep-introducing-my-runbooks-enumeration-46d7ce270033
+
+Linux enumeration: https://medium.com/@Fanicia/oscp-prep-introducing-my-runbooks-rce-on-linux-44099b36aa34
+
+Runbook on enumeration
+
+I struggled a bit with “figuring out my process” when I took the OSCP and since completing it, I have reflected a bit on the whole thing. That has resulted in a few write-ups on medium, the latest of which is a rundown of my runbook on the initial enumeration of a target. In the hopes that it will help current and future students, feel free to have a look here:
+
+[https://medium.com/@Fanicia/oscp-prep-introducing-my-runbooks-enumeration](https://medium.com/@Fanicia/oscp-prep-introducing-my-runbooks-enumeration-46d7ce270033)
+
+GodPotato 
+
+specifically the cred dumping modules, lsassy, nanodump, --sam, --lsa. there are a fe
+
+Obsidian 
+
+I created a structured markdown cheatsheet for my pentesting. It helped me a lot during the preparation and for the exam itself
+
+https://github.com/maksyche/pentest-everything  *
+
+New Sites for references
+------------------------------------------------------------------------------------
+https://www.netsecfocus.com/oscp/2021/05/06/The_Journey_to_Try_Harder-_TJnull-s_Preparation_Guide_for_PEN-200_PWK_OSCP_2.0.html

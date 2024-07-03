@@ -1,10 +1,13 @@
-# OSCP File Transfer Checklist
+# File Transfer Checklist
 
 ## Introduction
 
+This runbook is to help with file transfering or data exfiltration. Transfering data to and from hosts is important.  This is a guide to walk through various methods.
+
+
 ## Table of Contents
 
-- [OSCP File Transfer Checklist](#oscp-file-transfer-checklist)
+- [File Transfer Checklist](#file-transfer-checklist)
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
   - [SMB Server](#smb-server)

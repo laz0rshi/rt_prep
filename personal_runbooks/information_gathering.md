@@ -1,10 +1,12 @@
-# OSCP Information Gathering
+# Information Gathering
 
 ## Introduction
 
+This runbook is to help with information gathering.  It is set up to all be active gathering as all of the techniques interact with the given hosts.  Passive information gathering should be one prior as well.
+
 ## Table of Content
 
-- [OSCP Information Gathering](#oscp-information-gathering)
+- [Information Gathering](#information-gathering)
   - [Introduction](#introduction)
   - [Table of Content](#table-of-content)
   - [Host Discovery](#host-discovery)

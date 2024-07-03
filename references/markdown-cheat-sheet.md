@@ -1,5 +1,14 @@
 # Markdown Cheat Sheet
+
+## Introduction
+
+This is a cheatsheet for markdown.
+
+## Table of Contents
+
 - [Markdown Cheat Sheet](#markdown-cheat-sheet)
+  - [Introduction](#introduction)
+  - [Table of Contents](#table-of-contents)
   - [Basic Syntax](#basic-syntax)
     - [Heading](#heading)
 - [H1](#h1)

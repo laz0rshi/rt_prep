@@ -1,5 +1,14 @@
 # Tools
+
+## Introduction
+
+The following is a list of tools and the suggestion on when to use them.  This was pdut together by laz0rshi.
+
+## Table of Contents
+
 - [Tools](#tools)
+  - [Introduction](#introduction)
+  - [Table of Contents](#table-of-contents)
   - [Recon](#recon)
   - [Web Application Exploit](#web-application-exploit)
   - [Vulnerablity Scanning/Finding](#vulnerablity-scanningfinding)
@@ -10,8 +19,8 @@
   - [Shells](#shells)
   - [Password Attacks/Cracking](#password-attackscracking)
   - [Tunnels](#tunnels)
-    - [Other](#other)
   - [C2](#c2)
+  - [Other](#other)
 
 ## Recon
 
@@ -51,7 +60,7 @@
 + [Linux Smart Enumeration](https://github.com/diego-treitos/linux-smart-enumeration) - Linux Smart Enumeration
 + [Linux Exploit Suggester](https://github.com/mzet-/linux-exploit-suggester) - LES: Linux privilege escalation auditing tool
 + [pspy](https://github.com/DominicBreuker/pspy) - unprivileged Linux process snooping
-  
+d±  
 ### Windows
 + [WinPwn] - (https://github.com/S3cur3Th1sSh1t/WinPwn) -  Powershell Recon / Exploitation scripts
 + [winPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)* - Windows Privilege Escalation Awesome Scripts
@@ -87,11 +96,12 @@
 + [ligolo-ng](https://github.com/nicocha30/ligolo-ng) - Agent based tunnelling with admin rights
 + proxychains (B)
 
-### Other
-+ [Probable-Wordlists](https://github.com/berzerk0/Probable-Wordlists)
-+ [Payloadbox](https://github.com/payloadbox)
-+ [PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings)
-
 ## C2
 + [Villain] - (https://github.com/t3l3machus/Villain) - Villain is a high level C2 framework that can handle multiple TCP socket & HoaxShell-based reverse shells, enhance their functionality with additional features (commands, utilities etc) and share them among connected sibling servers (Villain instances running on different machines).
 + [BlackMamba] - (https://github.com/loseys/BlackMamba) - Black Mamba is a Command and Control (C2) that works with multiple connections at same time. It was developed with Python and with Qt Framework and have multiples features for a post-exploitation step.
+
+## Other
+
++ [Probable-Wordlists](https://github.com/berzerk0/Probable-Wordlists)
++ [Payloadbox](https://github.com/payloadbox)
++ [PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings)

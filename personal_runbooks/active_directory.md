@@ -149,6 +149,8 @@ crackmapexec smb <IP> -u <user> -p <password>
   Connect via smbclient
 ```
 smbclient //ip -U <user> -L
+example:
+smbclient //172.16.177.21/monitoring -U relia//mountuser%DRtajyCwcbWvH/9  
 ```
   smbmap
 ```

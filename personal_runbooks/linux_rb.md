@@ -70,7 +70,7 @@ rlwrap nc -lvnp 443
 - Upgrade the shell:
 
 ```bash
-python -c 'import pty;pty.spawn("/bin/bash")' # Explicit python version may be required.
+python3 -c 'import pty;pty.spawn("/bin/bash")' # Explicit python version may be required.
 ```
 
 ## Copy tools to the target

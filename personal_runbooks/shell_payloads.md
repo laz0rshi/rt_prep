@@ -1,6 +1,10 @@
 # Shell & Payloads
+<!--- Status 90% --->
+<!---  add C2 --->
 
 ## Introduction
+Update
+This runbook provides a guide to for various shells and payloads. It includes a variety of techniques and tools to create a payload or upgrade your current shell to on that is more stable.
 
 ## Table of Contents
 

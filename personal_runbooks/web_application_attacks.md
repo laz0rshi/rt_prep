@@ -1,10 +1,14 @@
-# OSCP Web Application Attacks
+# Web Application Attacks
+<!--- Status 75% --->
+<!--- Needs review --->
 
 ## Introduction
 
+This runbook provides a guide to attack web applications. It includes a variety of techniques and tools for gathering information, and exploiting the application.
+
 ## Table of Contents
 
-- [OSCP Web Application Attacks](#oscp-web-application-attacks)
+- [Web Application Attacks](#web-application-attacks)
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
   - [SQL Injection - MySQL/MariaDB](#sql-injection---mysqlmariadb)

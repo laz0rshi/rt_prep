@@ -1,10 +1,14 @@
-# OSCP Password Attacks Checklist
+# Password Attacks Checklist
+<!--- Status 90% --->
+<!---Mimikatz how to --->
 
 ## Introduction
 
+This runbook provides a guide to help with password attacks. It includes a variety of techniques and tools for trying to generate word list, crack passwords, and dumping passwords or hashes from the operating system.
+
 ## Table of Contents
 
-- [OSCP Password Attacks Checklist](#oscp-password-attacks-checklist)
+- [Password Attacks Checklist](#password-attacks-checklist)
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
   - [Generate World list](#generate-world-list)
@@ -20,7 +24,8 @@
     - [SSH - Hydra](#ssh---hydra)
     - [HTTP POST Login Form - Hydra](#http-post-login-form---hydra)
     - [HTTP GET Login Form - Hydra](#http-get-login-form---hydra)
-  - [Mimikatz usage](#mimikatz-usage)
+  - [Password Dumps](#password-dumps)
+    - [Mimikatz usage](#mimikatz-usage)
 
 ## Generate World list
 
@@ -41,6 +46,7 @@ crunch 4 6 0123456789abcdef -o wordlist.txt
 ```
 
 ### Rules
+
 Add the rules you want in the /etc/john/john.conf file inside the rules module [List.Rules:Wordlist] to modify your wordlists  
 basic rule example `$@$[1-2]$[0-9]$[0-9]$[0-9]`
 ```
@@ -56,6 +62,7 @@ hashid <hash>
 ```
 
 ### Hashing different file types for cracking with 2john
+
 - [ssh2john](https://github.com/piyushcse29/john-the-ripper/blob/master/src/ssh2john.c)  
 - [rar2john](https://github.com/piyushcse29/john-the-ripper/blob/master/src/rar2john.c)  
 - [zip2john](https://github.com/piyushcse29/john-the-ripper/blob/master/src/zip2john.c)  
@@ -69,9 +76,10 @@ hashid <hash>
 - [keychain2john](https://github.com/piyushcse29/john-the-ripper/blob/master/src/keychain2john.c)  
 - [mozilla2john](https://github.com/piyushcse29/john-the-ripper/blob/master/src/mozilla2john.c) 
 
-
 ## Brute Force Attacks
+
 ### Password Manager
+
   Search KeePass database files
 ```
 Get-ChildItem -Path C:\ -Include *.kdbx -File -Recurse -ErrorAction SilentlyContinue
@@ -93,38 +101,52 @@ hashcat -m 13400 keepass.hash
 ```
 
 ### Hydra
+
 ```
 hydra -L /usr/share/wordlists/rockyou.txt t -p "<password" rdp://<IP>
 ```
 
 ### RDP - Crowbar
+
 ```
 crowbar -b rdp -s X.X.X.X/32 -u admin -C /usr/share/wordlists/rockyou.txt -n 1
 ```
 
 ### SMB - Hydra
+
 ```
 hydra -L /root/Desktop/user.txt -P /usr/share/wordlists/rockyou.txt <IP> smb
 ```
 
 ### SSH - Hydra
+
 ```
 hydra -l <user> -P /usr/share/wordlists/rockyou.txt ssh://<IP>
 ```
 
 ### HTTP POST Login Form - Hydra
+
 ```
 hydra -l <user> -P /usr/share/wordlists/rockyou.txt <IP> http-post-form "/login.php:user=admin&pass=^PASS^:Invalid Login" -vV -f
 ```
 
 ### HTTP GET Login Form - Hydra
+
 ```
 hydra -l <username> -P /usr/share/wordlists/rockyou.txt -f <IP> http-get /login
 ```
 
-## Mimikatz usage
+## Password Dumps
+
+Active Directory Enumeration also has a complete guide, but these are some basics. 
+Dump the same
+Also look at linux password dumps
+
+### Mimikatz usage
 
 Display logged on users passowrds
 ```
 sekurlsa::logonpasswords
 ```
+
+ <!--- Last Updated July 8, 2024 But still needs work --->

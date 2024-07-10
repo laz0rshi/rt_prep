@@ -1,4 +1,5 @@
 # Information Gathering
+<!--- Status 80% --->
 
 ## Introduction
 
@@ -20,7 +21,6 @@ This runbook is to help with information gathering.  It is set up to all be acti
     - [nmap](#nmap-1)
     - [powershell](#powershell-1)
     - [rustscan](#rustscan)
-        - [Note : Lame broken????](#note--lame-broken)
     - [Scanless (an open-source network scanning tool)](#scanless-an-open-source-network-scanning-tool)
     - [Xprobe (an open-source network scanning tool)](#xprobe-an-open-source-network-scanning-tool)
   - [OS Fingerprinting Tools](#os-fingerprinting-tools)
@@ -155,7 +155,8 @@ Test-NetConnection -Port 445 192.168.50.151
 ```
 
 ### rustscan
-##### Note : Lame broken????
+
+<!--- Last Updated July 8, 2024 --->
 sudo docker pull rustscan/rustscan:2.2.2
 alias rustscan='sudo docker run -it --rm --name rustscan rustscan/rustscan:2.2.2'
 ```sh

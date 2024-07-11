@@ -25,6 +25,8 @@ This is a cheatsheet for markdown.
     - [Image](#image)
   - [Extended Syntax](#extended-syntax)
     - [Table](#table)
+    - [Checklists](#checklists)
+    - [My nested checklist](#my-nested-checklist)
     - [Fenced Code Block](#fenced-code-block)
     - [Footnote](#footnote)
     - [Heading ID](#heading-id)
@@ -103,10 +105,46 @@ These elements extend the basic syntax by adding additional features. Not all Ma
 
 ### Table
 
-| Syntax | Description |
-| ----------- | ----------- |
-| Header | Title |
-| Paragraph | Text |
+Use markdown table, and use the `Table: <Your table description>` syntax to add a caption:
+
+```md
+| Index | Name |
+| ----- | ---- |
+| 0     | AAA  |
+| 1     | BBB  |
+| ...   | ...  |
+
+Table: This is an example table.
+```
+
+If you want to reference a table, use LaTeX labels:
+
+```md
+Please, check Table /ref{example_table}.
+
+| Index | Name |
+| ----- | ---- |
+| 0     | AAA  |
+| 1     | BBB  |
+| ...   | ...  |
+
+Table: This is an example table.\label{example_table}
+```
+
+### Checklists
+
+- [ ] Conquer markdown
+- [ ] Procrastinate for the rest of the day
+
+### My nested checklist
+
+- [x] Task 1
+- [ ] Task 2
+  - [x] Subtask A
+  - [ ] Subtask A
+- [x] Task 3
+[Here](https://www.codecogs.com/latex/eqneditor.php)'s an online equation
+editor.
 
 ### Fenced Code Block
 

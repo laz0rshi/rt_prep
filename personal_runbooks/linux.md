@@ -1,10 +1,10 @@
 # Linux Runbook
 <!--- Status 75%% --->
-<!--- Nees review --->
+<!--- Needs review --->
 
 ## Introduction
-*Update
-This runbook is to help with information gathering.  It is set up to all be active gathering as all of the techniques interact with the given hosts.  Passive information gathering should be one prior as well.
+
+This runbook is to help with Linux enumeration and Privilege Escalation.  It includes a variety of techniques and tools to do so by only using command line.  The runbook concludes with a finalize portion that can help either keep persistance or to sanitize the host if desired.  This runbook assumes non of the hosts are connected by LDAP.
 
 ## Table of Content
 
@@ -104,6 +104,7 @@ env
 ```
 
 ### Permissions
+
 ` Suspicious files
 ```bash
 # Files with SUID bit
@@ -114,7 +115,6 @@ find /var -writeable -type d 2>/dev/null
 find / -type f -name -o -name "*.txt" -o -name "*.kdbx" -o -name "*.zip" 2>/dev/null
 # Files that may give you have +x
 find /home/<user> -exec "/usr/bin/bash" -p \;
-find /home/anita -exec "/usr/bin/bash" -p \;
 # Manually Enumerating Capabilities
 /usr/sbin/getcap -r / 2>/dev/null
 # List commands that user can run as sudo  - >  GTFObins

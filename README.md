@@ -2,7 +2,7 @@
 
 _I am creating this as a guide for my both my **OSCP** exam and for personal references to guide me through red team engagements._
 
-They are broken down into personal runbooks, usefull runbooks, references, and etc.
+They are broken down into personal runbooks, usefull runbooks, references, scripts and tools.
 
 Runbooks are my way of walking throught step by step on what I need to do for the given task. The theory behind them comes from ansible playbooks.  Some of these runbooks, probably could be done in ansible, but have not dedicated the time to do so.  They may also refence scripts that I created to be better preparted for for an engagement.  
 Ex. Intital_setup will walk me though everything I need to do to take a fresh install of kali linux, and get it ready to how I like it set up.  
@@ -22,16 +22,18 @@ These are runbooks that I created.  I may have barrow sections from others.  I w
 ## References
 
 
+
+## Scripts and Tools
+
+Theses are scripts that I created to help me in some of this process.  
+
+
 ## Useful Runbooks
 
 
 I recommend beginners look at the [references](#references). These courses and videos helped me gain fundamental knowledge for the OSCP exam and pentesting in general.
 
 Also, I added links to original repositories and/or authors of the [utilities](#utilities) I use. I compiled a list of utilities that I prefer, but you must compile/download them yourself.
-
-This is a fork from [maksyche/pentest-everything](#https://github.com/maksyche/pentest-everything)
-
-
 
 
 

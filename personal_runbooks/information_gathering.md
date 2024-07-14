@@ -58,7 +58,7 @@ This runbook is to help with information gathering.  It is set up to all be acti
     - [nmap](#nmap-7)
     - [binary transfer](#binary-transfer)
     - [ascii transfer](#ascii-transfer)
-  - [RDP enumeration](#rdp-enumeration)
+  - [RDP Enumeration](#rdp-enumeration)
     - [nmap](#nmap-8)
     - [Connect to RDP](#connect-to-rdp)
     - [Check credentials via RDP](#check-credentials-via-rdp)
@@ -92,22 +92,26 @@ This runbook is to help with information gathering.  It is set up to all be acti
 This is only to discover host in get an understanding of the network.
 
 ### nmap
+
 ```sh
 nmap -sn <ip-range> -oG nmap/ping-sweep.txt
 grep Up ping-sweep.txt | cut -d " " -f 2
 ```
 
 ### crackmapexec  
+
 ```sh
 crackmapexec smb <ip-range>
 ```
 
 ### powershell
+
 ```cmd
 for ($i=1;$i -lt 255;$i++) { ping -n 1 <ip_3_oct>.$i| findstr "TTL"}
 ```
 
 ### bash
+
 ```sh
 for i in {1..255};do (ping -c 1 <ip_3_oct>.$i | grep "bytes from" &); done
 ```
@@ -115,17 +119,20 @@ for i in {1..255};do (ping -c 1 <ip_3_oct>.$i | grep "bytes from" &); done
 ## Port Scanning
 
 ### bash
-```sh
+
+```bash
 for i in {1..65535}; do (echo > /dev/tcp/<ip_4_oct/$i) >/dev/null 2>&1 && echo $i is open; done
 ```
 
 ### netcat
-```sh
+
+```bash
 nc -zvn <ip> 1-1000
 ```
 
 ### nmap
-```sh 
+
+```bash 
 nmap -sC -sV -A -Pn -T5 -p- <ip> -oN <IP>/nmap
 sudo nmap -sC -sV <IP> -oN <IP>/nmap
 # Connected scan
@@ -149,6 +156,7 @@ nmap --script http-headers 192.168.50.6
 ```
 
 ### powershell
+
 ```powershell
 Test-NetConnection -Port 445 192.168.50.151
 1..1024 | % {echo ((New-Object Net.Sockets.TcpClient).Connect("192.168.50.151", $*)) "TCP port $* is open"} 2>$null
@@ -159,7 +167,7 @@ Test-NetConnection -Port 445 192.168.50.151
 <!--- Last Updated July 8, 2024 --->
 sudo docker pull rustscan/rustscan:2.2.2
 alias rustscan='sudo docker run -it --rm --name rustscan rustscan/rustscan:2.2.2'
-```sh
+```bash
 rustscan -a <ip> -- -A -Pn
 ```
 
@@ -170,6 +178,7 @@ rustscan -a <ip> -- -A -Pn
 ## OS Fingerprinting Tools
 
 ### nmap 
+
 ```cmd
 sudo nmap -O 192.168.50.14 --osscan-guess - OS fingeprint
 ```
@@ -182,33 +191,39 @@ sudo nmap -O 192.168.50.14 --osscan-guess - OS fingeprint
 
 Locates the host records for the domain
 ### Bash
+
 ```sh
 host <domain>
 host -t mx <domain>
 host -t txt <domain>
 ```
 
-dns brute force forward
+- dns brute force forward
+
 ```bash
 for ip in $(cat list.txt); do host $ip.url.com; done
 ```
 
-dns brute force reverse
+- dns brute force reverse
+
 ```sh
 for ip in $(seq 50 100); do host <ip_3_oct>.$ip; done | grep -v "not found"
 ```
 
-dns lookup
+- dns lookup
+
 ```sh
 host -t ns <domain> | cut -d " " -f 4
 ```
 
-dns zone transfers
+- dns zone transfers
+
 ```sh
 host -l <domain name> <dns_server_address>
 ```
 
-dns zone transfer -automatic
+- dns zone transfer -automatic
+
 ```sh
 for ns in $(host -t ns $1 | cut -d ' ' -f 4 | cut -d '.' -f 1); do host -l $1 $ns.$1; done
 ```
@@ -225,23 +240,27 @@ dnsrecon -d <domain> -D wordlist.txt -t brt
 ## SMB Enumeration
 
 ### nmap 
+
 ```sh
 nmap -v -p 139,445 <ip-range> -oG smb.txt 
 nmap -v -p 139,445 --script smb-os-discovery <ip>
 ```
 
 ### nbtscan
+
 ```sh
 sudo nbtscan -r <ip-range>
 ```
 
 ### enum4linux
+
 ```sh
 enum4linux <ip>
 enum4linux -a -u "" -p "" <ip> && enum4linux -a -u "guest" -p "" <ip>
 ``` 
 
 ### Windows
+
 ```cmd
 net-view
 ```
@@ -249,28 +268,33 @@ net-view
 ## NFS Enumeration
 
 ### nmap
+
 ```sh
 nmap -sV -p 111 --script=rpcinfo <ip-range>
 nmap -p 111 --script nfs* <IP>
 ```
 
 ### rpcinfo
+
 ```sh
 rpcinfo <IP> | grep nfs
 ```
 
 ### showmounts
+
 ```sh
 showmount -e <ip>
 ```
 
 ### Mounts
+
 ```sh
 mkdir /tmp/mounts
 sudo mount -t nfs -o vers=4 <IP>:/folder /tmp/mounts -o nolock
 ```
 
 ### config files
+
 ```sh
 /etc/exports
 /etc/lib/nfs/etab
@@ -280,11 +304,13 @@ sudo mount -t nfs -o vers=4 <IP>:/folder /tmp/mounts -o nolock
 ## LDAP Enumeration
 
 ### nmap
+
 ```sh
 nmap -n -sV --script "ldap* and not brute" <IP>
 ```
 
 ### ldapsearch
+
 ```
 ldapsearch -h <IP> -bx "DC=domain,DC=com"
 ```
@@ -292,6 +318,7 @@ ldapsearch -h <IP> -bx "DC=domain,DC=com"
 ## SNMP Enumeration
 
 ### nmap 
+
 ```sh
 sudo nmap -sU --open -p 161 <ip-range> -oG open-snmp.txt
 ```
@@ -303,6 +330,7 @@ echo manager >> community
 ```
 
 ### onesixyone
+
 ```sh
 for ip in $(seq 1 243); do echo 192.168.0.$ip; done > ips
 onesixtyone -c community -i ips
@@ -313,26 +341,31 @@ onesixtyone -c community -i ips
 ```
 
 ### snmpwalk - Enumerate the entire MIB tree
+
 ```sh
 snmpwalk -c public -v1 -t <ip>
 ```
 
 ### snmpwalk - Enumerate windows users
+
 ```sh
 snmpwalk -c public -v1 <ip> 1.3.6.1.4.1.77.1.2.25
 ```
 
 ### snmpwalk - Lists running processes
+
 ```sh
 snmpwalk -c public -v1 <ip> 1.3.6.1.2.1.25.4.2.1.2
 ```
 
 ### snmpwalk - Lists open TCP ports
+
 ```sh
 snmpwalk -c public -v1 <ip> 1.3.6.1.2.1.6.13.1.3
 ```
 
 ### snmpwalk - Enumerate installed software
+
 ```sh
 snmpwalk -c public -v1 <ip> 1.3.6.1.2.1.25.6.3.1.2
 ```
@@ -341,42 +374,50 @@ snmpwalk -c public -v1 <ip> 1.3.6.1.2.1.25.6.3.1.2
 
 Default creds  
 anonymous : anonymous  
+
 ### netcat - check ftp version
+
 ```sh
 nc <IP> <PORT>
 ```
 
-### nmap 
+### nmap
+
 ```sh
 nmap -p 21 --script ftp-* <ip>
 ```
 
 ### binary transfer
+
 ```sh
 ftp user@port
 binary
 ```
 
 ### ascii transfer
+
 ```sh
 ftp user@port
 ascii
 ```
 
-## RDP enumeration
+## RDP Enumeration
 
 ### nmap
+
 ```sh
 nmap --script rdp-ntlm-info,rdp-enum-encryption,rdp-vuln-ms12-020 -p 3389 -T4 <IP>
 ```
 
 ### Connect to RDP
+
 ```sh
 rdesktop -u <username> <IP>
 xfreerdp /d:<domain> /u:<username> /p:<password> /v:<IP>
 ```
 
 ### Check credentials via RDP
+
 ```sh
 rdp_check <domain>/<name>:<password>@<IP>
 ```
@@ -384,11 +425,13 @@ rdp_check <domain>/<name>:<password>@<IP>
 ## POP Enumeration
 
 ### nmap
+
 ```sh
 nmap --script pop3-capabilities,pop3-ntlm-info -sV -port <IP>
 ```
 
 ### telnet
+
 ```sh
 telnet <IP> 110
 USER <user>
@@ -396,6 +439,7 @@ PASS <password>
 ```
 
 ### messages
+
 ```sh
 list
 retr 1
@@ -404,11 +448,13 @@ retr 1
 ## SMTP Enumeration
 
 ### nmap
+
 ```sh
 nmap -p25 --script smtp-commands,smtp-open-relay <ip>
 ```
 
 ### email
+
 ```
 nc -C <IP> 25
 HELLO
@@ -421,6 +467,7 @@ QUIT
 ```
 
 ### hyrda
+
 ```sh
 hydra smtp-enum://<IP>vrfy -l john -p localhost
 hydra smtp-enum://<IP>/vrfy -L "/usr/share/seclists/Usernames/ 
@@ -429,11 +476,13 @@ hydra smtp-enum://<IP>/vrfy -L "/usr/share/seclists/Usernames/
 ## Recon Web
 
 ### nmap 
+
 ```sh
 sudo nmap -p80 --script=http-enum <ip>
 ```
 
 ### Wappalyzer
+
 https://www.wappalyzer.com/
 
 ### Whatweb
@@ -445,26 +494,33 @@ whatweb http://<ip> <ip>
 ### fuzzing
 
 #### GoBuster
+
 ```sh
 gobuster dir -u http://<ip> -w /usr/share/wordlists/dirb/common.txt -t 5 -o <ip>/gobuster -x txt,pdf,config
 ```
+
 #### dirb
+
 It can go more the one file deep -R??
+
 ```sh
 └─$ dirb  http://<ip> /usr/share/wordlists/dirb/common.txt -N 403 -o output.dirb
 ```
 
 #### feroxbuster
+
 ```sh
 feroxbuster --url http://<ip>
 ```
 
-
 #### ffuf
+
 ```sh
 ffuf -u http://site.com/FUZZ -w /usr/share/wordlists/dirb/big.txt
 ```
-File Extension
+
+- File Extension
+
 ```
 ffuf -u "https://site.com/indexFUZZ" -w /usr/share/seclists/Discovery/Web-Content/web-extensions.txt -fs xxx
 ```
@@ -478,7 +534,8 @@ ffuf -u "https://site.com/index.php" -X POST -d 'FUZZ=ok' -H 'Content-Type: appl
 ```
 https://github.com/danielmiessler/SecLists
 
-### Nikto - Web Server Scanner 
+### Nikto - Web Server Scanner
+
 ```
 nikto -h http://site.com
 ```
@@ -486,32 +543,34 @@ nikto -h http://site.com
 ### CMS
 
 #### wpscan
+
 ```sh
 wpscan --url http://site.com/wordpress --api-token <your_token> --enumerate u,vp --plugins-detection aggressive
 wpscan --url http://site.com/wordpress --api-token <your_token> --enumerate u,ap
 wpscan --url http://<ip> --enumerate p --plugins-detection aggressive -o <ip>/wpscan
 ```
 
-#### Juumla
+#### [Juumla](https://github.com/oppsec/juumla)
+
 ```python
 python main.py -u <target>
 ```
-https://github.com/oppsec/juumla
 
-#### Sroopescan
+#### [Sroopescan](https://github.com/SamJoan/droopescan)
+
 ```sh
 droopescan scan drupal -u <target> -t 32
 ```
-https://github.com/SamJoan/droopescan
 
-#### Magescan
+#### [Magescan](https://github.com/steverobbins/magescan)
+
 ```
 php magescan.phar scan:all www.example.com
 ```
-https://github.com/steverobbins/magescan
 
 
 ## nmap blast
+
 This is a self made to get all the information fast
 ```sh
 crackmapexec smb <ip-range> > cracksmb.info

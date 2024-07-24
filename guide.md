@@ -92,5 +92,64 @@ I will then create a runbook for every single check list with commands to run th
 
 ### Pentest Report
 
-- [Documentation & Reporting](https://academy.hackthebox.com/course/preview/documentation--reporting)
- 
+- [ ] [Documentation & Reporting](https://academy.hackthebox.com/course/preview/documentation--reporting)
+
+# Role Path 
+
+## Penetration Tester
+
+### [X] Penetration Testing Process
+
+### [ ] Getting Started - 8 Hours
+
+### [ ] Network Enumeration with Nmap - 7 Hours
+
+### [ ] Footprinting - 2 Days
+
+### [ ] Information Gathering - Web Edition - 8 Hours
+
+### [ ] Vulnerability Assessment - 8 Hourse
+
+### [ ] File Transfers - 8 Hourse
+
+### [ ] Shells & Payloads - 8 Hourse
+
+### [ ] Using the Metasploit Framework - 8 Hourse
+
+### [ ] Password Attacks
+
+### [ ] Attacking Common Services
+
+### [ ] Pivoting, Tunneling, and Port Forwarding
+
+### [ ] Active Directory Enumeration & Attacks
+
+### [ ] Using Web Proxies
+
+### [ ] Attacking Web Applications with Ffuf
+
+### [ ] Login Brute Forcing
+
+### [ ] SQL Injection Fundamentals
+
+### [ ] SQLMap Essentials
+
+### [ ] Cross-Site Scripting (XSS)
+
+### [ ] File Inclusion
+
+### [ ] File Upload Attacks
+
+### [ ] Command Injections
+
+### [ ] Web Attacks
+
+### [ ] Attacking Common Applications
+
+### [ ] Linux Privilege Escalation
+
+### [ ] Windows Privilege Escalation
+
+### [ ] Documentation & Reporting
+
+### [ ] Attacking Enterprise Networks

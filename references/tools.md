@@ -9,7 +9,10 @@ The following is a list of tools and the suggestion on when to use them.  This w
 - [Tools](#tools)
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
-  - [Recon](#recon)
+  - [Information Gathering](#information-gathering)
+    - [Host Discovery](#host-discovery)
+    - [Port Scanning](#port-scanning)
+    - [DNS Enumeration](#dns-enumeration)
   - [Web Application Exploit](#web-application-exploit)
   - [Vulnerablity Scanning/Finding](#vulnerablity-scanningfinding)
   - [Enumeration \& Escalation](#enumeration--escalation)
@@ -22,28 +25,45 @@ The following is a list of tools and the suggestion on when to use them.  This w
   - [C2](#c2)
   - [Other](#other)
 
-## Recon
+## Information Gathering
 
+### Host Discovery
+
+- **[nmap]**
+- [crackmapexec](https://github.com/byt3bl33d3r/CrackMapExec) - gathers information on smb amgonst other things.
+
+### Port Scanning
+
+- **[rustscan](https://github.com/RustScan/RustScan)** - RustScan is a modern take on the port scanner. Sleek & fast.
+- **[nmapAutomator](https://github.com/21y4d/nmapAutomator)** - automates the process of enumeration & recon that is run every time. - [cheat sheet](https://www.stationx.net/crackmapexec-cheat-sheet/)
 - [AutoRecon] - 
 - [incursore] - like nmapautomator but without and nikto
-- [nmapAutomator.sh] - 
 - [securitytrails]
 - [AssetFinder]
 - [Uniscan]
-- [rustscan]
 - [recon-ng]
-- [Scanless] - (an open-source network scanning tool)
-- [Xprobe]- (an open-source network scanning tool)
-- [naabu] - (https://github.com/projectdiscovery/naabu) - Similar to nmap
-- [reconftw] - (https://github.com/six2dez/reconftw) - reconFTW automates the entire process of reconnaissance for you. It outperforms the work of subdomain enumeration along with various vulnerability checks and obtaining maximum information about your target.
-- [Osmedeus] - (https://github.com/j3ssie/osmedeus) - Osmedeus is a Workflow Engine for Offensive Security. It was designed to build a foundation with the capability and flexibility that allows you to build your own reconnaissance system and run it on a large number of targets.
-- [Raccoon] - (https://github.com/evyatarmeged/Raccoon) - Offensive Security Tool for Reconnaissance and Information Gathering
+- [Scanless] - an open-source network scanning tool
+- [Xprobe] - an open-source network scanning tool
+- [naabu](https://github.com/projectdiscovery/naabu) - Similar to nmap
+- [reconftw](https://github.com/six2dez/reconftw) - reconFTW automates the entire process of reconnaissance for you. It outperforms the work of subdomain enumeration along with various vulnerability checks and obtaining maximum information about your target.
+- [Osmedeus](https://github.com/j3ssie/osmedeus) - Osmedeus is a Workflow Engine for Offensive Security. It was designed to build a foundation with the capability and flexibility that allows you to build your own reconnaissance system and run it on a large number of targets.
+- [Raccoon](https://github.com/evyatarmeged/Raccoon) - Offensive Security Tool for Reconnaissance and Information Gathering
+
+### DNS Enumeration
+
+- [dnsrecon] - dns zone transfer
+- [dnsenum](https://github.com/fwaeytens/dnsenum) - multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip block
 
 ## Web Application Exploit
 
 - [SharpWeb](https://github.com/djhohnstein/SharpWeb) - SharpWeb is a compliant project that can retrieve saved logins from a browser
 - [Nikto]
 - [jok3r]
+
+- [GoBuster]
+- [dirb]
+- [feroxbuster]
+- [ffuf]
 
 ## Vulnerablity Scanning/Finding
 
@@ -62,7 +82,7 @@ The following is a list of tools and the suggestion on when to use them.  This w
 
 ### Windows
 
-- [WinPwn] - (https://github.com/S3cur3Th1sSh1t/WinPwn) -  Powershell Recon / Exploitation scripts
+- [WinPwn](https://github.com/S3cur3Th1sSh1t/WinPwn) -  Powershell Recon / Exploitation scripts
 - [winPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)* - Windows Privilege Escalation Awesome Scripts
 - [SharpUp](https://github.com/GhostPack/SharpUp)  - SharpUp is a C# port of various PowerUp functionality
 - [AccessChk](https://docs.microsoft.com/en-us/sysinternals/downloads/accesschk) - Sysinternals

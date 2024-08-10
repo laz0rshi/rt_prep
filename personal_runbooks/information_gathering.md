@@ -16,6 +16,7 @@ This runbook is to help with information gathering.  It is set up to all be acti
     - [powershell](#powershell)
     - [bash](#bash)
   - [Port Scanning](#port-scanning)
+    - [nmapAutomator](#nmapautomator)
     - [bash](#bash-1)
     - [netcat](#netcat)
     - [nmap](#nmap-1)
@@ -85,6 +86,7 @@ This runbook is to help with information gathering.  It is set up to all be acti
       - [Juumla](#juumla)
       - [Sroopescan](#sroopescan)
       - [Magescan](#magescan)
+    - [api version](#api-version)
   - [nmap blast](#nmap-blast)
 
 ## Host Discovery
@@ -118,6 +120,13 @@ for i in {1..255};do (ping -c 1 <ip_3_oct>.$i | grep "bytes from" &); done
 
 ## Port Scanning
 
+### nmapAutomator
+
+```bash
+nmapAutomator.sh -H <ip> -t full
+nmapAutomator.sh -H <ip> -t vulns
+```
+
 ### bash
 
 ```bash
@@ -132,7 +141,7 @@ nc -zvn <ip> 1-1000
 
 ### nmap
 
-```bash 
+```bash
 nmap -sC -sV -A -Pn -T5 -p- <ip> -oN <IP>/nmap
 sudo nmap -sC -sV <IP> -oN <IP>/nmap
 # Connected scan
@@ -148,8 +157,8 @@ nmap -sT -A 192.168.50.14 - all
 # scans with http-headers
 nmap --script http-headers 192.168.50.6
 ```
+
 ```sh
- 
   nmap -p 80 192.168.50.1-253 -oG web-sweep.txt
   grep open web-sweep.txt | cut -d" " -f2
 
@@ -231,7 +240,7 @@ for ns in $(host -t ns $1 | cut -d ' ' -f 4 | cut -d '.' -f 1); do host -l $1 $n
 ### dnsrecon - dns zone transfer
 
 ```sh
-dnsrecon -d <domain -t axfr
+dnsrecon -d <domain> -t axfr
 dnsrecon -d <domain> -D wordlist.txt -t brt
 ```
 
@@ -496,7 +505,7 @@ whatweb http://<ip> <ip>
 #### GoBuster
 
 ```sh
-gobuster dir -u http://<ip> -w /usr/share/wordlists/dirb/common.txt -t 5 -o <ip>/gobuster -x txt,pdf,config
+gobuster dir -u http://<ip> -w /usr/share/wordlists/dirb/common.txt -t 5 -o gobuster -x txt,pdf,config
 ```
 
 #### dirb
@@ -568,6 +577,11 @@ droopescan scan drupal -u <target> -t 32
 php magescan.phar scan:all www.example.com
 ```
 
+### api version
+
+```sh
+curl -v <ip>:port
+```
 
 ## nmap blast
 

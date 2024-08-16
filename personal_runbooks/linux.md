@@ -215,6 +215,7 @@ cat /etc/hosts
 ```
 
 ### Users and Groups
+
 - Users
 ```bash
 cut -d: -f1 /etc/passwd

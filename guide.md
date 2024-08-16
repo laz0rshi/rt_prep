@@ -2,11 +2,6 @@
 
 These are checklist on what I need to do at different levels. 
 I will then create a runbook for every single check list with commands to run them
-
-[Tunnels](https://www.notion.so/Tunnels-2df6a02cdd544635aeb096d9799f209f?pvs=21)
-
-[Shares](https://www.notion.so/Shares-e824159594d24a6896bde46332fed6ff?pvs=21)
-
 ## Table of Contents
 
 - [ ] [Set Up](framework/set-up.md)

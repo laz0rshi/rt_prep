@@ -1,5 +1,4 @@
 # Project-specific stuff
-gh-md-toc
 .obsidian/**
 .idea/**
 *.iml

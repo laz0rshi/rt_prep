@@ -11,14 +11,14 @@ This runbook provides a comprehensive guide to Active Directory enumeration. It 
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
   - [Enumeration](#enumeration)
-    - [Enumerating Users](#enumerating-users)
-    - [Enumerating Groups](#enumerating-groups)
     - [Domain Information](#domain-information)
     - [PowerView Module](#powerview-module)
-    - [Last Logon](#last-logon)
-    - [List Computers](#list-computers)
-    - [Add Domain User to a Domain Group](#add-domain-user-to-a-domain-group)
-    - [Enumeration Script for All AD Users](#enumeration-script-for-all-ad-users)
+      - [Users](#users)
+      - [Groups](#groups)
+      - [Last Logon](#last-logon)
+      - [List Computers](#list-computers)
+      - [Add Domain User to a Domain Group](#add-domain-user-to-a-domain-group)
+      - [Enumeration Script for All AD Users](#enumeration-script-for-all-ad-users)
     - [Access](#access)
     - [Enumeration Through Service Powershell Scripts](#enumeration-through-service-powershell-scripts)
     - [BloodHound](#bloodhound)
@@ -50,42 +50,6 @@ This runbook provides a comprehensive guide to Active Directory enumeration. It 
 
 ## Enumeration
 
-### Enumerating Users
-
-  Enumerate all users in the entire domain
-```cmd
-net user /domain
-```
-
-  Get information from a specific user
-```cmd
-net user <user> /domain
-```
-
-  Enumerate logged users
-```powershell
-# powerview 
-Get-NetLoggedon -ComputerName <computer_name>
-```
-
-  Enumerate all active sessions
-```powershell
-# powerview
-Get-NetSession -ComputerName dc1
-```
-
-### Enumerating Groups
-
-  Enumerate all groups in the entire domain
-```cmd
-net group /domain
-```
-
-  Get members of local group
-```powershell
-Get-NetLocalGroup -ComputerName <domain> -Recurse (PowerView)
-```
-
 ### Domain Information
 
   Find out domain controller hostname
@@ -103,29 +67,45 @@ Import-Module .\Microsoft.ActiveDirectory.Management.dll
 Import-Module .\ActiveDirectory.psd1  
 ```
 
-### Last Logon
+#### Users
+
+  Enumerate logged users
+```powershell
+Get-NetLoggedon -ComputerName <computer_name>
+```
+
+  Enumerate all active sessions
+```powershell
+Get-NetSession -ComputerName dc1
+```
+
+#### Groups
+
+  Get members of local group
+```powershell
+Get-NetLocalGroup -ComputerName <domain> -Recurse 
+```
+
+#### Last Logon
 
 ```powershell
-# powerview
 Get-LastLoggedOn -ComputerName <domain>
 ```
 
-### List Computers
+#### List Computers
 
 ```powershell
-# powerview
 Get-NetComputer 
 ```
 
-### Add Domain User to a Domain Group
+#### Add Domain User to a Domain Group
 
 ```powershell
-# powerview
 Add-DomainGroupMember -Identity 'SQLManagers' -Members 'examed'
 Get-NetGroupMember -GroupName 'SQLManagers'
 ```
 
-### Enumeration Script for All AD Users
+#### Enumeration Script for All AD Users
 
 <!--- Do I want to keep it?  -->
 ```powershell

@@ -217,12 +217,14 @@ cat /etc/hosts
 ### Users and Groups
 
 - Users
+
 ```bash
 cut -d: -f1 /etc/passwd
 ?sudo --version 1.18.31
 ```
 
 - Groups
+
 ```bash
 cut -d: -f1 /etc/group
 cat /etc/shadow
@@ -231,7 +233,7 @@ cat /etc/sudoers
 
 ### Tasks
 
-- Crontab:
+- Crontab
 
  ```bash
  ls -lah /etc/cron*
@@ -249,7 +251,7 @@ cat /etc/anacrontab
 - Bash history
 - /var/logs
 - user ./.bash_history
-- ls /opt; 
+- ls /opt;
 - ls /var/mail
   
 ### Installed software

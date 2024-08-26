@@ -28,7 +28,7 @@ This runbook is to help with Linux enumeration and Privilege Escalation.  It inc
 - [Others to be continued later](#others-to-be-continued-later)
   - [Autoenumeration _(LinPEAS)_](#autoenumeration-linpeas)
   - [Monitoring processes _(PSPY)_](#monitoring-processes-pspy)
-  - [Autoenumeration _(Linux Smart Enumeration)_](#autoenumeration-linux-smart-enumeration)
+  - [Autoenumeration \_(Linux Smart Enumeration)](#autoenumeration-_linux-smart-enumeration)
   - [Linux Exploit Suggester](#linux-exploit-suggester)
     - [Files and folders](#files-and-folders)
   - [Possible escalation vectors in programs](#possible-escalation-vectors-in-programs)
@@ -313,7 +313,7 @@ cp ~/pentesting-tools/pspy/pspy64s ./pspy # 64 bit small version
 ./pspy # Needs process interrupt key to stop
 ```
 
-## Autoenumeration _(Linux Smart Enumeration)_
+## Autoenumeration _(Linux Smart Enumeration)
 - Prepare:
 ```bash
 wget https://github.com/diego-treitos/linux-smart-enumeration/releases/latest/download/lse.sh -O ./lse.sh

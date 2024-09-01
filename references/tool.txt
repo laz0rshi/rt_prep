@@ -1,6 +1,11 @@
 # Tools to look up
 
 AutoRecon 
+From Sans:
+rpcclient
+recon-ng
+bettercap
+
 
  [nmapAutomator.sh](http://nmapautomator.sh/) 
 

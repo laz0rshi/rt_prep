@@ -1,4 +1,4 @@
-# Tools
+# <center> Tools </center>
 
 ## Introduction
 
@@ -6,15 +6,18 @@ The following is a list of tools and the suggestion on when to use them.  This w
 
 ## Table of Contents
 
-- [Tools](#tools)
+- [ Tools ](#-tools-)
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
-  - [Information Gathering](#information-gathering)
+  - [Information Gathering \& Reconnaissance](#information-gathering--reconnaissance)
     - [Host Discovery](#host-discovery)
     - [Port Scanning](#port-scanning)
     - [DNS Enumeration](#dns-enumeration)
-  - [Web Application Exploit](#web-application-exploit)
-  - [Vulnerablity Scanning/Finding](#vulnerablity-scanningfinding)
+    - [OSIT](#osit)
+    - [Other](#other)
+    - [Web Application Exploit](#web-application-exploit)
+    - [Vulnerablity Scanning/Finding](#vulnerablity-scanningfinding)
+  - [Initial Access](#initial-access)
   - [Enumeration \& Escalation](#enumeration--escalation)
     - [Linux](#linux)
     - [Windows](#windows)
@@ -23,38 +26,50 @@ The following is a list of tools and the suggestion on when to use them.  This w
   - [Password Attacks/Cracking](#password-attackscracking)
   - [Tunnels](#tunnels)
   - [C2](#c2)
-  - [Other](#other)
+  - [Other](#other-1)
 
-## Information Gathering
+## Information Gathering & Reconnaissance
 
 ### Host Discovery
 
-- **[nmap]**
-- [crackmapexec](https://github.com/byt3bl33d3r/CrackMapExec) - gathers information on smb amgonst other things.
+- **[nmap](https://nmap.org)**
+- [crackmapexec](https://github.com/byt3bl33d3r/CrackMapExec) - Gathers information on smb amgonst other things.
+- [amass](https://github.com/OWASP/Amass) - In-depth Attack Surface Mapping and Asset Discovery.
 
 ### Port Scanning
 
 - **[rustscan](https://github.com/RustScan/RustScan)** - RustScan is a modern take on the port scanner. Sleek & fast.
-- **[nmapAutomator](https://github.com/21y4d/nmapAutomator)** - automates the process of enumeration & recon that is run every time. - [cheat sheet](https://www.stationx.net/crackmapexec-cheat-sheet/)
-- [AutoRecon] - 
-- [incursore] - like nmapautomator but without and nikto
-- [securitytrails]
-- [AssetFinder]
-- [Uniscan]
-- [recon-ng]
-- [Scanless] - an open-source network scanning tool
-- [Xprobe] - an open-source network scanning tool
+- **[nmapAutomator](https://github.com/21y4d/nmapAutomator)** - Automates the process of enumeration & recon that is run every time. - [cheat sheet](https://www.stationx.net/crackmapexec-cheat-sheet/)
+- [AutoRecon](url) - 
+- [incursore](url) - Like nmapautomator but without and nikto
+- [securitytrails](url) - 
+- [AssetFinder](url) - 
+- [Uniscan](url) - 
+- [Scanless](url) - An open-source network scanning tool
+- [Xprobe](url) - An open-source network scanning tool
 - [naabu](https://github.com/projectdiscovery/naabu) - Similar to nmap
-- [reconftw](https://github.com/six2dez/reconftw) - reconFTW automates the entire process of reconnaissance for you. It outperforms the work of subdomain enumeration along with various vulnerability checks and obtaining maximum information about your target.
-- [Osmedeus](https://github.com/j3ssie/osmedeus) - Osmedeus is a Workflow Engine for Offensive Security. It was designed to build a foundation with the capability and flexibility that allows you to build your own reconnaissance system and run it on a large number of targets.
 - [Raccoon](https://github.com/evyatarmeged/Raccoon) - Offensive Security Tool for Reconnaissance and Information Gathering
 
 ### DNS Enumeration
 
-- [dnsrecon] - dns zone transfer
-- [dnsenum](https://github.com/fwaeytens/dnsenum) - multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip block
+- [dnsrecon](url) - Dns zone transfer
+- [dnsenum](https://github.com/fwaeytens/dnsenum) - Multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip block
+- [dnscan](https://github.com/rbsec/dnscan) - A python wordlist-based DNS subdomain scanner.
 
-## Web Application Exploit
+### OSIT
+
+- [recon-ng](https://github.com/lanmaster53/recon-ng) - Aimed at reducing the time spent harvesting information from open sources.
+- [Osmedeus](https://github.com/j3ssie/osmedeus) - A Workflow Engine for Offensive Security. It was designed to build a foundation with the capability and flexibility that allows you to build your own reconnaissance system and run it on a large number of targets.
+
+### Other
+<!-- Move Down -->
+
+- [reconftw](https://github.com/six2dez/reconftw) - Automates the entire process of reconnaissance for you. It outperforms the work of subdomain enumeration along with various vulnerability checks and obtaining maximum information about your target.
+- [BBOT](https://github.com/blacklanternsecurity/bbot) - Recursive internet scanner inspired by Spiderfoot, but designed to be faster, more reliable, and friendlier to pentesters, bug bounty hunters, and developers.
+
+
+
+### Web Application Exploit
 
 - [SharpWeb](https://github.com/djhohnstein/SharpWeb) - SharpWeb is a compliant project that can retrieve saved logins from a browser
 - [Nikto]
@@ -65,9 +80,11 @@ The following is a list of tools and the suggestion on when to use them.  This w
 - [feroxbuster]
 - [ffuf]
 
-## Vulnerablity Scanning/Finding
+### Vulnerablity Scanning/Finding
 
 - nmap-scripts-nse*
+  
+## Initial Access
 
 ## Enumeration & Escalation
 

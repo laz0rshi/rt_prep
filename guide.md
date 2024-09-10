@@ -103,13 +103,13 @@ I will then create a runbook for every single check list with commands to run th
 
 ### [ ] Information Gathering - Web Edition - 8 Hours
 
-### [ ] Vulnerability Assessment - 8 Hourse
+### [ ] Vulnerability Assessment - 8 Hours
 
-### [ ] File Transfers - 8 Hourse
+### [ ] File Transfers - 8 Hours
 
-### [ ] Shells & Payloads - 8 Hourse
+### [ ] Shells & Payloads - 8 Hours
 
-### [ ] Using the Metasploit Framework - 8 Hourse
+### [ ] Using the Metasploit Framework - 8 Hours
 
 ### [ ] Password Attacks
 

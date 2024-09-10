@@ -40,6 +40,29 @@ Also, I added links to original repositories and/or authors of the [utilities](#
 - [Windows Privilege Escalation](/privesc/windows/README.md)
 - [Utilities](/utils/README.md)
 
+## Sites
+
+### Shells
+
+- [Testhsells](https://www.revshells.com)&#176; - helps with creating Tests
+
+- [revshells](https://www.revshells.com)&#176; - helps with creating shells
+- [CyberChef](https://gchq.github.io/CyberChef)
+- [urlencoder](https://www.urlencoder.org/)
+- [octal](http://www.unit-conversion.info/texttools/octal/)
+- [hex](http://www.unit-conversion.info/texttools/hex)
+- [IP Converter](https://www.silisoftware.com/tools/ipconverter.php)
+- [codefather](https://codefather.tech/blog/sudo-command-linux)
+- [password mining](https://medium.com/@tinopreter/windows-password-mining-3a72205673ff)
+- [gtfobins](https://gtfobins.github.io/)&#176; - GTFOBins is a curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems
+- [hacktrick](https://book.hacktricks.xyz/) - good for everything
+- [Cheatsheet-God](https://github.com/OlivierLaflamme/Cheatsheet-God) - Cheat sheets for Everything
+
+### Password Attacks
+
+- https://www.tunnelsup.com/hash-analyzer/
+- https://hashes.com/en/tools/hash_identifier
+
 ### Utilities
 
 - [winPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
@@ -80,5 +103,4 @@ Also, I added links to original repositories and/or authors of the [utilities](#
   
 ### Special Thanks
 
-This is a fork from [maksyche/pentest-everything](#https://github.com/maksyche/pentest-everything)
 #[Github-md-toc-generator](https://github.com/mchern1kov/github-md-toc-generator) is used to generate Tables of Contents.

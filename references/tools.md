@@ -12,10 +12,17 @@ The following is a list of tools and the suggestion on when to use them.  This w
   - [Information Gathering \& Reconnaissance](#information-gathering--reconnaissance)
     - [Host Discovery](#host-discovery)
     - [Port Scanning](#port-scanning)
+    - [OS Fingerprinting](#os-fingerprinting)
     - [DNS Enumeration](#dns-enumeration)
-    - [OSIT](#osit)
-    - [Other](#other)
-    - [Web Application Exploit](#web-application-exploit)
+    - [SMB Enumeration](#smb-enumeration)
+    - [NFS Enumeration](#nfs-enumeration)
+    - [LDAP Enumeration](#ldap-enumeration)
+    - [SNMP Enumeration](#snmp-enumeration)
+    - [FTP Enumeration](#ftp-enumeration)
+    - [RDP Enumeration](#rdp-enumeration)
+    - [POP Enumeration](#pop-enumeration)
+    - [SMTP Enumeration](#smtp-enumeration)
+    - [Web Reconnaissance](#web-reconnaissance)
     - [Vulnerablity Scanning/Finding](#vulnerablity-scanningfinding)
   - [Initial Access](#initial-access)
   - [Enumeration \& Escalation](#enumeration--escalation)
@@ -26,7 +33,10 @@ The following is a list of tools and the suggestion on when to use them.  This w
   - [Password Attacks/Cracking](#password-attackscracking)
   - [Tunnels](#tunnels)
   - [C2](#c2)
-  - [Other](#other-1)
+  - [Other](#other)
+    - [Utilities](#utilities)
+    - [OSIT](#osit)
+    - [Other](#other-1)
 
 ## Information Gathering & Reconnaissance
 
@@ -50,26 +60,39 @@ The following is a list of tools and the suggestion on when to use them.  This w
 - [naabu](https://github.com/projectdiscovery/naabu) - Similar to nmap
 - [Raccoon](https://github.com/evyatarmeged/Raccoon) - Offensive Security Tool for Reconnaissance and Information Gathering
 
+### OS Fingerprinting
+
 ### DNS Enumeration
 
 - [dnsrecon](url) - Dns zone transfer
 - [dnsenum](https://github.com/fwaeytens/dnsenum) - Multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip block
 - [dnscan](https://github.com/rbsec/dnscan) - A python wordlist-based DNS subdomain scanner.
 
-### OSIT
-
-- [recon-ng](https://github.com/lanmaster53/recon-ng) - Aimed at reducing the time spent harvesting information from open sources.
-- [Osmedeus](https://github.com/j3ssie/osmedeus) - A Workflow Engine for Offensive Security. It was designed to build a foundation with the capability and flexibility that allows you to build your own reconnaissance system and run it on a large number of targets.
-
-### Other
-<!-- Move Down -->
-
-- [reconftw](https://github.com/six2dez/reconftw) - Automates the entire process of reconnaissance for you. It outperforms the work of subdomain enumeration along with various vulnerability checks and obtaining maximum information about your target.
-- [BBOT](https://github.com/blacklanternsecurity/bbot) - Recursive internet scanner inspired by Spiderfoot, but designed to be faster, more reliable, and friendlier to pentesters, bug bounty hunters, and developers.
+### SMB Enumeration
 
 
+### NFS Enumeration
 
-### Web Application Exploit
+
+### LDAP Enumeration
+
+
+### SNMP Enumeration
+
+
+### FTP Enumeration
+
+
+### RDP Enumeration
+
+
+### POP Enumeration
+
+
+### SMTP Enumeration
+
+
+### Web Reconnaissance
 
 - [SharpWeb](https://github.com/djhohnstein/SharpWeb) - SharpWeb is a compliant project that can retrieve saved logins from a browser
 - [Nikto]
@@ -144,3 +167,46 @@ The following is a list of tools and the suggestion on when to use them.  This w
 - [Probable-Wordlists](https://github.com/berzerk0/Probable-Wordlists)
 - [Payloadbox](https://github.com/payloadbox)
 - [PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings)
+
+
+
+### Utilities
+
+- [winPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+- [linPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+- [Linux Smart Enumeration](https://github.com/diego-treitos/linux-smart-enumeration)
+- [Linux Exploit Suggester](https://github.com/mzet-/linux-exploit-suggester)
+- [mkpsrevshell](https://gist.github.com/tothi/ab288fb523a4b32b51a53e542d40fe58)
+- [SharpUp](https://github.com/GhostPack/SharpUp)
+- [AccessChk](https://docs.microsoft.com/en-us/sysinternals/downloads/accesschk)
+- [PowerView](https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon)
+- [Seatbelt](https://github.com/GhostPack/Seatbelt)
+- [Rubeus](https://github.com/GhostPack/Rubeus)
+- [Mimikatz](https://github.com/gentilkiwi/mimikatz)
+- [SharpHound](https://github.com/BloodHoundAD/SharpHound3)
+- [Procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon)
+- [creddump7](https://github.com/CiscoCXSecurity/creddump7)
+- [Plink](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+- [HotPotato](https://github.com/foxglovesec/Potato)
+- [RoguePotato](https://github.com/antonioCoco/RoguePotato)
+- [PrintSpoofer](https://github.com/itm4n/PrintSpoofer)
+- [JuicyPotato](https://github.com/ohpe/juicy-potato)
+- [incognito](https://github.com/FSecureLABS/incognito)
+- [SharpWeb](https://github.com/djhohnstein/SharpWeb)
+- [pspy](https://github.com/DominicBreuker/pspy)
+- [mongodb2hashcat](https://github.com/philsmd/mongodb2hashcat)
+- [Probable-Wordlists](https://github.com/berzerk0/Probable-Wordlists)
+- [Payloadbox](https://github.com/payloadbox)
+- [PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings)
+
+### OSIT
+
+- [recon-ng](https://github.com/lanmaster53/recon-ng) - Aimed at reducing the time spent harvesting information from open sources.
+- [Osmedeus](https://github.com/j3ssie/osmedeus) - A Workflow Engine for Offensive Security. It was designed to build a foundation with the capability and flexibility that allows you to build your own reconnaissance system and run it on a large number of targets.
+
+### Other
+<!-- Move Down -->
+
+- [reconftw](https://github.com/six2dez/reconftw) - Automates the entire process of reconnaissance for you. It outperforms the work of subdomain enumeration along with various vulnerability checks and obtaining maximum information about your target.
+- [BBOT](https://github.com/blacklanternsecurity/bbot) - Recursive internet scanner inspired by Spiderfoot, but designed to be faster, more reliable, and friendlier to pentesters, bug bounty hunters, and developers.
+

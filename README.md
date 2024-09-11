@@ -44,9 +44,8 @@ Also, I added links to original repositories and/or authors of the [utilities](#
 
 ### Shells
 
-- [Testhsells](https://www.revshells.com)&#176; - helps with creating Tests
-
-- [revshells](https://www.revshells.com)&#176; - helps with creating shells
+- **[Testhsells](https://www.revshells.com)** - helps with creating Tests
+- **[revshells](https://www.revshells.com)** - helps with creating shells
 - [CyberChef](https://gchq.github.io/CyberChef)
 - [urlencoder](https://www.urlencoder.org/)
 - [octal](http://www.unit-conversion.info/texttools/octal/)
@@ -54,53 +53,15 @@ Also, I added links to original repositories and/or authors of the [utilities](#
 - [IP Converter](https://www.silisoftware.com/tools/ipconverter.php)
 - [codefather](https://codefather.tech/blog/sudo-command-linux)
 - [password mining](https://medium.com/@tinopreter/windows-password-mining-3a72205673ff)
-- [gtfobins](https://gtfobins.github.io/)&#176; - GTFOBins is a curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems
+- **[gtfobins](https://gtfobins.github.io/)*** - GTFOBins is a curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems
 - [hacktrick](https://book.hacktricks.xyz/) - good for everything
 - [Cheatsheet-God](https://github.com/OlivierLaflamme/Cheatsheet-God) - Cheat sheets for Everything
 
 ### Password Attacks
 
-- https://www.tunnelsup.com/hash-analyzer/
-- https://hashes.com/en/tools/hash_identifier
+- [tunnlesup](https://www.tunnelsup.com/hash-analyzer)
+- [hashes](https://hashes.com/en/tools/hash_identifier)
 
-### Utilities
-
-- [winPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
-- [linPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
-- [Linux Smart Enumeration](https://github.com/diego-treitos/linux-smart-enumeration)
-- [Linux Exploit Suggester](https://github.com/mzet-/linux-exploit-suggester)
-- [mkpsrevshell](https://gist.github.com/tothi/ab288fb523a4b32b51a53e542d40fe58)
-- [SharpUp](https://github.com/GhostPack/SharpUp)
-- [AccessChk](https://docs.microsoft.com/en-us/sysinternals/downloads/accesschk)
-- [PowerView](https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon)
-- [Seatbelt](https://github.com/GhostPack/Seatbelt)
-- [Rubeus](https://github.com/GhostPack/Rubeus)
-- [Mimikatz](https://github.com/gentilkiwi/mimikatz)
-- [SharpHound](https://github.com/BloodHoundAD/SharpHound3)
-- [Procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon)
-- [creddump7](https://github.com/CiscoCXSecurity/creddump7)
-- [Plink](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
-- [HotPotato](https://github.com/foxglovesec/Potato)
-- [RoguePotato](https://github.com/antonioCoco/RoguePotato)
-- [PrintSpoofer](https://github.com/itm4n/PrintSpoofer)
-- [JuicyPotato](https://github.com/ohpe/juicy-potato)
-- [incognito](https://github.com/FSecureLABS/incognito)
-- [SharpWeb](https://github.com/djhohnstein/SharpWeb)
-- [pspy](https://github.com/DominicBreuker/pspy)
-- [mongodb2hashcat](https://github.com/philsmd/mongodb2hashcat)
-- [Probable-Wordlists](https://github.com/berzerk0/Probable-Wordlists)
-- [Payloadbox](https://github.com/payloadbox)
-- [PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings)
-
-### References
-
-- [TryHackMe Offensive Pentesting](https://tryhackme.com/path/outline/pentesting)
-- [PortSwigger WebSecurity Academy](https://portswigger.net/web-security)
-- [Tib3rius Linux Privilege Escalation Udemy course](https://www.udemy.com/course/linux-privilege-escalation/)
-- [Tib3rius Windows Privilege Escalation Udemy course](https://www.udemy.com/course/windows-privilege-escalation/)
-- [John Hammond YouTube channel](https://www.youtube.com/channel/UCVeW9qkBjo3zosnqUbG7CFw)
-- [IppSec YouTube channel](https://www.youtube.com/channel/UCa6eh7gCkpPo5XXUDfygQQA)
-  
 ### Special Thanks
 
 #[Github-md-toc-generator](https://github.com/mchern1kov/github-md-toc-generator) is used to generate Tables of Contents.

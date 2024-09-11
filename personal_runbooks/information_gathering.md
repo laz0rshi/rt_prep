@@ -1,4 +1,4 @@
-# Information Gathering
+# Information Gathering & Reconnaissance
 <!--- Status 80% --->
 
 ## Introduction
@@ -7,7 +7,7 @@ This runbook is to help with information gathering.  It is set up to all be acti
 
 ## Table of Content
 
-- [Information Gathering](#information-gathering)
+- [Information Gathering \& Reconnaissance](#information-gathering--reconnaissance)
   - [Introduction](#introduction)
   - [Table of Content](#table-of-content)
   - [Host Discovery](#host-discovery)

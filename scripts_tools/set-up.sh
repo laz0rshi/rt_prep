@@ -21,7 +21,7 @@ for i in "${ip_list[@]}"
 do 
     mkdir -p "$PROJECT_DIR/$i"
     touch "$PROJECT_DIR/$i/port_scan"
-    echo "$i >> "$PROJECT_DIR/network_layout/ips.txt"
+    echo "$i" >> "$PROJECT_DIR/network_layout/ips.txt"
 done
 # app is dir is for code or exploits
 mkdir -p "$PROJECT_DIR/apps"

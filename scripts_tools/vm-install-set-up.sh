@@ -38,6 +38,10 @@ echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft
 rm -f packages.microsoft.gpg
 ###########
 
+# Update
+sudo apt-get update
+sudo apt-get upgrade
+
 for i in "${packagelist_1[@]}" 
 do 
     sudo apt install -y "$i"

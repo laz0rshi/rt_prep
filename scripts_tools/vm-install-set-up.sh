@@ -4,7 +4,7 @@
 # Variables Declaration
 # List of packages to install
 packagelist_1=(
-kali-linux-everything
+#kali-linux-everything
 apt-transport-https
 sqlmap
 mfsconsule
@@ -44,12 +44,14 @@ sudo apt-get upgrade
 
 for i in "${packagelist_1[@]}" 
 do 
+    echo "Installing Package $i!"
     sudo apt install -y "$i"
 done
 
 
 for i in "${packagelist_2[@]}" 
 do 
+    echo "Installing Package $i!"
     sudo apt install -y "$i"
 done
 

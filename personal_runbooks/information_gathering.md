@@ -142,6 +142,10 @@ nc -zvn <ip> 1-1000
 ### nmap
 
 ```bash
+# Go to 
+sudo nmap -v -O 192.168.86.39
+#Port banner 
+sudo nmap -v 192.168.86.39 --script banner.nse
 nmap -sC -sV -A -Pn -T5 -p- <ip> -oN <IP>/nmap
 sudo nmap -sC -sV <IP> -oN <IP>/nmap
 # Connected scan

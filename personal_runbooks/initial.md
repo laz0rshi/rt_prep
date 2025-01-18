@@ -19,6 +19,7 @@ This runbook provides a comprehensive guide to setting up a virtual machine (VM)
   - [Installing and Configuring Useful Tools](#installing-and-configuring-useful-tools)
     - [Cross-Compilation Tools](#cross-compilation-tools)
     - [Additional Tool Installations](#additional-tool-installations)
+  - [File Layout](#file-layout)
 
 ## Kali Configuration
 
@@ -139,4 +140,15 @@ sudo apt install -y gcc-mingw-w64 g++-mingw-w64 mingw-w64 gcc-multilib g++-multi
   sudo pip3 install .
   ```
 
+## File Layout
+
+└───Project
+    ├───evidence
+    │   ├───credentials
+    │   ├───data
+    │   └───screenshots
+    ├───logs
+    ├───scans
+    ├───scope
+    └───tools
  <!--- Last Updated July 8, 2024 --->

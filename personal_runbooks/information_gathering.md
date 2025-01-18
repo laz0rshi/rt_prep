@@ -600,3 +600,5 @@ nmap -p 21 --script ftp-*  <ip> -o ftp.info
 nmap -p 25 --script smtp-commands,smtp-open-relay <ip> -o smtp.info
 sudo nmap -p 80,443 --script=http-enum <ip> -o http.info
 ```
+
+ <!--- Last Updated Jan 12, 2025 --->

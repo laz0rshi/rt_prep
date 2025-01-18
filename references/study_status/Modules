@@ -1,0 +1,75 @@
+# Hack The Box
+
+## Learning Paths
+| Status | Name | Time |
+| ------ | ---- | ---- |
+| current | Information Security Foundations | 10 Days |
+| | Local Privilege Escalation | 5 Days |
+| | Active Directory Enumeration | 4 Days |
+
+## Modules
+
+| Status | Name | Time |
+| ------ | ---- | ---- |
+| complete | Windows Fundamentals | 6 Hours |
+| redo  | Introduction to Windows Command Line | 4 Days |
+|   | Introduction to Bash Scripting | 5 Hours |
+|   | Introduction to Networking | 3 Hours |
+|   | Intro to Network Traffic Analysis | 8 Hours |
+|   | Introduction to Active Directory | 7 Hours |
+|   | Introduction to Web Applications | 3 Hours |
+|   | Web Requests | 4 Hours |
+
+## Other Modules
+
+ | Name | Difficulty |
+ | ---- | --------- |
+ | Introduction to Bash Scripting | Easy |
+ | Windows Lateral Movement | Medium |
+ | Active Directory LDAP | Medium |
+ | Active Directory PowerView | Medium |
+ | Using CrackMapExec | Medium |
+ | Linux Privilege Escalation | Easy |
+ | Active Directory Enumeration & Attacks | Medium |
+ | Information Gathering - Web Edition | Easy |
+ | Pivoting, Tunneling, and Port Forwarding | Medium |
+ | Web Service & API Attacks | Medium |
+ | Windows Attacks & Defense | Medium |
+ | Documentation & Reporting | Easy |
+ | Server-side Attacks | Medium |
+ | File Upload Attacks | Medium |
+ | Web Attacks | Medium |
+ | Attacking Common Applications | Medium |
+ | Attacking Common Services | Medium |
+ | Footprinting | Medium |
+ | Command Injections | Medium |
+ | Using Web Proxies | Easy |
+ | Broken Authentication | Medium |
+ | Login Brute Forcing | Easy |
+ | Active Directory BloodHound  | Medium |
+ | Kerberos Attacks | Hard |
+ | Introduction to NoSQL Injection | Medium |
+ | Blind SQL Injection | Hard |
+ | Abusing HTTP Misconfigurations | Hard |
+ | Modern Web Exploitation Techniques | Hard |
+ | NTLM Relay Attacks | Hard |
+ | Intro to C2 Operations with Sliver | Hard |
+ | Web Fuzzing | Easy |
+ | Password Attacks | Medium |
+ | Hacking WordPress | Easy |
+ | Cracking Passwords with Hashcat | Medium |
+ | Windows Privilege Escalation | Medium |
+
+
+Your Streak is saved till next week.
+
+ Refer a friend
+Refer a Friend, Earn Cubes, Unlock Academy Modules!
+
+ My Plan
+Silver
++200  / Month
+
+ Completed Paths
+ None
+ Completed Modules

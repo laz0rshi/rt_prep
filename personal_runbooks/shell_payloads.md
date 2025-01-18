@@ -48,6 +48,7 @@ This runbook provides a guide to for various shells and payloads. It includes a 
     - [VIM](#vim)
       - [Vim To Shell](#vim-to-shell)
       - [Vim Escape](#vim-escape)
+    - [Laudanum](#laudanum)
   - [Payload Generation](#payload-generation)
   - [Spawn tty via Python](#spawn-tty-via-python)
   - [Spawn an upgraded shell](#spawn-an-upgraded-shell)
@@ -317,6 +318,10 @@ vim
 :set shell=/bin/sh
 :shell
 ```
+
+### Laudanum
+
+Located at '/usr/share/laudanum'
 
 ## Payload Generation
 

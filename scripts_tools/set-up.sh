@@ -4,34 +4,51 @@
 #####################################################################
 # Variables Declaration
 # Name of the project
-project="relia"
+PROJECT="relia"
+PROJECT_DIR="$HOME/$PROJECT"
 # List of IPs for the initial scan and setup
 ip_list=(
 
+
+)
+
+FILE_LAYOUT=(
+evidence/credentials
+evidence/data
+evidence/screenshot
+logs
+network
+scans/nmap
+scope
+tools
 )
 #####################################################################
-# Global Variables
-PROJECT_DIR="$HOME/$project"
-#####################################################################
 # Make directories 
-# Network layout
-mkdir -p "$PROJECT_DIR/network_layout"
-# mkdir $PROJECT_DIR
+## File Layout
+#└───Project
+#    ├───evidence
+#    │   ├───credentials
+#    │   ├───data
+#    │   └───screenshots
+#    ├───logs
+#    ├───network
+#    ├───scans 
+#    ├───scope
+#    └───tools
+
+echo 'Making "$PROJECT_DIR" directory'
+#mkdir -p $PROJECT_DIR
+
+for i in "${FILE_LAYOUT[@]}" 
+do 
+    echo 'Making "$PROJECT_DIR/$i" directories'
+   #mkdir -p "$PROJECT_DIR/$i"
+done
+
 for i in "${ip_list[@]}" 
 do 
-    mkdir -p "$PROJECT_DIR/$i"
-    touch "$PROJECT_DIR/$i/port_scan"
-    echo "$i" >> "$PROJECT_DIR/network_layout/ips.txt"
+    echo 'Making the "$i" directories'
+   #mkdir -p "$PROJECT_DIR/scans/$i" 
+    echo "$i" >> "$PROJECT_DIR/network/ips.txt"
 done
-# app is dir is for code or exploits
-mkdir -p "$PROJECT_DIR/apps"
-# workspace is your junk drawer
-mkdir -p "$PROJECT_DIR/workspace"
-# share is for the directory used for sharing 
-mkdir -p "$PROJECT_DIR/share"
-# creds is for cracked creds
-mkdir -p "$PROJECT_DIR/nmap"
-# share is for the directory used for sharing 
-touch "$PROJECT_DIR/creds.txt"
 
-```

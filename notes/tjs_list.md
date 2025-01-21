@@ -29,7 +29,7 @@
 
 | Linux | Windows | Windows Active Directory| Challenging yourself |
 | ----- | ------- | ----------------------- | -------------------- |
-| Twiggy | Helpdesk | Access | Nagoya [Windows] |
+| Twiggy* | Helpdesk | Access | Nagoya [Windows] |
 | Exfiltrated | Algernon | Heist | Osaka [Windows] |
 | Pelican | Authby | Vault | ProStore [Linux] |
 | Astronaut | Craft | Nagoya | RPC1 [Linux] |

@@ -4,8 +4,8 @@
 #####################################################################
 # Variables Declaration
 # Name of the project
-PROJECT="relia"
-PROJECT_DIR="$HOME/$PROJECT"
+PROJECT="b"
+PROJECT_DIR=""
 # List of IPs for the initial scan and setup
 ip_list=(
 
@@ -22,6 +22,7 @@ scans/nmap
 scope
 tools
 )
+
 #####################################################################
 # Make directories 
 ## File Layout
@@ -36,12 +37,15 @@ tools
 #    ├───scope
 #    └───tools
 
-echo 'Making "$PROJECT_DIR" directory'
+read -p "Enter your desired project name: " PROJECT
+read -p "Enter your desired project directory: " PROJECT_DIR 
+
+echo -e "Making $PROJECT_DIR directory"
 #mkdir -p $PROJECT_DIR
 
 for i in "${FILE_LAYOUT[@]}" 
 do 
-    echo 'Making "$PROJECT_DIR/$i" directories'
+    echo "Making $PROJECT_DIR/$i directories"
    #mkdir -p "$PROJECT_DIR/$i"
 done
 

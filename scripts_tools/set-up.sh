@@ -53,7 +53,7 @@ mkdir -p $PROJECT_DIR
 
 for i in "${FILE_LAYOUT[@]}" 
 do 
-    echo "Making $PROJECT_DIR/$i directories"
+    echo "Making $PROJECT_DIR$i directories"
    #mkdir -p "$PROJECT_DIR/$i"
 done
 for i in "${ip_list[@]}" 

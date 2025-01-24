@@ -45,7 +45,7 @@ read -p "$PROJECT_DIR is this correc? (Y/N)" YorN
 	    [Nn]*) echo "Aborted" ; exit;;
 	esac
 
-read -p "Enter the target IP: " 
+read -p "Enter the target IP: " IP
 
 echo -e "Making $PROJECT_DIR directory"
 mkdir -p $PROJECT_DIR
@@ -54,8 +54,11 @@ mkdir -p $PROJECT_DIR
 for i in "${FILE_LAYOUT[@]}" 
 do 
     echo "Making $PROJECT_DIR$i directories"
-   #mkdir -p "$PROJECT_DIR/$i"
+    mkdir -p "$PROJECT_DIR/$i"
 done
+
+echo "$IP" >> "$PROJECT_DIR/network/ips.txt"
+
 for i in "${ip_list[@]}" 
 do 
     echo 'Making the "$i" directories'

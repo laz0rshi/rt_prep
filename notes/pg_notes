@@ -44,7 +44,7 @@ STATUS | NAME          |   DIFFICULTY
 - [ ]   Emporium 	     Hard 
 - [ ]   ERP 	         Intermediate 
 - [ ]   Escape 	         Hard 
-- [ ]   Exfiltrated 	 Easy 
+- [X]   Exfiltrated 	 Easy 
 - [ ]   Exghost 	     Easy 
 - [ ]   Extplorer 	     Intermediate 
 - [ ]   Fail 	         Intermediate https://dylanrholloway.com/proving-grounds-fail-write-up/

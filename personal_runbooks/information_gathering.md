@@ -144,6 +144,7 @@ nc -zvn <ip> 1-1000
 ```bash
 # Go to 
 sudo nmap -v -O 192.168.86.39
+sudo nmap -p- -sC -sV $IP -oN "scans/nmap/$IP.txt"
 #Port banner 
 sudo nmap -v 192.168.86.39 --script banner.nse
 nmap -sC -sV -A -Pn -T5 -p- <ip> -oN <IP>/nmap
@@ -517,7 +518,7 @@ gobuster dir -u http://<ip> -w /usr/share/wordlists/dirb/common.txt -t 5 -o gobu
 It can go more the one file deep -R??
 
 ```sh
-└─$ dirb  http://<ip> /usr/share/wordlists/dirb/common.txt -N 403 -o output.dirb
+└─$ dirb  http://$IP /usr/share/wordlists/dirb/common.txt -N 403 -o output.dirb
 ```
 
 #### feroxbuster

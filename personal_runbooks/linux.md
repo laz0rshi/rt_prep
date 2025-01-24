@@ -11,6 +11,7 @@ This runbook is to help with Linux enumeration and Privilege Escalation.  It inc
 - [Linux Runbook](#linux-runbook)
   - [Introduction](#introduction)
   - [Table of Content](#table-of-content)
+  - [Check List](#check-list)
   - [Stabilize Shell](#stabilize-shell)
   - [Copy tools to the target](#copy-tools-to-the-target)
   - [Enumerate](#enumerate)
@@ -60,19 +61,28 @@ This runbook is to help with Linux enumeration and Privilege Escalation.  It inc
     - [sudo \< v1.28 - @sickrov \[PrivEsc\]](#sudo--v128---sickrov-privesc)
     - [Docker Breakout \[PrivEsc\]](#docker-breakout-privesc)
     - [Linux Enumeration Tools \[PrivEsc\]](#linux-enumeration-tools-privesc)
+  - [Most Used Commands](#most-used-commands)
+
+## Check List
+
+- Stabilize shell
+- Gather basic information
+- More
 
 ## Stabilize Shell  
 
 - Listen to reverse shell:
 
 ```bash
-rlwrap nc -lvnp 443
+nc -lvnp 443
 ```
 
 - Upgrade the shell:
 
 ```bash
-python3 -c 'import pty;pty.spawn("/bin/bash")' # Explicit python version may be required.
+python3 -c 'import pty;pty.spawn("/bin/bash")' export TERM=xterm-256color
+
+# Explicit python version may be required.
 ```
 
 ## Copy tools to the target
@@ -806,3 +816,7 @@ https://github.com/The-Z-Labs/linux-exploit-suggester
 ./unix-privesc-check
 ```
 https://pentestmonkey.net/tools/audit/unix-privesc-check
+
+
+
+## Most Used Commands

@@ -10,14 +10,18 @@ This runbook is to help with information gathering.  It is set up to all be acti
 - [Information Gathering \& Reconnaissance](#information-gathering--reconnaissance)
   - [Introduction](#introduction)
   - [Table of Content](#table-of-content)
+  - [DNS Enumeration](#dns-enumeration)
+    - [Bash](#bash)
+    - [dnsrecon - dns zone transfer](#dnsrecon---dns-zone-transfer)
+    - [dnsenum](#dnsenum)
   - [Host Discovery](#host-discovery)
     - [nmap](#nmap)
     - [crackmapexec](#crackmapexec)
     - [powershell](#powershell)
-    - [bash](#bash)
+    - [bash](#bash-1)
   - [Port Scanning](#port-scanning)
     - [nmapAutomator](#nmapautomator)
-    - [bash](#bash-1)
+    - [bash](#bash-2)
     - [netcat](#netcat)
     - [nmap](#nmap-1)
     - [powershell](#powershell-1)
@@ -28,10 +32,6 @@ This runbook is to help with information gathering.  It is set up to all be acti
     - [nmap](#nmap-2)
     - [Os-fingerprint (an open-source OS fingerprinting tool)](#os-fingerprint-an-open-source-os-fingerprinting-tool)
     - [OS-Scanner (an open-source OS scanner)](#os-scanner-an-open-source-os-scanner)
-  - [DNS Enumeration](#dns-enumeration)
-    - [Bash](#bash-2)
-    - [dnsrecon - dns zone transfer](#dnsrecon---dns-zone-transfer)
-    - [dnsenum](#dnsenum)
   - [SMB Enumeration](#smb-enumeration)
     - [nmap](#nmap-3)
     - [nbtscan](#nbtscan)
@@ -89,33 +89,84 @@ This runbook is to help with information gathering.  It is set up to all be acti
     - [api version](#api-version)
   - [nmap blast](#nmap-blast)
 
+## DNS Enumeration
+
+Locates the host records for the domain
+
+### Bash
+
+```sh
+host $domain
+host -t mx $domain
+host -t txt $domain
+```
+
+- dns brute force forward
+
+```bash
+for ip in $(cat list.txt); do host $ip.url.com; done
+```
+
+- dns brute force reverse
+
+```sh
+for ip in $(seq 50 100); do host <ip_3_oct>.$ip; done | grep -v "not found"
+```
+
+- dns lookup
+
+```sh
+host -t ns $domain | cut -d " " -f 4
+```
+
+- dns zone transfers
+
+```sh
+host -l $domain $dns_server_address
+```
+
+- dns zone transfer -automatic
+
+```sh
+for ns in $(host -t ns $1 | cut -d ' ' -f 4 | cut -d '.' -f 1); do host -l $1 $ns.$1; done
+```
+
+### dnsrecon - dns zone transfer
+
+```sh
+dnsrecon -d $domain -t axfr
+dnsrecon -d $domain -D wordlist.txt -t brt
+```
+
+### dnsenum
+
 ## Host Discovery
 
-This is only to discover host in get an understanding of the network.
+This is only to discover hosts to get an understanding of the network.
 
 ### nmap
 
 ```sh
-nmap -sn <ip-range> -oG nmap/ping-sweep.txt
+nmap -sn $ip_range -oG nmap/ping-sweep.txt
 grep Up ping-sweep.txt | cut -d " " -f 2
 ```
 
 ### crackmapexec  
 
 ```sh
-crackmapexec smb <ip-range>
+crackmapexec smb $ip_range
 ```
 
 ### powershell
 
 ```cmd
-for ($i=1;$i -lt 255;$i++) { ping -n 1 <ip_3_oct>.$i| findstr "TTL"}
+for ($i=1;$i -lt 255;$i++) { ping -n 1 $ip_3_oct.$i| findstr "TTL"}
 ```
 
 ### bash
 
 ```sh
-for i in {1..255};do (ping -c 1 <ip_3_oct>.$i | grep "bytes from" &); done
+for i in {1..255};do (ping -c 1 $ip_3_oct.$i | grep "bytes from" &); done
 ```
 
 ## Port Scanning
@@ -123,48 +174,48 @@ for i in {1..255};do (ping -c 1 <ip_3_oct>.$i | grep "bytes from" &); done
 ### nmapAutomator
 
 ```bash
-nmapAutomator.sh -H <ip> -t full
-nmapAutomator.sh -H <ip> -t vulns
+nmapAutomator.sh -H $ip -t full
+nmapAutomator.sh -H $ip -t vulns
 ```
 
 ### bash
 
 ```bash
-for i in {1..65535}; do (echo > /dev/tcp/<ip_4_oct/$i) >/dev/null 2>&1 && echo $i is open; done
+for i in {1..65535}; do (echo > /dev/tcp/$ip_4_oct/$i) >/dev/null 2>&1 && echo $i is open; done
 ```
 
 ### netcat
 
 ```bash
-nc -zvn <ip> 1-1000
+nc -zvn $ip 1-1000
 ```
 
 ### nmap
 
 ```bash
 # Go to 
-sudo nmap -v -O 192.168.86.39
-sudo nmap -p- -sC -sV $IP -oN "scans/nmap/$IP.txt"
+sudo nmap -v -O $ip
+sudo nmap -p- -sC -sV $IP -oN "scans/nmap/$ip.txt"
 #Port banner 
 sudo nmap -v 192.168.86.39 --script banner.nse
-nmap -sC -sV -A -Pn -T5 -p- <ip> -oN <IP>/nmap
-sudo nmap -sC -sV <IP> -oN <IP>/nmap
+nmap -sC -sV -A -Pn -T5 -p- $ip -oN $ip/nmap
+sudo nmap -sC -sV $ip -oN $ip/nmap
 # Connected scan
-nmap -sT 192.168.50.149
+nmap -sT $ip
 # UDP Scan
-sudo nmap -sU 192.168.50.149 
+sudo nmap -sU $ip 
 # Both TCP and UDP
-sudo nmap -sU -sS 192.168.50.149
+sudo nmap -sU -sS $ip
 # Top Ports
-nmap -sT -A --top-ports=20 192.168.50.1-253 -oG top-port-sweep.txt
+nmap -sT -A --top-ports=20 $ip -oG top-port-sweep.txt
 # All 
-nmap -sT -A 192.168.50.14 - all 
+nmap -sT -A $ip - all 
 # scans with http-headers
-nmap --script http-headers 192.168.50.6
+nmap --script http-headers $ip
 ```
 
 ```sh
-  nmap -p 80 192.168.50.1-253 -oG web-sweep.txt
+  nmap -p 80 $ip_range -oG web-sweep.txt
   grep open web-sweep.txt | cut -d" " -f2
 
 ```
@@ -200,56 +251,6 @@ sudo nmap -O 192.168.50.14 --osscan-guess - OS fingeprint
 ### Os-fingerprint (an open-source OS fingerprinting tool)
 
 ### OS-Scanner (an open-source OS scanner)
-
-## DNS Enumeration
-
-Locates the host records for the domain
-### Bash
-
-```sh
-host <domain>
-host -t mx <domain>
-host -t txt <domain>
-```
-
-- dns brute force forward
-
-```bash
-for ip in $(cat list.txt); do host $ip.url.com; done
-```
-
-- dns brute force reverse
-
-```sh
-for ip in $(seq 50 100); do host <ip_3_oct>.$ip; done | grep -v "not found"
-```
-
-- dns lookup
-
-```sh
-host -t ns <domain> | cut -d " " -f 4
-```
-
-- dns zone transfers
-
-```sh
-host -l <domain name> <dns_server_address>
-```
-
-- dns zone transfer -automatic
-
-```sh
-for ns in $(host -t ns $1 | cut -d ' ' -f 4 | cut -d '.' -f 1); do host -l $1 $ns.$1; done
-```
-
-### dnsrecon - dns zone transfer
-
-```sh
-dnsrecon -d <domain> -t axfr
-dnsrecon -d <domain> -D wordlist.txt -t brt
-```
-
-### dnsenum
 
 ## SMB Enumeration
 

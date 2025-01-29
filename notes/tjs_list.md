@@ -32,7 +32,7 @@
 | Twiggy* | Helpdesk | Access | Nagoya [Windows] |
 | Exfiltrated* | Algernon | Heist | Osaka [Windows] |
 | Pelican | Authby | Vault | ProStore [Linux] |
-| Astronaut | Craft | Nagoya | RPC1 [Linux] |
+| Astronaut* | Craft | Nagoya | RPC1 [Linux] |
 | Blackgate | Hutch | Hokkaido | Symbolic [Windows] |
 | Boolean | Internal | Resourced | Upsploit [Linux] |
 | Clue | Jacko | Hutch | Validator [Linux] |

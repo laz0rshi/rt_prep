@@ -15,36 +15,36 @@ This checklist is to help with information gathering, and to ensure I don't get 
 
 ## Host and Network Information
 
-  [ ] DNS information if part of domain
-  [ ] Basic Host Discovery if on a network
-      [ ] Ensure you have all hosts discovered
+- DNS information if part of domain
+- Basic Host Discovery if on a network
+  - Ensure you have all hosts discovered
 
 ## Port Information
 
-  [ ] Port Scanning of all active hosts
-      [ ] Ensure all ports where scanned
-    [ ] Port Banner information
-    [ ] Operating System
-    [ ] SSH information
-    [ ] SMB information
-    [ ] NFS information
-    [ ] LDAP information
-    [ ] SNMP information
-    [ ] FTP information
-    [ ] RDP information
-    [ ] POP information
-    [ ] SMTP information
-    [ ] Web information
-      [ ] http-headers
-      [ ] http-enum
-      [ ] WAP information
-        [ ] CMS information
-        [ ] php information
-        [ ] WP information
-        [ ] other
-      [ ] Page information/fuzzing
-      [ ] Directory information
-      [ ] API information
-    [ ] Database information
+- Port Scanning of all active hosts
+  - Ensure all ports where scanned
+  - Port Banner information
+  - Operating System
+  - SSH information
+  - SMB information
+  - NFS information
+  - LDAP information
+  - SNMP information
+  - FTP information
+  - RDP information
+  - POP information
+  - SMTP information
+  - Web information
+    - http-headers
+    - http-enum
+    - WAP information
+      - CMS information
+      - php information
+      - WP information
+      - other
+    - Page information/fuzzing
+    - Directory information
+    - API information
+  - Database information
 
  <!--- Last Updated Jan 23, 2025 --->

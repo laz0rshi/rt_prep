@@ -31,14 +31,14 @@
 | ----- | ------- | ----------------------- | -------------------- |
 | Twiggy* | Helpdesk | Access | Nagoya [Windows] |
 | Exfiltrated* | Algernon | Heist | Osaka [Windows] |
-| Pelican | Authby | Vault | ProStore [Linux] |
+| Pelican* | Authby | Vault | ProStore [Linux] |
 | Astronaut* | Craft | Nagoya | RPC1 [Linux] |
 | Blackgate | Hutch | Hokkaido | Symbolic [Windows] |
-| Boolean | Internal | Resourced | Upsploit [Linux] |
+| Boolean* | Internal | Resourced | Upsploit [Linux] |
 | Clue | Jacko | Hutch | Validator [Linux] |
-| Cockpit | Kevin | | GLPI [Linux] |
-| Codo | Resourced | | Marshalled [Linux] |
-| Crane | Squid | | Educated [Linux] |
+| Cockpit* | Kevin | | GLPI [Linux] |
+| Codo* | Resourced | | Marshalled [Linux] |
+| Crane* | Squid | | Educated [Linux] |
 | Levram | DVR4 | | Kyoto [Windows Buffer Overflow] |
 | Extplorer | Hepet | | Nara [Windows Active Directory] |
 | Hub | Shenzi | | |

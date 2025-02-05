@@ -82,7 +82,7 @@ This runbook is to help with information gathering.  It is set up to all be acti
       - [ffuf](#ffuf)
     - [Nikto - Web Server Scanner](#nikto---web-server-scanner)
     - [CMS](#cms)
-      - [wpscan](#wpscan)
+      - [wpscan (wordpress)](#wpscan-wordpress)
       - [Juumla](#juumla)
       - [Sroopescan](#sroopescan)
       - [Magescan](#magescan)
@@ -195,7 +195,7 @@ nc -zvn $ip 1-1000
 ```bash
 # Go to 
 sudo nmap -v -O $ip
-sudo nmap -p- -sC -sV $IP -oN "scans/nmap/$ip.txt"
+sudo nmap -p- -sC -sV $IP -oN "scans/nmap/$IP.txt"
 #Port banner 
 sudo nmap -v 192.168.86.39 --script banner.nse
 nmap -sC -sV -A -Pn -T5 -p- $ip -oN $ip/nmap
@@ -503,7 +503,7 @@ https://www.wappalyzer.com/
 ### Whatweb
 
 ```sh
-whatweb http://<ip> <ip>
+whatweb http://<whip> <ip>
 ```
 
 ### fuzzing
@@ -525,7 +525,9 @@ It can go more the one file deep -R??
 #### feroxbuster
 
 ```sh
-feroxbuster --url http://<ip>
+feroxbuster -u http://$ip
+feroxbuster -u http://$ip -x txt,php
+
 ```
 
 #### ffuf
@@ -557,7 +559,7 @@ nikto -h http://site.com
 
 ### CMS
 
-#### wpscan
+#### wpscan (wordpress)
 
 ```sh
 wpscan --url http://site.com/wordpress --api-token <your_token> --enumerate u,vp --plugins-detection aggressive

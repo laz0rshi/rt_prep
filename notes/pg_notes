@@ -4,7 +4,7 @@ STATUS | NAME          |   DIFFICULTY
 - [X]   Algernon    	 Easy           https://dylanrholloway.com/proving-grounds-algernon-write-up/
 - [ ]   Apex        	 Intermediate 
 - [ ]   Assignment 	     Easy 
-- [ ]   Astronaut 	     Easy 
+- [x]   Astronaut 	     Easy 
 - [ ]   AuthBy 	         Intermediate 
 - [ ]   BackupBuddy 	 Intermediate 
 - [ ]   BadCorp 	     Hard 
@@ -25,8 +25,8 @@ STATUS | NAME          |   DIFFICULTY
 - [X]   ClamAV      	 Easy         
 - [ ]   Clue 	         Hard 
 - [ ]   Cobweb 	         Intermediate 
-- [ ]   Cockpit        	 Intermediate 
-- [ ]   Codo 	         Easy 
+- [x]   Cockpit        	 Intermediate 
+- [x]   Codo 	         Easy 
 - [ ]   CookieCutter 	 Hard 
 - [ ]   Craft 	         Intermediate 
 - [ ]   Craft2 	         Hard 

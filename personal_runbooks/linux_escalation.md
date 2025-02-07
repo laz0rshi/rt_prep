@@ -127,7 +127,8 @@ df -h
   
 ```sh
 # Ip info:
-ifconfig
+ip address/ifconfig
+cat /etc/hosts
 netstat -arn
 ss -an
 lsof -i
@@ -143,7 +144,6 @@ ufw
 cat /etc/exports # Check if no_root_squash is set
 # DNS info:
 cat /etc/resolv.conf
-cat /etc/hosts
 ```
 
 ### User Information
@@ -161,6 +161,10 @@ sudo --version # if version 1.18.31 exploitable
 grep "*sh$" /etc/passwd 
 ls -lah /home
 ls -lah /home/$user/.ssh # look into
+# Last Login
+lastlog
+who
+
 ```
 
 ```bash
@@ -170,7 +174,17 @@ cat ~/.bashrc
 cat ~/.profile
 cat ~/.bash_logout
 cat ~/.bash_history
+find / -type f \ (-name *_hist -o -name *_history \ ) -exec ls -l { } \ ; 2> /dev/null
 ```
+
+| Algorithm | Hash |
+| --- | --- |
+| Salted MD5 | $1$ |
+| SHA-256 | $5$ |
+| SHA-512 | $6$ |
+| BCrypt | $2a$ |
+| Scrypt | $7$ |
+| Argon2 | $argon2i$ | 
 
 #### Groups
 
@@ -208,9 +222,6 @@ ls -l /var/spool/mail
 /dev/shm
 ```
 
-
-
-
 ### Permissions
 
 ` Suspicious files
@@ -237,12 +248,6 @@ find / -perm -u=s -type f 2>/dev/null # SUID only
 find / -perm -g=s -type f 2>/dev/null # SGID only
 ```
 
-- Files with capabilities:
-- 
-```bash
-getcap -r / 2>/dev/null
-```
-
 - User management files permissions:
 
 ```sh
@@ -261,14 +266,17 @@ sudo -l
 
 ### Processes and Services
 
- Running Processes
+#### Running Processes
+
+```
+find /proc =name cmdline -exec {} \; 2>/dev/null | tr " " "\n"
+ps -uax | grep root
+```
+
 
 ```python
 python3 -c 'import pty;pty.spawn("/bin/bash")'
  ```
-
-
-
 
 ### Tasks
 
@@ -287,9 +295,7 @@ cat /etc/anacrontab
   
 ### Logs
 
-- Bash history
 - /var/logs
-- user ./.bash_history
 - ls /opt;
 - ls /var/mail
   
@@ -303,6 +309,36 @@ rpm -qa; yum list installed;
 # apt
 dpkg -l; apt list installed;
 ```
+
+- Files with capabilities:
+ 
+```bash
+getcap -r / 2>/dev/null
+find / -type f \ ( -name *.conf -o -name *.config \ ) -exec ls -l { } \ ; 2 > /dev/null
+find / -type f -name "*.sh" 2 > /dev/null | grep -v "src\|snap\|share"
+```
+
+- GTFObins
+
+```bash
+for i in $( curl -s https://gtfobins.github.io/ | html2text | cut -d " " -f1 | sed '/^[[:space:]]*$/d' ) ; do if grep -q "
+$i " installed_pkgs.list ; then echo "Check GTFO for: $i " ; fi ; done
+```
+
+- strace
+
+```bash
+strace ping 
+```
+### Credential Hunting
+
+```sh
+find / ! -path "*/proc/*" -iname "*config*" -type f 2>/dev/null
+```
+ - Database password
+ - scripts
+ - backups
+ - ssh keys
 
 ## Establish tunnel
 *See Tunneling*

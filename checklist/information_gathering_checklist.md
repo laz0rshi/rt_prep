@@ -22,7 +22,7 @@ This checklist is to help with information gathering, and to ensure I don't get 
 ## Port Information
 
 - Port Scanning of all active hosts
-  - Ensure all ports where scanned
+    - Ensure all ports where scanned
   - Port Banner information
   - Operating System
   - SSH information

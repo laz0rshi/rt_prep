@@ -12,23 +12,28 @@ This runbook is to help with Linux enumeration and Privilege Escalation.  It inc
   - [Introduction](#introduction)
   - [Table of Content](#table-of-content)
   - [Stabilize Shell](#stabilize-shell)
-  - [Enumeration](#enumeration)
+  - [Information Gathering](#information-gathering)
     - [Environment\\System Information](#environmentsystem-information)
       - [System specific info](#system-specific-info)
       - [Environment variables](#environment-variables)
       - [Device info](#device-info)
       - [Networking](#networking)
-    - [User Information](#user-information)
-    - [Users and Groups](#users-and-groups)
+    - [User and Group Information](#user-and-group-information)
       - [Users \& SSH Directories](#users--ssh-directories)
       - [Groups](#groups)
       - [Hidden Directories](#hidden-directories)
       - [Temp Files](#temp-files)
     - [Permissions](#permissions)
     - [Processes and Services](#processes-and-services)
-    - [Tasks](#tasks)
-    - [Logs](#logs)
-    - [Installed software](#installed-software)
+      - [Running Processes](#running-processes)
+      - [Tasks](#tasks)
+      - [Logs](#logs)
+      - [Installed software](#installed-software)
+    - [Credential Hunting](#credential-hunting)
+  - [Environment-based Privilege Escalation](#environment-based-privilege-escalation)
+    - [Path Abuse](#path-abuse)
+    - [Wildcard Abuse](#wildcard-abuse)
+    - [Escaping Restricted Shells](#escaping-restricted-shells)
   - [Establish tunnel](#establish-tunnel)
   - [Establish persistance](#establish-persistance)
   - [Automated Tools](#automated-tools)
@@ -83,7 +88,7 @@ nc -lvnp 443
 python3 -c 'import pty;pty.spawn("/bin/bash")' export TERM=xterm-256color
 ```
 
-## Enumeration
+## Information Gathering
 
 ### Environment\System Information
 
@@ -146,10 +151,7 @@ cat /etc/exports # Check if no_root_squash is set
 cat /etc/resolv.conf
 ```
 
-### User Information
-
-
-### Users and Groups
+### User and Group Information
 
 #### Users & SSH Directories
 
@@ -273,12 +275,7 @@ find /proc =name cmdline -exec {} \; 2>/dev/null | tr " " "\n"
 ps -uax | grep root
 ```
 
-
-```python
-python3 -c 'import pty;pty.spawn("/bin/bash")'
- ```
-
-### Tasks
+#### Tasks
 
 - Crontab
 
@@ -293,13 +290,13 @@ cat /etc/cron.deny
 cat /etc/anacrontab
  ```
   
-### Logs
+#### Logs
 
 - /var/logs
 - ls /opt;
 - ls /var/mail
   
-### Installed software
+#### Installed software
 
 - View installed software
 
@@ -339,6 +336,18 @@ find / ! -path "*/proc/*" -iname "*config*" -type f 2>/dev/null
  - scripts
  - backups
  - ssh keys
+
+## Environment-based Privilege Escalation
+
+### Path Abuse
+
+`echo $PATH` \
+Creating a script or program in a directory specified in the PATH will make it executable from any directory on the system.
+
+### Wildcard Abuse
+
+### Escaping Restricted Shells
+
 
 ## Establish tunnel
 *See Tunneling*

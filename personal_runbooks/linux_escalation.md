@@ -348,6 +348,17 @@ Creating a script or program in a directory specified in the PATH will make it e
 
 ### Escaping Restricted Shells
 
+## Permissions-based Privilege Escalation
+
+## Service-based Privilege Escalation
+
+## Linux Internals-based Privilege Escalation
+
+## Recent 0-Days
+
+
+
+
 
 ## Establish tunnel
 *See Tunneling*

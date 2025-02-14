@@ -111,4 +111,6 @@ Remote File to a Local System
 scp <user>@192.168.0.20:/home/<directory>/ file
 ```
 
+
+https://hackmd.io/@tahaafarooq/file-transfer-tricks-windows#File-Transfer-Tricks-Windows---Kali-Linux
  <!--- Last Updated July 8, 2024 --->
